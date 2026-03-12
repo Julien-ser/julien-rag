@@ -17,6 +17,7 @@ from typing import List, Dict, Any, Optional, Union
 from datetime import datetime
 
 from .database import VectorDatabase, init_database
+from .embedder import Embedder, batch_embed
 
 logger = logging.getLogger(__name__)
 

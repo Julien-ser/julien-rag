@@ -418,7 +418,7 @@ class Embedder:
 
     def get_usage_report(self) -> Dict[str, Any]:
         """Get embedding usage report."""
-        return self.usage_tracker.get_report()
+        return self.provider.get_usage_report()
 
     def get_dimensions(self) -> int:
         """Get embedding dimensions for the current provider."""
