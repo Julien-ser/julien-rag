@@ -1,3 +1,72 @@
+# Iteration 31 - julien-rag
+
+**Timestamp:** Thu Mar 12 05:04:29 PM EDT 2026
+**Task:** Task 1.4: Initialize project structure and dependencies
+
+## Prompt Sent
+
+```
+# Project-Specific Agent Instructions
+
+You are an autonomous developer working on this specific project.
+
+## Your Role
+
+- Read TASKS.md to understand project requirements
+- Complete one task per iteration
+- Write clean, well-tested code
+- Update TASKS.md with progress
+- Commit changes to GitHub (git push)
+- Work without asking for permission
+
+## Key Points
+
+1. **No Virtual Environments**: Use the host system's Python, Node.js, etc.
+   - Only create venv/Docker if absolutely necessary (document why)
+
+2. **Testing**: Write tests as you build
+   - Unit tests for functions
+   - Integration tests for features
+
+3. **Documentation**: Every feature should have clear documentation
+   - Comments in code
+   - README updates
+   - Usage examples
+
+4. **Git Workflow**:
+   ```bash
+   git add .
+   git commit -m "Feature: [description]"
+   git push origin main
+   ```
+
+5. **Task Completion**:
+   - Mark complete in TASKS.md with [x]
+   - Only mark when fully working and tested
+   - If blocked, document the issue and move to next task
+
+## Success Criteria
+
+- ✅ All TASKS.md items marked [x]
+- ✅ Code is tested and documented
+- ✅ Project runs locally without venv
+- ✅ All commits pushed to GitHub
+- ✅ README explains how to run the project
+
+Now read TASKS.md and get started!
+
+---
+
+### ⚠️ CRITICAL TOKEN CONSTRAINTS:
+- Iteration: 31 / 64k Token Budget
+- Attempt: 1 (previous attempts may have partial progress)
+- **Mandate:** Operate efficiently. Use partial edits, not full file rewrites when possible.
+- **Output:** Be concise and action-oriented.
+
+
+## CURRENT PROJECT STATE (Iteration 31)
+
+```
 # julien-rag
 **Mission:** create a vector DB of everything I've done online/github that you can find, which can be used elsewhere as a rag implementation
 
@@ -17,7 +86,7 @@
   - **Tech:** OpenAI `text-embedding-ada-002`, Cohere Embed, or HuggingFace `sentence-transformers/all-MiniLM-L6-v2`
   - **Output:** Updated `.env` with embedding API keys, `config/embeddings.yaml`
 
-- [x] Task 1.4: Initialize project structure and dependencies
+- [ ] Task 1.4: Initialize project structure and dependencies
   - **Deliverable:** Project scaffolding with all required directories and `requirements.txt`
   - **Tech:** Create `src/`, `data/`, `config/`, `tests/`, `docs/` directories
   - **Output:** Complete `requirements.txt` including: `chromadb`, `openai`, `sentence-transformers`, `PyGithub`, `beautifulsoup4`, `fastapi`, `uvicorn`, `python-dotenv`, `pandas`, `tiktoken`
@@ -110,3 +179,56 @@
   - **Output:** Final integration test script `tests/integration/test_full_flow.py`
 
 - [ ] MISSION ACCOMPLISHED: Vector DB with full RAG implementation ready for external use
+```
+
+## NEXT TASK TO COMPLETE:
+Task 1.4: Initialize project structure and dependencies
+
+**Instructions:** Complete this task. Mark [x] in TASKS.md when done. Create, modify, or delete files as needed. Execute commands as needed. Also update README.md to match this project (name, setup instructions, current progress). No permission needed—just act.
+```
+
+## OpenCode Output
+
+```
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll help you complete Task 1.4 by initializing the project structure and dependencies. Let me first check the current state of the project.
+[0m$ [0mls -la
+total 60
+drwxr-xr-x 6 julien julien 4096 Mar 12 17:04 .
+drwxr-xr-x 9 julien julien 4096 Mar 12 16:51 ..
+drwxr-xr-x 2 julien julien 4096 Mar 12 17:04 config
+drwxr-xr-x 2 julien julien 4096 Mar 12 16:54 docs
+-rw-r--r-- 1 julien julien  215 Mar 12 16:51 .env
+-rw-r--r-- 1 julien julien  319 Mar 12 17:04 .env.example
+drwxr-xr-x 7 julien julien 4096 Mar 12 17:04 .git
+-rw-r--r-- 1 julien julien    4 Mar 12 16:51 .gitignore
+drwxr-xr-x 2 julien julien 4096 Mar 12 17:04 logs
+-rw-r--r-- 1 julien julien 1280 Mar 12 16:51 prompt.txt
+-rw-r--r-- 1 julien julien 4049 Mar 12 17:04 README.md
+-rw-r--r-- 1 julien julien 7570 Mar 12 17:04 TASKS.md
+-rw-r--r-- 1 julien julien 7570 Mar 12 16:52 TASKS_original.md
+[0m
+[0m✱ [0mGlob "**/"[90m 0 matches[0m
+[0m
+[0m$ [0mfind . -type d -not -path '*/\.git/*' | head -20
+.
+./docs
+./config
+./.git
+./logs
+[0m
+[0m$ [0mmkdir -p src data/raw data/processed data/vector_db tests docs config logs
+Now I'll create the __init__.py files and requirements.txt:
+[0m
+[0m← [0mWrite requirements.txt
+Wrote file successfully.
+[0m
+[0m← [0mWrite tests/__init__.py
+Wrote file successfully.
+[0m
+[0m← [0mWrite src/__init__.py
+Wrote file successfully.
+[0m
+[0m→ [0mRead README.md

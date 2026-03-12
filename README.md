@@ -26,7 +26,7 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
 - [x] **Task 1.1**: Vector database selection (ChromaDB chosen for local-first, zero-config approach)
 - [x] **Task 1.2**: Design data schema and document structure
 - [x] Task 1.3: Choose embedding model and API setup
-- [ ] Task 1.4: Initialize project structure and dependencies
+- [x] Task 1.4: Initialize project structure and dependencies
 
 See [TASKS.md](TASKS.md) for complete task list.
 
@@ -45,7 +45,7 @@ See [TASKS.md](TASKS.md) for complete task list.
 # Clone and navigate
 cd projects/julien-rag
 
-# Install dependencies (will be created in Task 1.4)
+# Install dependencies
 pip install -r requirements.txt
 
 # Set up environment variables
