@@ -7,7 +7,7 @@
   - **Tech:** Evaluate based on local deployment capability, ease of use, and integration options
   - **Output:** `docs/vector_db_selection.md`
 
-- [ ] Task 1.2: Design data schema and document structure
+- [x] Task 1.2: Design data schema and document structure
   - **Deliverable:** Schema specification defining document metadata fields (source, date, type, url, tags), chunking strategy, and embedding dimensions
   - **Tech:** Design for document chunking (semantic vs fixed-size), overlap parameters
   - **Output:** `docs/schema_design.md`

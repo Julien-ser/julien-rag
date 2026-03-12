@@ -24,7 +24,7 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
 
 **Phase 1: Planning & Infrastructure Setup**
 - [x] **Task 1.1**: Vector database selection (ChromaDB chosen for local-first, zero-config approach)
-- [ ] Task 1.2: Design data schema and document structure
+- [x] **Task 1.2**: Design data schema and document structure
 - [ ] Task 1.3: Choose embedding model and API setup
 - [ ] Task 1.4: Initialize project structure and dependencies
 
@@ -133,6 +133,7 @@ print(f"Sources: {response['sources']}")
 
 Key decisions are documented in `docs/`:
 - [Vector Database Selection](docs/vector_db_selection.md) - Why ChromaDB was chosen
+- [Schema Design](docs/schema_design.md) - Document metadata, chunking strategy, and embedding configuration (completed)
 
 ## License
 

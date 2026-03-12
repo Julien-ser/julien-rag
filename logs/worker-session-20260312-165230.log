@@ -402,3 +402,85 @@ Let me check the existing documentation to understand what's been done:
 [0m→ [0mRead README.md
 📝 Log saved: logs/iteration-2.md
 📊 Token Usage: 4500 / Session: 12250 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   ebd8aa7..c16be77  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 1/17 completed, 16 remaining
+   Next task: Task 1.2: Design data schema and document structure...
+📍 Iteration 3 at Thu Mar 12 04:53:54 PM EDT 2026...
+✓ Progress: Git commit found
+📊 Task attempt 2: Progress detected, continuing...
+📚 Loading context from previous iteration attempts...
+   Found context in: iteration-2.md
+🤖 OpenCode processing: Task 1.2: Design data schema and document structure
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll complete Task 1.2: Design data schema and document structure. Let me start by understanding the current project state and then create the schema specification.
+[0m→ [0mRead README.md
+[0m→ [0mRead docs/vector_db_selection.md
+[0m→ [0mRead TASKS.md
+[0m
+[0m← [0mWrite docs/schema_design.md
+Wrote file successfully.
+[0m
+Now I'll create the schema design document with comprehensive specifications:
+Now I'll update TASKS.md to mark Task 1.2 as completed:
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+@@ -6,9 +6,9 @@
+   - **Deliverable:** Decision document comparing ChromaDB vs Pinecone vs Weaviate vs Qdrant, with final selection and justification
+   - **Tech:** Evaluate based on local deployment capability, ease of use, and integration options
+   - **Output:** `docs/vector_db_selection.md`
+ 
+-- [ ] Task 1.2: Design data schema and document structure
++- [x] Task 1.2: Design data schema and document structure
+   - **Deliverable:** Schema specification defining document metadata fields (source, date, type, url, tags), chunking strategy, and embedding dimensions
+   - **Tech:** Design for document chunking (semantic vs fixed-size), overlap parameters
+   - **Output:** `docs/schema_design.md`
+ 
+
+[0m
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+@@ -23,9 +23,9 @@
+ ## Current Status
+ 
+ **Phase 1: Planning & Infrastructure Setup**
+ - [x] **Task 1.1**: Vector database selection (ChromaDB chosen for local-first, zero-config approach)
+-- [ ] Task 1.2: Design data schema and document structure
++- [x] **Task 1.2**: Design data schema and document structure
+ - [ ] Task 1.3: Choose embedding model and API setup
+ - [ ] Task 1.4: Initialize project structure and dependencies
+ 
+ See [TASKS.md](TASKS.md) for complete task list.
+
+[0m
+Now I'll update README.md to reflect Task 1.2 completion:
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+@@ -132,8 +132,9 @@
+ ## Decision Documentation
+ 
+ Key decisions are documented in `docs/`:
+ - [Vector Database Selection](docs/vector_db_selection.md) - Why ChromaDB was chosen
++- [Schema Design](docs/schema_design.md) - Document metadata, chunking strategy, and embedding configuration (completed)
+ 
+ ## License
+ 
+ MIT (to be determined)
+
+[0m
+Task 1.2 complete: schema design documented in `docs/schema_design.md`
+📝 Log saved: logs/iteration-3.md
+📊 Token Usage: 5250 / Session: 17500 / 64000
