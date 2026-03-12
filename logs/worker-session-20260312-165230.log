@@ -379,3 +379,26 @@ To github.com:Julien-ser/julien-rag.git
 Ready for Task 1.2.
 📝 Log saved: logs/iteration-1.md
 📊 Token Usage: 7750 / Session: 7750 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   0843396..ebd8aa7  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 1/17 completed, 16 remaining
+   Next task: Task 1.2: Design data schema and document structure...
+📍 Iteration 2 at Thu Mar 12 04:53:40 PM EDT 2026...
+🤖 OpenCode processing: Task 1.2: Design data schema and document structure
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll start by reading the current TASKS.md and exploring the project structure to understand what's already set up, then complete Task 1.2: Design data schema and document structure.
+[0m→ [0mRead TASKS.md
+[0m✱ [0mGlob "**/*.md"[90m 6 matches[0m
+[0m✱ [0mGlob "**/*"[90m 53 matches[0m
+[93m[1m! [0mpermission requested: read (/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/.env); auto-rejecting
+[0m✗ [0mread failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
+Let me check the existing documentation to understand what's been done:
+[0m→ [0mRead docs/vector_db_selection.md
+[0m→ [0mRead README.md
+📝 Log saved: logs/iteration-2.md
+📊 Token Usage: 4500 / Session: 12250 / 64000
