@@ -32,9 +32,13 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
 - [x] **Task 2.1**: Implement GitHub API data collector ✅
   - `src/github_collector.py` with full collection capabilities
   - Collects repos, commits, issues, gists, and starred repos
-  - Example script in `examples/github_collector_example.py`
   - Unit tests in `tests/test_github_collector.py`
-- [ ] Task 2.2: Implement web content scraper for online presence
+- [x] **Task 2.2**: Implement web content scraper for online presence ✅
+  - `src/web_scraper.py` with modular scrapers for multiple platforms
+  - Supports: personal websites, blogs (HTML/RSS), forums, LinkedIn, Twitter/X
+  - Uses beautifulsoup4 for static content and selenium for dynamic pages
+  - Sample data in `data/raw/web_*_sample.json`
+  - Unit tests in `tests/test_web_scraper.py`
 - [ ] Task 2.3: Build document preprocessing and chunking pipeline
 - [ ] Task 2.4: Create unified data pipeline with error handling
 

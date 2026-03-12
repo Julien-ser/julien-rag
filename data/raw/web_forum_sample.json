@@ -1,0 +1,22 @@
+[
+  {
+    "source_type": "forum",
+    "platform": "discourse",
+    "url": "https://forum.example.com/t/best-practices-for-rag/123",
+    "title": "Best Practices for RAG Implementation",
+    "content": "I've been working on a RAG system and wanted to share some lessons learned...",
+    "author": "Julien",
+    "date": "2024-01-20T15:45:00Z",
+    "scraped_at": "2026-03-12T17:02:00.000000"
+  },
+  {
+    "source_type": "forum",
+    "platform": "discourse",
+    "url": "https://forum.example.com/t/vector-database-comparison/124",
+    "title": "ChromaDB vs Pinecone: Which one should I choose?",
+    "content": "I'm starting a new project and need to decide between ChromaDB and Pinecone...",
+    "author": "Julien",
+    "date": "2024-02-10T09:30:00Z",
+    "scraped_at": "2026-03-12T17:02:05.000000"
+  }
+]

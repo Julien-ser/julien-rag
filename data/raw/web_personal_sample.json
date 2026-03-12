@@ -1,0 +1,24 @@
+[
+  {
+    "source_type": "personal_website",
+    "url": "https://juliens.example.com/about",
+    "domain": "juliens.example.com",
+    "title": "About Me - Julien",
+    "content": "Hi, I'm Julien, a software engineer passionate about building scalable systems...",
+    "author": null,
+    "date": null,
+    "scraped_at": "2026-03-12T17:00:00.000000",
+    "raw_length": 1234
+  },
+  {
+    "source_type": "personal_website",
+    "url": "https://juliens.example.com/projects",
+    "domain": "juliens.example.com",
+    "title": "Projects - Julien",
+    "content": "Here are some of my notable projects...",
+    "author": null,
+    "date": null,
+    "scraped_at": "2026-03-12T17:00:05.000000",
+    "raw_length": 2345
+  }
+]

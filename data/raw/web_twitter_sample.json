@@ -1,0 +1,26 @@
+[
+  {
+    "source_type": "twitter",
+    "url": "https://twitter.com/julien_dev",
+    "username": "julien_dev",
+    "display_name": "Julien Dev",
+    "bio": "Software engineer working on RAG and AI systems. Tweets about tech, code, and coffee.",
+    "tweets": [
+      {
+        "text": "Just built a RAG system that searches through my GitHub history. Game changer for finding past code snippets! #rag #python",
+        "date": "2024-03-10T14:30:00.000Z",
+        "replies": 5,
+        "retweets": 12,
+        "likes": 45
+      },
+      {
+        "text": "ChromaDB is so easy to set up. Perfect for local vector storage during development. #vectordb #machinelearning",
+        "date": "2024-03-09T10:15:00.000Z",
+        "replies": 2,
+        "retweets": 8,
+        "likes": 34
+      }
+    ],
+    "scraped_at": "2026-03-12T17:04:00.000000"
+  }
+]

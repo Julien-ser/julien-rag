@@ -1,0 +1,20 @@
+[
+  {
+    "source_type": "linkedin",
+    "url": "https://linkedin.com/in/julien-dev",
+    "username": "julien-dev",
+    "display_name": "Julien Developer",
+    "headline": "Software Engineer | RAG Systems | Python | Machine Learning",
+    "about": "Passionate about building intelligent systems that make information accessible...",
+    "experience": [
+      "Senior Software Engineer at Tech Corp (2022-Present)\nBuilt scalable RAG pipelines...",
+      "Software Engineer at StartupXYZ (2020-2022)\nDeveloped NLP applications..."
+    ],
+    "education": [
+      "MS Computer Science - University of Technology (2018-2020)",
+      "BS Software Engineering - Engineering School (2014-2018)"
+    ],
+    "skills": ["Python", "Machine Learning", "RAG", "Vector Databases", "FastAPI"],
+    "scraped_at": "2026-03-12T17:03:00.000000"
+  }
+]

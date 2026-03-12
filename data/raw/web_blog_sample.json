@@ -1,0 +1,22 @@
+[
+  {
+    "source_type": "blog",
+    "url": "https://blog.example.com/2024/01/understanding-vector-databases",
+    "domain": "blog.example.com",
+    "title": "Understanding Vector Databases for Modern AI Applications",
+    "content": "Vector databases have become essential infrastructure for AI-powered applications...",
+    "author": "Julien",
+    "date": "2024-01-15T10:30:00Z",
+    "scraped_at": "2026-03-12T17:01:00.000000"
+  },
+  {
+    "source_type": "blog",
+    "url": "https://blog.example.com/2024/02/building-rag-systems",
+    "domain": "blog.example.com",
+    "title": "Building Production-Ready RAG Systems",
+    "content": "Retrieval-Augmented Generation (RAG) combines the power of large language models with external knowledge...",
+    "author": "Julien",
+    "date": "2024-02-01T14:00:00Z",
+    "scraped_at": "2026-03-12T17:01:05.000000"
+  }
+]

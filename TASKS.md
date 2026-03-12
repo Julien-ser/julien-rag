@@ -30,7 +30,7 @@
   - **Output:** `src/github_collector.py` with functions: `collect_repos()`, `collect_commits()`, `collect_issues()`, `collect_gists()`, `collect_starred()`
   - **Output:** Sample data in `data/raw/github_*.json`
 
-- [ ] Task 2.2: Implement web content scraper for online presence
+- [x] Task 2.2: Implement web content scraper for online presence
   - **Deliverable:** Modular scraper for personal website, blog, forum posts, LinkedIn, Twitter/X (if public)
   - **Tech:** `beautifulsoup4`, `requests`, `selenium` for dynamic content if needed
   - **Output:** `src/web_scraper.py` with configurable URL patterns and content extraction
