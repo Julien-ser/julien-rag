@@ -139,3 +139,88 @@ ERROR [206:25] Expected class but received "(path: str | Path = "./chroma", sett
 [0m
 📝 Log saved: logs/iteration-39.md
 📊 Token Usage: 6000 / Session: 6000 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   4d86009..9649c1a  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 9/17 completed, 8 remaining
+   Next task: Task 3.2: Implement embedding generation and storage...
+📍 Iteration 40 at Thu Mar 12 07:06:04 PM EDT 2026...
+🤖 OpenCode processing: Task 3.2: Implement embedding generation and storage
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+[0m✱ [0mGlob "**/*.py"[90m 12 matches[0m
+I'll start by exploring the current project structure to understand what's already implemented and what needs to be built for Task 3.2.
+[0m→ [0mRead requirements.txt
+[0m→ [0mRead .env
+[0m→ [0mRead config/embeddings.yaml
+[0m→ [0mRead src/database.py
+[0m→ [0mRead src/preprocessor.py
+Now I'll create the two missing modules for Task 3.2: `embedder.py` and `vector_store.py`.
+
+Let me start with `embedder.py`:
+[0m
+[0m← [0mWrite src/embedder.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/database.py">
+ERROR [46:32] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+ERROR [108:25] "errors" is not a known attribute of module "chromadb"
+ERROR [206:25] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+</diagnostics>
+[0m
+Now let me create `vector_store.py`:
+[0m← [0mWrite src/vector_store.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/database.py">
+ERROR [46:32] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+ERROR [108:25] "errors" is not a known attribute of module "chromadb"
+ERROR [206:25] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+</diagnostics>
+[0m
+I need to fix import issues in both files. Let me correct them:
+[0m← [0mEdit src/embedder.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/embedder.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/embedder.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/embedder.py
+@@ -9,8 +9,9 @@
+ - Configuration-driven model selection
+ """
+ 
+ import logging
++import os
+ import time
+ from pathlib import Path
+ from typing import List, Dict, Any, Optional, Union
+ from dataclasses import dataclass
+
+[0m
+[0m← [0mEdit src/vector_store.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/vector_store.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/vector_store.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/vector_store.py
+@@ -8,9 +8,11 @@
+ - Metadata management and validation
+ - Error handling and retry logic
+ """
+ 
++import json
+ import logging
++import time
+ from pathlib import Path
+ from typing import List, Dict, Any, Optional, Union
+ from datetime import datetime
+ 
+
+[0m
+[0m✗ [0medit failed
+[91m[1mError: [0mCould not find oldString in the file. It must match exactly, including whitespace, indentation, and line endings.
+[0m→ [0mRead src/vector_store.py[90m [limit=30, offset=240][0m
+📝 Log saved: logs/iteration-40.md
+📊 Token Usage: 5250 / Session: 11250 / 64000
