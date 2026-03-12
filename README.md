@@ -39,7 +39,13 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
   - Uses beautifulsoup4 for static content and selenium for dynamic pages
   - Sample data in `data/raw/web_*_sample.json`
   - Unit tests in `tests/test_web_scraper.py`
-- [ ] Task 2.3: Build document preprocessing and chunking pipeline
+- [x] **Task 2.3**: Build document preprocessing and chunking pipeline ✅
+  - `src/preprocessor.py` with TokenCounter, TextCleaner, RecursiveTextSplitter, MetadataGenerator
+  - Handles HTML cleaning, code block preservation, markdown parsing
+  - Recursive text splitting with token-based limits and overlap
+  - Generates standardized metadata for all source types
+  - 53 unit tests passing in `tests/test_preprocessor.py`
+  - Processed chunks stored in `data/processed/`
 - [ ] Task 2.4: Create unified data pipeline with error handling
 
 See [TASKS.md](TASKS.md) for complete task list.

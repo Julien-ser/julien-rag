@@ -36,7 +36,7 @@
   - **Output:** `src/web_scraper.py` with configurable URL patterns and content extraction
   - **Output:** Sample scraped data in `data/raw/web_*.html` or `.json`
 
-- [ ] Task 2.3: Build document preprocessing and chunking pipeline
+- [x] Task 2.3: Build document preprocessing and chunking pipeline
   - **Deliverable:** Text extraction, cleaning, and intelligent chunking system
   - **Tech:** `tiktoken` for token counting, recursive text splitting with overlap, markdown parsing
   - **Output:** `src/preprocessor.py` with `extract_text()`, `clean_text()`, `chunk_documents()`, `create_metadata()`

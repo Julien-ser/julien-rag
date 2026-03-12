@@ -15,7 +15,7 @@ import logging
 import re
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Union
-from datetime import datetime
+from datetime import datetime, timezone
 
 import tiktoken
 from bs4 import BeautifulSoup
@@ -441,13 +441,16 @@ class MetadataGenerator:
     def _extract_source_id(self, raw_doc: Dict[str, Any], source_type: str) -> Any:
         """Extract unique source identifier."""
         if source_type.startswith("github"):
+            # For GitHub issues, prefer 'number' field (issue/PR number)
+            if source_type == "github_issues" and "number" in raw_doc:
+                return raw_doc["number"]
             if "full_name" in raw_doc:
                 return raw_doc["full_name"]
-            elif "sha" in raw_doc:
+            if "sha" in raw_doc:
                 return raw_doc["sha"][:12]
-            elif "id" in raw_doc:
+            if "id" in raw_doc:
                 return raw_doc["id"]
-            elif "number" in raw_doc:
+            if "number" in raw_doc:
                 return raw_doc["number"]
         elif source_type == "twitter":
             return raw_doc.get("username", "unknown")
@@ -476,7 +479,7 @@ class MetadataGenerator:
         for field in ["created_at", "date", "updated_at", "published"]:
             if field in raw_doc and raw_doc[field]:
                 return raw_doc[field]
-        return datetime.utcnow().isoformat()
+        return datetime.now(timezone.utc).isoformat()
 
     def _extract_title(
         self, raw_doc: Dict[str, Any], source_type: str
@@ -488,16 +491,22 @@ class MetadataGenerator:
         self, raw_doc: Dict[str, Any], source_type: str
     ) -> Optional[str]:
         """Extract author/creator."""
-        if source_type.startswith("github"):
+        # Normalize source type by stripping "web_" prefix for unified handling
+        if source_type.startswith("web_"):
+            base_type = source_type[4:]
+        else:
+            base_type = source_type
+
+        if base_type.startswith("github"):
             if "owner" in raw_doc and isinstance(raw_doc["owner"], dict):
                 return raw_doc["owner"].get("login")
             elif "user" in raw_doc and isinstance(raw_doc["user"], dict):
                 return raw_doc["user"].get("login")
-        elif source_type in ["blog", "forum", "personal"]:
+        elif base_type in ["blog", "forum", "personal"]:
             return raw_doc.get("author")
-        elif source_type == "linkedin":
+        elif base_type == "linkedin":
             return raw_doc.get("name")
-        elif source_type == "twitter":
+        elif base_type == "twitter":
             return raw_doc.get("display_name") or raw_doc.get("username")
         return None
 
