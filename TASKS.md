@@ -24,7 +24,7 @@
   - **Output:** `src/__init__.py`, `tests/__init__.py`
 
 ## Phase 2: Data Collection & Ingestion Pipeline
-- [ ] Task 2.1: Implement GitHub API data collector
+- [x] Task 2.1: Implement GitHub API data collector
   - **Deliverable:** Working GitHub scraper that collects repositories, commits, issues, PRs, gists, and starred repos
   - **Tech:** Use `PyGithub` library with authentication from GitHub token
   - **Output:** `src/github_collector.py` with functions: `collect_repos()`, `collect_commits()`, `collect_issues()`, `collect_gists()`, `collect_starred()`

@@ -22,11 +22,21 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
 
 ## Current Status
 
-**Phase 1: Planning & Infrastructure Setup**
+**Phase 1: Planning & Infrastructure Setup** ✅ Complete
 - [x] **Task 1.1**: Vector database selection (ChromaDB chosen for local-first, zero-config approach)
 - [x] **Task 1.2**: Design data schema and document structure
-- [x] Task 1.3: Choose embedding model and API setup
-- [x] Task 1.4: Initialize project structure and dependencies
+- [x] **Task 1.3**: Choose embedding model and API setup
+- [x] **Task 1.4**: Initialize project structure and dependencies
+
+**Phase 2: Data Collection & Ingestion Pipeline** 🔄 In Progress
+- [x] **Task 2.1**: Implement GitHub API data collector ✅
+  - `src/github_collector.py` with full collection capabilities
+  - Collects repos, commits, issues, gists, and starred repos
+  - Example script in `examples/github_collector_example.py`
+  - Unit tests in `tests/test_github_collector.py`
+- [ ] Task 2.2: Implement web content scraper for online presence
+- [ ] Task 2.3: Build document preprocessing and chunking pipeline
+- [ ] Task 2.4: Create unified data pipeline with error handling
 
 See [TASKS.md](TASKS.md) for complete task list.
 
