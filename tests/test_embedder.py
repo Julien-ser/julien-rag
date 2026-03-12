@@ -117,7 +117,6 @@ class TestOpenAIEmbedder(unittest.TestCase):
     """Test OpenAIEmbedder class (mocked)."""
 
     @patch.dict(os.environ, {"OPENAI_API_KEY": "sk-test"})
-    @patch.dict(os.environ, {"OPENAI_API_KEY": "sk-test"})
     @patch("src.embedder.OPENAI_AVAILABLE", True)
     @patch("src.embedder.OpenAI")
     def test_init_from_env(self, mock_openai_class):
@@ -125,7 +124,7 @@ class TestOpenAIEmbedder(unittest.TestCase):
         config = EmbeddingConfig(provider="openai")
         embedder = OpenAIEmbedder(config)
 
-        mock_openai_class.assert_called_once_with(api_key="env-key", timeout=30)
+        mock_openai_class.assert_called_once_with(api_key="sk-test", timeout=30)
 
     @patch("src.embedder.OPENAI_AVAILABLE", False)
     def test_init_without_openai_package(self):

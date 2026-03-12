@@ -524,14 +524,15 @@ class TestIngestChunksFromFile(unittest.TestCase):
         self.mock_db_chromadb.errors = Mock()
         self.mock_db_chromadb.errors.NotFoundError = ValueError
 
-        # Mock embedder
-        self.patcher_batch_embed = patch("src.vector_store.batch_embed")
+        # Mock embedder - patch at the embedder module level used by ingest_chunks_from_file
+        self.patcher_batch_embed = patch("src.embedder.batch_embed")
         self.mock_batch_embed = self.patcher_batch_embed.start()
         self.mock_batch_embed.return_value = [[0.1], [0.2]]
 
     def tearDown(self):
         """Clean up."""
         self.patcher_db_chromadb.stop()
+        self.patcher_batch_embed.stop()
         self.temp_dir.cleanup()
 
     def test_ingest_chunks_from_file(self):
@@ -582,6 +583,9 @@ class TestIngestChunksFromFile(unittest.TestCase):
 
             with open(jsonl_path, "w") as f:
                 f.write(json.dumps(chunks_data[0]) + "\n")
+
+            # Override mock to return 1 embedding for 1 chunk
+            self.mock_batch_embed.return_value = [[0.1]]
 
             stats = ingest_chunks_from_file(
                 jsonl_path, collection_override="web_content"

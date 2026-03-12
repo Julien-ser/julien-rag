@@ -57,12 +57,13 @@
   - **Output:** Database directory created at `data/vector_db/`
   - **Output:** Collections: `github_docs`, `web_content`, `combined`
 
-- [ ] Task 3.2: Implement embedding generation and storage
+- [x] Task 3.2: Implement embedding generation and storage
   - **Deliverable:** Batch embedding generator with progress tracking and rate limiting
   - **Tech:** OpenAI API with `tiktoken` usage tracking, or local `sentence-transformers`
   - **Output:** `src/embedder.py` with `generate_embeddings(texts)`, `batch_embed(chunks, batch_size=100)`
   - **Output:** `src/vector_store.py` with `add_documents(chunks, embeddings, metadatas)`
   - **Output:** Successfully stored vectors in database with metadata
+  - **Status:** ✅ Implemented and tested. Batch embedding with progress tracking, retry logic, and usage tracking. VectorStore with collection auto-routing (github_docs, web_content, combined). All unit tests passing.
 
 - [ ] Task 3.3: Implement similarity search functionality
   - **Deliverable:** Query interface with top-k retrieval and metadata filtering

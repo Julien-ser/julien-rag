@@ -39,6 +39,16 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
   - Logs written to `logs/ingestion_*.log`
   - Statistics saved to `data/processed/pipeline_stats.json`
 
+**Phase 3: Vector Database Implementation** 🔄 In Progress
+- [x] **Task 3.1**: Initialize vector database and collections ✅
+- [x] **Task 3.2**: Implement embedding generation and storage ✅
+  - `src/embedder.py` with OpenAI API and local `sentence-transformers` support
+  - `src/vector_store.py` with batch storage, collection auto-routing, metadata validation
+  - Token usage tracking, retry logic, progress logging
+  - Comprehensive unit tests passing (54/54 tests)
+- [ ] **Task 3.3**: Implement similarity search functionality (next)
+- [ ] **Task 3.4**: Perform database validation and optimization
+
 See [TASKS.md](TASKS.md) for complete task list.
 
 ## Getting Started
@@ -140,30 +150,36 @@ Create a JSON configuration file (see `config/pipeline_config.example.json`):
 ```
 julien-rag/
 ├── src/
-│   ├── database.py      # ChromaDB initialization
-│   ├── embedder.py      # Embedding generation
-│   ├── vector_store.py  # Vector storage operations
-│   ├── retriever.py     # Similarity search
+│   ├── database.py      # ✅ ChromaDB initialization (Task 3.1)
+│   ├── embedder.py      # ✅ Embedding generation (Task 3.2)
+│   ├── vector_store.py  # ✅ Vector storage operations (Task 3.2)
+│   ├── retriever.py     # Similarity search (Task 3.3 - pending)
 │   ├── github_collector.py
 │   ├── web_scraper.py
 │   ├── preprocessor.py
 │   ├── pipeline.py
-│   ├── api.py           # FastAPI endpoints
-│   ├── rag.py           # RAG generation
-│   └── monitoring.py
+│   ├── api.py           # FastAPI endpoints (Task 4.1 - pending)
+│   ├── rag.py           # RAG generation (Task 4.2 - pending)
+│   └── monitoring.py    # Monitoring (Task 4.4 - pending)
 ├── data/
 │   ├── raw/            # Raw collected data
 │   ├── processed/      # Chunked documents
 │   └── vector_db/      # ChromaDB storage
 ├── config/
-│   ├── embeddings.yaml
-│   └── rag.yaml
+│   ├── embeddings.yaml  # Embedding configuration
+│   └── rag.yaml         # RAG configuration (pending)
 ├── tests/
+│   ├── test_embedder.py       # ✅ Embedder tests (54 passing)
+│   ├── test_vector_store.py   # ✅ Vector store tests
+│   ├── test_database.py       # Database tests
+│   ├── test_preprocessor.py   # Preprocessor tests
+│   ├── test_web_scraper.py    # Web scraper tests
+│   └── test_github_collector.py # GitHub collector tests
 ├── docs/
 │   ├── vector_db_selection.md  # ✅ Completed
-│   ├── schema_design.md
-│   ├── database_performance.md
-│   └── deployment.md
+│   ├── schema_design.md        # ✅ Completed
+│   ├── database_performance.md # Pending (Task 3.4)
+│   └── deployment.md           # Pending (Task 4.4)
 ├── logs/
 ├── scripts/
 │   └── ingest_all.sh
