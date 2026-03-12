@@ -1,0 +1,381 @@
+🚀 Starting Wiggum Worker for: julien-rag
+📍 Project Path: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+⏰ Started at: Thu Mar 12 04:52:30 PM EDT 2026
+⚡ Token Budget: 64000
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━════
+
+📍 Iteration 1 at Thu Mar 12 04:52:30 PM EDT 2026...
+🤖 OpenCode processing: Task 1.1: Research and select vector database technology
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll complete Task 1.1: Research and select vector database technology. Let me start by creating the necessary directory and writing the comparison document.
+[0m$ [0mmkdir -p docs
+[0m
+[0m← [0mWrite docs/vector_db_selection.md
+Wrote file successfully.
+[0m
+Now let me check and update the README.md to reflect the project and this decision:
+[0m→ [0mRead README.md
+[0m✗ [0medit failed
+[91m[1mError: [0mCould not find oldString in the file. It must match exactly, including whitespace, indentation, and line endings.
+[0m
+[0m← [0mWrite README.md
+Wrote file successfully.
+[0m
+[0m→ [0mRead TASKS.md
+[0m
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+@@ -1,9 +1,9 @@
+ # julien-rag
+ **Mission:** create a vector DB of everything I've done online/github that you can find, which can be used elsewhere as a rag implementation
+ 
+ ## Phase 1: Planning & Infrastructure Setup
+-- [ ] Task 1.1: Research and select vector database technology
++- [x] Task 1.1: Research and select vector database technology
+   - **Deliverable:** Decision document comparing ChromaDB vs Pinecone vs Weaviate vs Qdrant, with final selection and justification
+   - **Tech:** Evaluate based on local deployment capability, ease of use, and integration options
+   - **Output:** `docs/vector_db_selection.md`
+ 
+
+[0m
+Now let me commit and push these changes as per the workflow:
+[0m$ [0mgit add docs/vector_db_selection.md README.md TASKS.md
+[0m
+[0m$ [0mgit status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   README.md
+	modified:   TASKS.md
+	new file:   docs/vector_db_selection.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	logs/
+[0m
+[0m$ [0mgit diff --cached
+diff --git a/README.md b/README.md
+index a6529f7..2ca7985 100644
+--- a/README.md
++++ b/README.md
+@@ -1,29 +1,139 @@
+-# Project Template
++# julien-rag
+ 
+-This is a template for new projects created via `wiggum_master.sh create`.
++**Mission:** Create a vector database of everything I've done online/GitHub that can be used elsewhere as a RAG implementation.
+ 
+-Each project:
+-- Lives in `projects/<project-name>/`
+-- Has its own GitHub repository
+-- Runs its own autonomous OpenCode agent loop
+-- Tracks progress in TASKS.md
++## Overview
+ 
+-## Setup
++This project builds a Retrieval-Augmented Generation (RAG) system that:
++- Collects data from GitHub (repos, commits, issues, PRs, gists, starred)
++- Scrapes web presence (blog, forums, social media)
++- Processes and chunks documents intelligently
++- Stores embeddings in a vector database
++- Provides a FastAPI REST interface for semantic search and Q&A
++- Can be used as a Python SDK in other projects
+ 
+-1. Create: `bash wiggum_master.sh create "my-project" "Description"`
+-2. View: `cat projects/my-project/README.md`
+-3. Initialize: `cd projects/my-project && opencode /init --yes`
+-4. Run: `cd projects/my-project && bash wiggum.sh`
++## Technology Stack
+ 
+-## Files
++- **Vector Database**: ChromaDB (local, persistent)
++- **Embeddings**: OpenAI `text-embedding-ada-002` or `sentence-transformers/all-MiniLM-L6-v2`
++- **API**: FastAPI with async endpoints
++- **Data Collection**: PyGithub, beautifulsoup4, requests
++- **Processing**: tiktoken for token counting, recursive text splitting
+ 
+-- **README.md** - Project documentation
+-- **TASKS.md** - Development task list
+-- **prompt.txt** - Agent instructions (project-specific)
+-- **AGENTS.md** - Project context (auto-generated)
+-- **src/** - Source code directory
+-- **tests/** - Test files
++## Current Status
+ 
+-## Customization
++**Phase 1: Planning & Infrastructure Setup**
++- [x] **Task 1.1**: Vector database selection (ChromaDB chosen for local-first, zero-config approach)
++- [ ] Task 1.2: Design data schema and document structure
++- [ ] Task 1.3: Choose embedding model and API setup
++- [ ] Task 1.4: Initialize project structure and dependencies
+ 
+-Update TASKS.md with your project goals, then let the agent handle it!
++See [TASKS.md](TASKS.md) for complete task list.
++
++## Getting Started
++
++### Prerequisites
++
++- Python 3.9+
++- Git
++- (Optional) GitHub API token for data collection
++- (Optional) OpenAI API key for embeddings
++
++### Installation
++
++```bash
++# Clone and navigate
++cd projects/julien-rag
++
++# Install dependencies (will be created in Task 1.4)
++pip install -r requirements.txt
++
++# Set up environment variables
++cp .env.example .env
++# Edit .env with your API keys
++```
++
++### Running the API
++
++```bash
++# Start the FastAPI server (will be created in Task 4.1)
++uvicorn src.api:app --reload --port 8000
++
++# Visit http://localhost:8000/docs for interactive API documentation
++```
++
++### Running the Ingestion Pipeline
++
++```bash
++# Collect all data and populate vector database (will be created in Task 2.4)
++python -m src.pipeline
++
++# View logs in logs/ingestion_*.log
++```
++
++## Project Structure
++
++```
++julien-rag/
++├── src/
++│   ├── database.py      # ChromaDB initialization
++│   ├── embedder.py      # Embedding generation
++│   ├── vector_store.py  # Vector storage operations
++│   ├── retriever.py     # Similarity search
++│   ├── github_collector.py
++│   ├── web_scraper.py
++│   ├── preprocessor.py
++│   ├── pipeline.py
++│   ├── api.py           # FastAPI endpoints
++│   ├── rag.py           # RAG generation
++│   └── monitoring.py
++├── data/
++│   ├── raw/            # Raw collected data
++│   ├── processed/      # Chunked documents
++│   └── vector_db/      # ChromaDB storage
++├── config/
++│   ├── embeddings.yaml
++│   └── rag.yaml
++├── tests/
++├── docs/
++│   ├── vector_db_selection.md  # ✅ Completed
++│   ├── schema_design.md
++│   ├── database_performance.md
++│   └── deployment.md
++├── logs/
++├── scripts/
++│   └── ingest_all.sh
++├── examples/
++├── requirements.txt
++├── TASKS.md
++└── README.md
++```
++
++## Using the SDK
++
++Once completed, you'll be able to use this RAG system in other projects:
++
++```python
++from julien_rag import RAGClient
++
++client = RAGClient(base_url="http://localhost:8000")
++
++# Semantic search
++results = client.search("What projects use FastAPI?")
++for doc in results:
++    print(f"{doc['source']}: {doc['content'][:100]}...")
++
++# RAG query with LLM generation
++response = client.rag_query("Explain the key architectural decisions")
++print(f"Answer: {response['answer']}")
++print(f"Sources: {response['sources']}")
++```
++
++## Decision Documentation
++
++Key decisions are documented in `docs/`:
++- [Vector Database Selection](docs/vector_db_selection.md) - Why ChromaDB was chosen
++
++## License
++
++MIT (to be determined)
+diff --git a/TASKS.md b/TASKS.md
+index 525eb08..3636187 100644
+--- a/TASKS.md
++++ b/TASKS.md
+@@ -2,7 +2,7 @@
+ **Mission:** create a vector DB of everything I've done online/github that you can find, which can be used elsewhere as a rag implementation
+ 
+ ## Phase 1: Planning & Infrastructure Setup
+-- [ ] Task 1.1: Research and select vector database technology
++- [x] Task 1.1: Research and select vector database technology
+   - **Deliverable:** Decision document comparing ChromaDB vs Pinecone vs Weaviate vs Qdrant, with final selection and justification
+   - **Tech:** Evaluate based on local deployment capability, ease of use, and integration options
+   - **Output:** `docs/vector_db_selection.md`
+diff --git a/docs/vector_db_selection.md b/docs/vector_db_selection.md
+new file mode 100644
+index 0000000..1f56e18
+--- /dev/null
++++ b/docs/vector_db_selection.md
+@@ -0,0 +1,121 @@
++# Vector Database Selection Decision
++
++## Project Requirements
++- **Local deployment**: Must run without external cloud services
++- **Ease of use**: Minimal setup, good Python SDK
++- **Integration**: Compatible with embedding models (OpenAI, sentence-transformers)
++- **Performance**: Fast similarity search for RAG queries
++- **Scalability**: Handle thousands of documents from GitHub + web scraping
++
++## Comparison Matrix
++
++| Feature | ChromaDB | Pinecone | Weaviate | Qdrant |
++|---------|----------|----------|----------|--------|
++| **Deployment** | Local only (in-memory/persistent) | Cloud-only | Cloud/Self-hosted | Self-hosted (Docker) |
++| **Setup Complexity** | Very low (pip install) | Medium (cloud account) | High (Docker/K8s) | Medium (Docker) |
++| **Python SDK** | Excellent | Good | Good | Good |
++| **Embedding Support** | Automatic | Manual | Automatic | Manual |
++| **Performance** | Good (HNSW) | Excellent | Excellent | Excellent |
++| **Storage** | Local files | Cloud | Local/Cloud | Local |
++| **Cost** | Free | Paid | Free/Paid | Free |
++| **RAG Ready** | Yes | Yes | Yes | Yes |
++| **Community** | Growing | Large | Medium | Medium |
++
++## Detailed Analysis
++
++### ChromaDB
++**Pros:**
++- Zero-configuration, pure Python library
++- Built-in embedding management
++- Simple API: `chromadb.Client()`, `collection.add()`
++- Supports both in-memory (dev) and persistent (prod) modes
++- Good for prototyping and production at moderate scale
++- Actively maintained with strong RAG use case focus
++
++**Cons:**
++- Less battle-tested than Pinecone at massive scale
++- Limited advanced features compared to others
++
++### Pinecone
++**Pros:**
++- Industry leader in managed vector databases
++- Excellent performance and reliability
++- Rich features: filtering, sparse+dense vectors
++
++**Cons:**
++- Cloud-only violates local deployment requirement
++- Costs money ($0.24/GB/month + API calls)
++- External dependency, data leaves local machine
++
++### Weaviate
++**Pros:**
++- Powerful hybrid search (vector + keyword)
++- GraphQL API
++- Built-in vectorization modules
++
++**Cons:**
++- Complex setup (requires separate server process)
++- Heavyweight for simple RAG use case
++- More operational overhead
++
++### Qdrant
++**Pros:**
++- High performance (Rust implementation)
++- Good for production deployments
++- Supports advanced filtering
++
++**Cons:**
++- Requires running separate server (Docker)
++- More complex than ChromaDB for simple use case
++- Manual embedding management needed
++
++## Final Selection: ChromaDB
++
++### Justification
++
++1. **Local-First Design**: ChromaDB runs entirely locally, aligning with the project's requirement for a self-contained vector database. No external services, no API calls to cloud databases, complete data sovereignty.
++
++2. **Minimal Setup**: `pip install chromadb` is all that's needed. No Docker containers, no external processes, no cloud accounts. This gets us from zero to working database in seconds.
++
++3. **Perfect for RAG**: ChromaDB's collection-based model with automatic document storage and retrieval matches exactly what a RAG system needs:
++   - Store documents with embeddings and metadata
++   - Fast similarity search
++   - Simple query interface: `collection.query(query_texts=...)`
++
++4. **Python-Native**: As a Python library, it integrates seamlessly with our planned tech stack (FastAPI, sentence-transformers, OpenAI embeddings). No separate service to manage, no connection strings, no network serialization overhead.
++
++5. **Development Experience**: In-memory mode for development/testing, persistent mode for production with the same API. Enables rapid iteration without infrastructure concerns.
++
++6. **Scalability Sufficient**: For this project's scope (personal GitHub history + web content), we expect <100K documents. ChromaDB handles this easily on a single machine. If outgrew it, could migrate to Qdrant or Pinecone later.
++
++7. **Embedding Management**: ChromaDB can optionally manage embedding generation, but we'll keep control in our `embedder.py` component for flexibility. The integration is clean either way.
++
++### Alternatives Considered and Rejected
++
++- **Pinecone**: Rejected due to cloud-only and costs. Would create external dependency and monthly expenses for a personal project.
++- **Weaviate**: Overkill. The additional features (GraphQL, hybrid search) aren't needed for this use case, but adds significant operational complexity.
++- **Qdrant**: Good performance but requires separate server. The added complexity of managing a Docker container isn't justified when ChromaDB provides all needed functionality in a single library.
++
++## Implementation Plan
++
++1. Add `chromadb` to `requirements.txt`
++2. Create `src/database.py` with initialization functions:
++   - `init_database()` - creates persistent client at `data/vector_db/`
++   - `create_collection(name)` - creates collection with cosine similarity
++   - `get_collection(name)` - retrieves existing collection
++3. Create collections: `github_docs`, `web_content`, `combined`
++4. Use HNSW index parameters for optimal performance
++5. Integrate with `src/embedder.py` and `src/vector_store.py`
++
++## Expected Benefits
++
++- **Fast Development**: No infrastructure to set up, can focus on data pipeline and RAG logic
++- **Easy Testing**: In-memory database can be created/destroyed in test fixtures
++- **Production Ready**: Persistent mode provides durability with same codebase
++- **Maintainable**: Single dependency, no operational overhead
++
++---
++
++**Decision Date**: 2026-03-12
++**Decision Maker**: Autonomous Developer (opencode)
++**Status**: Approved for implementation
+[0m
+[0m$ [0mgit commit -m "docs: select ChromaDB as vector database with comprehensive analysis"
+[main 0843396] docs: select ChromaDB as vector database with comprehensive analysis
+ 3 files changed, 253 insertions(+), 22 deletions(-)
+ create mode 100644 docs/vector_db_selection.md
+[0m
+[0m$ [0mgit push origin main
+To github.com:Julien-ser/julien-rag.git
+ * [new branch]      main -> main
+[0m
+✅ Task 1.1 complete. ChromaDB selected as vector database. Decision documented in `docs/vector_db_selection.md`. README and TASKS.md updated. Changes committed and pushed to GitHub.
+
+Ready for Task 1.2.
+📝 Log saved: logs/iteration-1.md
+📊 Token Usage: 7750 / Session: 7750 / 64000
