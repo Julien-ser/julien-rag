@@ -12,7 +12,7 @@
   - **Tech:** Design for document chunking (semantic vs fixed-size), overlap parameters
   - **Output:** `docs/schema_design.md`
 
-- [ ] Task 1.3: Choose embedding model and API setup
+- [x] Task 1.3: Choose embedding model and API setup
   - **Deliverable:** Selected embedding model configuration with API keys stored in .env
   - **Tech:** OpenAI `text-embedding-ada-002`, Cohere Embed, or HuggingFace `sentence-transformers/all-MiniLM-L6-v2`
   - **Output:** Updated `.env` with embedding API keys, `config/embeddings.yaml`

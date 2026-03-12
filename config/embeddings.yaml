@@ -1,0 +1,24 @@
+# Embedding Model Configuration
+# This file defines the embedding model settings for the RAG system
+
+# Choose the embedding provider: "openai" or "local"
+provider: openai
+
+# OpenAI configuration (used when provider: openai)
+openai:
+  model: text-embedding-ada-002
+  api_key: ${OPENAI_API_KEY}  # References .env variable
+  dimensions: 1536
+  embedding_type: text
+
+# Local model configuration (used when provider: local)
+local:
+  model_name: sentence-transformers/all-MiniLM-L6-v2
+  dimensions: 384
+  cache_folder: models/embeddings  # Local storage for downloaded model
+  device: cpu  # Options: cpu, cuda, mps
+
+# Common settings
+batch_size: 100  # Number of texts to embed in one batch
+max_retries: 3  # Maximum retries for API calls
+timeout: 30  # Timeout in seconds
