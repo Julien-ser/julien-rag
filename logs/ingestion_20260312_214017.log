@@ -1,0 +1,33 @@
+2026-03-12 17:40:17 - __main__ - INFO - Logging initialized. Log file: logs/ingestion_20260312_214017.log
+2026-03-12 17:40:17 - __main__ - INFO - Starting unified data ingestion pipeline
+2026-03-12 17:40:17 - __main__ - INFO - === Starting GitHub data collection ===
+2026-03-12 17:40:17 - __main__ - WARNING - Attempt 1/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 1.00s...
+2026-03-12 17:40:18 - __main__ - WARNING - Attempt 2/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 2.00s...
+2026-03-12 17:40:20 - __main__ - WARNING - Attempt 3/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 4.00s...
+2026-03-12 17:40:24 - __main__ - ERROR - All 4 attempts failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.
+2026-03-12 17:40:24 - __main__ - ERROR - GitHub collection failed: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.
+2026-03-12 17:40:24 - __main__ - INFO - === Starting web data collection ===
+2026-03-12 17:40:24 - __main__ - WARNING - No web scrape configuration provided. Skipping web collection.
+2026-03-12 17:40:24 - __main__ - WARNING - No raw data files collected. Pipeline may have no input.
+2026-03-12 17:40:24 - __main__ - INFO - === Starting document processing ===
+2026-03-12 17:40:24 - __main__ - INFO - No files need processing (all up-to-date)
+2026-03-12 17:40:24 - __main__ - INFO - 
+=== Pipeline Execution Summary ===
+Total duration: 0:00:07.005863
+Start: 2026-03-12T21:40:17.276619
+End: 2026-03-12T21:40:24.282482
+
+Collection:
+  GitHub files: 0
+  Web files: 0
+  Collection errors: 1
+
+Processing:
+  Files processed: 0
+  Chunks generated: 0
+  Processing errors: 0
+  Files skipped (incremental): 0
+
+Total errors: 1
+2026-03-12 17:40:24 - __main__ - INFO - Statistics saved to data/processed/pipeline_stats.json
+2026-03-12 17:40:24 - __main__ - WARNING - Pipeline completed with 1 errors

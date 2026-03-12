@@ -42,7 +42,7 @@
   - **Output:** `src/preprocessor.py` with `extract_text()`, `clean_text()`, `chunk_documents()`, `create_metadata()`
   - **Output:** Processed chunks in `data/processed/chunks.jsonl`
 
-- [ ] Task 2.4: Create unified data pipeline with error handling
+- [x] Task 2.4: Create unified data pipeline with error handling
   - **Deliverable:** Orchestration script that runs full ingestion from collection to processed chunks
   - **Tech:** `logging` for tracking, retry logic for API calls, incremental updates
   - **Output:** `src/pipeline.py` with `run_ingestion()` main function

@@ -1,0 +1,28 @@
+{
+  "description": "Sample pipeline configuration for RAG ingestion",
+  "raw_dir": "data/raw",
+  "processed_dir": "data/processed",
+  "logs_dir": "logs",
+  "incremental": true,
+  "chunk_size": 512,
+  "chunk_overlap": 100,
+  "min_chunk_size": 100,
+  "max_chunk_size": 768,
+  "max_retries": 3,
+  "github_token": null,
+  "web_scrape_config": {
+    "personal": [
+      "https://julienvachaudez.com/about"
+    ],
+    "blog": [
+      "https://blog.example.com/rss"
+    ],
+    "forum": [],
+    "linkedin": [],
+    "twitter": []
+  },
+  "use_selenium": false,
+  "selenium_options": {
+    "headless": true
+  }
+}

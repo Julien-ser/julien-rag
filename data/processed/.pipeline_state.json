@@ -1,0 +1,10 @@
+{
+  "last_run": 1773351672.9972622,
+  "processed_files": {
+    "data/raw/web_blog_sample.json": 1773351672.9972622,
+    "data/raw/web_forum_sample.json": 1773351672.9972622,
+    "data/raw/web_personal_sample.json": 1773351672.9972622,
+    "data/raw/web_twitter_sample.json": 1773351672.9972622,
+    "data/raw/web_linkedin_sample.json": 1773351672.9972622
+  }
+}

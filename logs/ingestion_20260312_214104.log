@@ -1,0 +1,66 @@
+2026-03-12 17:41:04 - __main__ - INFO - Logging initialized. Log file: logs/ingestion_20260312_214104.log
+2026-03-12 17:41:04 - __main__ - INFO - Starting unified data ingestion pipeline
+2026-03-12 17:41:04 - __main__ - INFO - Loaded configuration from config/test_config.json
+2026-03-12 17:41:04 - __main__ - INFO - === Starting GitHub data collection ===
+2026-03-12 17:41:04 - __main__ - WARNING - Attempt 1/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 1.00s...
+2026-03-12 17:41:05 - __main__ - WARNING - Attempt 2/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 2.00s...
+2026-03-12 17:41:07 - __main__ - WARNING - Attempt 3/4 failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.. Retrying in 4.00s...
+2026-03-12 17:41:11 - __main__ - ERROR - All 4 attempts failed for run_all: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.
+2026-03-12 17:41:11 - __main__ - ERROR - GitHub collection failed: GitHub token is required. Set GITHUB_TOKEN environment variable or pass token directly.
+2026-03-12 17:41:11 - __main__ - INFO - === Starting web data collection ===
+2026-03-12 17:41:12 - src.web_scraper - INFO - Selenium WebDriver initialized
+2026-03-12 17:41:12 - src.web_scraper - INFO - Selenium WebDriver initialized
+2026-03-12 17:41:12 - src.web_scraper - INFO - No URLs provided for personal. Skipping.
+2026-03-12 17:41:12 - src.web_scraper - INFO - No URLs provided for blog. Skipping.
+2026-03-12 17:41:12 - src.web_scraper - INFO - No URLs provided for forum. Skipping.
+2026-03-12 17:41:12 - src.web_scraper - INFO - No URLs provided for linkedin. Skipping.
+2026-03-12 17:41:12 - src.web_scraper - INFO - No URLs provided for twitter. Skipping.
+2026-03-12 17:41:12 - src.web_scraper - INFO - Scraping complete: 0 total documents
+2026-03-12 17:41:12 - __main__ - WARNING - No raw data files collected. Pipeline may have no input.
+2026-03-12 17:41:12 - __main__ - INFO - === Starting document processing ===
+2026-03-12 17:41:12 - __main__ - INFO - No raw files from collection. Checking for existing raw data...
+2026-03-12 17:41:12 - __main__ - INFO - Found 5 existing raw files to process
+2026-03-12 17:41:12 - __main__ - INFO - Processing 5 files
+2026-03-12 17:41:12 - __main__ - INFO - Processing data/raw/web_blog_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Loading raw data from data/raw/web_blog_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Writing 2 chunks to data/processed/web_blog_sample_chunks.jsonl
+2026-03-12 17:41:12 - __main__ - INFO - Generated 2 chunks from data/raw/web_blog_sample.json
+2026-03-12 17:41:12 - __main__ - INFO - Processing data/raw/web_forum_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Loading raw data from data/raw/web_forum_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Writing 2 chunks to data/processed/web_forum_sample_chunks.jsonl
+2026-03-12 17:41:12 - __main__ - INFO - Generated 2 chunks from data/raw/web_forum_sample.json
+2026-03-12 17:41:12 - __main__ - INFO - Processing data/raw/web_personal_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Loading raw data from data/raw/web_personal_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Writing 2 chunks to data/processed/web_personal_sample_chunks.jsonl
+2026-03-12 17:41:12 - __main__ - INFO - Generated 2 chunks from data/raw/web_personal_sample.json
+2026-03-12 17:41:12 - __main__ - INFO - Processing data/raw/web_twitter_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Loading raw data from data/raw/web_twitter_sample.json
+2026-03-12 17:41:12 - src.preprocessor - WARNING - Document missing 'content' field: https://twitter.com/julien_dev
+2026-03-12 17:41:12 - src.preprocessor - INFO - Writing 0 chunks to data/processed/web_twitter_sample_chunks.jsonl
+2026-03-12 17:41:12 - __main__ - INFO - Generated 0 chunks from data/raw/web_twitter_sample.json
+2026-03-12 17:41:12 - __main__ - INFO - Processing data/raw/web_linkedin_sample.json
+2026-03-12 17:41:12 - src.preprocessor - INFO - Loading raw data from data/raw/web_linkedin_sample.json
+2026-03-12 17:41:12 - src.preprocessor - WARNING - Document missing 'content' field: https://linkedin.com/in/julien-dev
+2026-03-12 17:41:12 - src.preprocessor - INFO - Writing 0 chunks to data/processed/web_linkedin_sample_chunks.jsonl
+2026-03-12 17:41:12 - __main__ - INFO - Generated 0 chunks from data/raw/web_linkedin_sample.json
+2026-03-12 17:41:12 - __main__ - INFO - Processing complete: 5 files, 6 total chunks
+2026-03-12 17:41:12 - __main__ - INFO - 
+=== Pipeline Execution Summary ===
+Total duration: 0:00:08.129044
+Start: 2026-03-12T21:41:04.868608
+End: 2026-03-12T21:41:12.997652
+
+Collection:
+  GitHub files: 0
+  Web files: 0
+  Collection errors: 1
+
+Processing:
+  Files processed: 5
+  Chunks generated: 6
+  Processing errors: 0
+  Files skipped (incremental): 0
+
+Total errors: 1
+2026-03-12 17:41:12 - __main__ - INFO - Statistics saved to data/processed/pipeline_stats.json
+2026-03-12 17:41:12 - __main__ - WARNING - Pipeline completed with 1 errors

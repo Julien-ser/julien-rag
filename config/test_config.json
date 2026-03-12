@@ -1,0 +1,10 @@
+{
+  "incremental": false,
+  "web_scrape_config": {
+    "personal": [],
+    "blog": [],
+    "forum": [],
+    "linkedin": [],
+    "twitter": []
+  }
+}

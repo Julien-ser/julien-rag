@@ -1,0 +1,29 @@
+# Web Scraper Configuration
+# This file defines which URLs to scrape for each platform
+
+# Personal website pages (static HTML)
+personal:
+  - "https://julienvachaudez.com/about"
+  - "https://julienvachaudez.com/projects"
+  # Add your personal website URLs here
+
+# Blog feeds or pages (RSS/Atom)
+blog:
+  - "https://yourblog.com/rss"
+  - "https://yourblog.com/feed"
+  # Add blog URLs or RSS feed URLs here
+
+# Forum posts (Discourse, phpBB, etc.)
+forum:
+  # - "https://forum.example.com/t/your-post/123"
+  # Add forum topic URLs here
+
+# LinkedIn public profiles (requires Selenium)
+linkedin:
+  # - "https://www.linkedin.com/in/yourprofile"
+  # Add LinkedIn profile URLs (must be public) here
+
+# Twitter/X public profiles (requires Selenium)
+twitter:
+  # - "https://twitter.com/yourusername"
+  # Add Twitter profile URLs (must be public) here

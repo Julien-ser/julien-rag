@@ -28,25 +28,16 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
 - [x] **Task 1.3**: Choose embedding model and API setup
 - [x] **Task 1.4**: Initialize project structure and dependencies
 
-**Phase 2: Data Collection & Ingestion Pipeline** 🔄 In Progress
+**Phase 2: Data Collection & Ingestion Pipeline** ✅ Complete
 - [x] **Task 2.1**: Implement GitHub API data collector ✅
-  - `src/github_collector.py` with full collection capabilities
-  - Collects repos, commits, issues, gists, and starred repos
-  - Unit tests in `tests/test_github_collector.py`
 - [x] **Task 2.2**: Implement web content scraper for online presence ✅
-  - `src/web_scraper.py` with modular scrapers for multiple platforms
-  - Supports: personal websites, blogs (HTML/RSS), forums, LinkedIn, Twitter/X
-  - Uses beautifulsoup4 for static content and selenium for dynamic pages
-  - Sample data in `data/raw/web_*_sample.json`
-  - Unit tests in `tests/test_web_scraper.py`
 - [x] **Task 2.3**: Build document preprocessing and chunking pipeline ✅
-  - `src/preprocessor.py` with TokenCounter, TextCleaner, RecursiveTextSplitter, MetadataGenerator
-  - Handles HTML cleaning, code block preservation, markdown parsing
-  - Recursive text splitting with token-based limits and overlap
-  - Generates standardized metadata for all source types
-  - 53 unit tests passing in `tests/test_preprocessor.py`
-  - Processed chunks stored in `data/processed/`
-- [ ] Task 2.4: Create unified data pipeline with error handling
+- [x] **Task 2.4**: Create unified data pipeline with error handling ✅
+  - `src/pipeline.py` with comprehensive orchestration
+  - Retry logic, incremental updates, detailed logging
+  - Shell script: `scripts/ingest_all.sh`
+  - Logs written to `logs/ingestion_*.log`
+  - Statistics saved to `data/processed/pipeline_stats.json`
 
 See [TASKS.md](TASKS.md) for complete task list.
 
@@ -84,12 +75,65 @@ uvicorn src.api:app --reload --port 8000
 
 ### Running the Ingestion Pipeline
 
+The unified pipeline orchestrates data collection, preprocessing, and chunk generation.
+
+**Using the shell script (recommended):**
+
 ```bash
-# Collect all data and populate vector database (will be created in Task 2.4)
+# Full ingestion with default settings
+./scripts/ingest_all.sh
+
+# With custom configuration
+./scripts/ingest_all.sh --config config/pipeline_config.json
+
+# Set log level (DEBUG, INFO, WARNING, ERROR)
+./scripts/ingest_all.sh --log-level DEBUG
+```
+
+**Using Python module directly:**
+
+```bash
+# Run with default configuration
 python -m src.pipeline
 
-# View logs in logs/ingestion_*.log
+# With configuration file
+python -m src.pipeline --config config/my_config.json
+
+# With debug logging
+python -m src.pipeline --log-level DEBUG
 ```
+
+**Configuration:**
+
+Create a JSON configuration file (see `config/pipeline_config.example.json`):
+
+```json
+{
+  "incremental": true,
+  "chunk_size": 512,
+  "chunk_overlap": 100,
+  "github_token": null,
+  "web_scrape_config": {
+    "personal": ["https://yourwebsite.com/about"],
+    "blog": ["https://yourblog.com/rss"]
+  }
+}
+```
+
+**Logs & Statistics:**
+
+- Logs: `logs/ingestion_YYYYMMDD_HHMMSS.log` (rotating, max 10MB per file)
+- Statistics: `data/processed/pipeline_stats.json`
+- Processed chunks: `data/processed/*_chunks.jsonl`
+
+**Features:**
+
+- ✅ Retry logic with exponential backoff for API calls
+- ✅ Incremental updates (skips unchanged files)
+- ✅ Graceful error handling - continues on failures
+- ✅ Comprehensive logging with rotation
+- ✅ Automatic fallback to existing raw data
+- ✅ Statistics and performance metrics
 
 ## Project Structure
 
