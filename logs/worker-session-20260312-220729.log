@@ -1883,3 +1883,128 @@ health = client.health_check()
 
 The SDK is ready for external use and can be installed with `pip install -e .` or distributed via PyPI/GitHub.
 📝 Log saved: logs/iteration-257.md
+📊 Token Usage: 13750 / Session: 52750 / 64000
+Unstaged changes after reset:
+M	logs/worker-session-20260312-220729.log
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   166d4c8..8067680  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 15/17 completed, 2 remaining
+   Next task: Task 4.4: Add monitoring, logging, and deployment configurat...
+📍 Iteration 258 at Thu Mar 12 10:24:13 PM EDT 2026...
+🤖 OpenCode processing: Task 4.4: Add monitoring, logging, and deployment configuration
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+[0m→ [0mRead .
+I'll complete Task 4.4 by adding monitoring, logging, and deployment configuration. Let me first explore the current project structure to understand what exists.
+[0m
+[0m$ [0mfind /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag -type f -name "*.py" -o -name "*.md" -o -name "*.txt" -o -name "*.yaml" -o -name "*.yml" -o -name "Dockerfile" -o -name "docker-compose.yml" | head -40
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/examples/github_collector_example.py
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/examples/usage_example.py
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/docs/database_performance.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/docs/vector_db_selection.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/docs/schema_design.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/.pytest_cache/README.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/requirements.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/config/embeddings.yaml
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/config/rag.yaml
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/config/web_scrape_config.yaml
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/setup.py
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag.egg-info/SOURCES.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag.egg-info/dependency_links.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag.egg-info/top_level.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag.egg-info/requires.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag.egg-info/entry_points.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/prompt.txt
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-82.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-176.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-30.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-109.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-17.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-210.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-122.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-208.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-240.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-9.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-128.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-12.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-185.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-35.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-41.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-3.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-158.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-188.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-70.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-203.md
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/logs/iteration-236.md
+[0m
+[0m$ [0mls -la /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/
+total 240
+drwxr-xr-x  3 julien julien  4096 Mar 12 21:48 .
+drwxr-xr-x 17 julien julien  4096 Mar 12 22:23 ..
+-rw-r--r--  1 julien julien 18007 Mar 12 21:49 api.py
+-rw-r--r--  1 julien julien  9927 Mar 12 17:48 database.py
+-rw-r--r--  1 julien julien 15417 Mar 12 19:10 embedder.py
+-rw-r--r--  1 julien julien 22144 Mar 12 17:17 github_collector.py
+-rw-r--r--  1 julien julien     0 Mar 12 17:04 __init__.py
+-rw-r--r--  1 julien julien 21253 Mar 12 17:40 pipeline.py
+-rw-r--r--  1 julien julien 29178 Mar 12 17:37 preprocessor.py
+drwxr-xr-x  2 julien julien  4096 Mar 12 22:11 __pycache__
+-rw-r--r--  1 julien julien 27194 Mar 12 22:10 rag.py
+-rw-r--r--  1 julien julien 14511 Mar 12 21:37 retriever.py
+-rw-r--r--  1 julien julien 17510 Mar 12 20:30 vector_store.py
+-rw-r--r--  1 julien julien 32939 Mar 12 17:22 web_scraper.py
+[0m
+[0m→ [0mRead src/api.py
+[0m
+[0m$ [0mls -la /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/ | grep -E "docker|monitoring|deployment"
+[0m
+[0m$ [0mfind /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag -name "*docker*" -o -name "*monitor*" -o -name "*deploy*" 2>/dev/null
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/.git/hooks/fsmonitor-watchman.sample
+[0m
+[0m→ [0mRead requirements.txt
+[0m→ [0mRead config/rag.yaml
+[0m
+[0m# [0mTodos
+[ ] Create src/monitoring.py with Prometheus metrics endpoint
+[ ] Update requirements.txt with prometheus-client
+[ ] Create docker/Dockerfile
+[ ] Create docker/docker-compose.yml
+[ ] Create docs/deployment.md
+[ ] Create tests/integration/test_full_flow.py
+[ ] Update README.md with deployment instructions
+[ ] Update TASKS.md to mark task complete
+[0m
+Let me create a todo list for this task and start implementing.
+Now I'll create the monitoring module with Prometheus metrics:
+[0m← [0mWrite src/monitoring.py
+Wrote file successfully.
+[0m
+[0m# [0mTodos
+[x] Create src/monitoring.py with Prometheus metrics endpoint
+[ ] Update requirements.txt with prometheus-client
+[ ] Create docker/Dockerfile
+[ ] Create docker/docker-compose.yml
+[ ] Create docs/deployment.md
+[ ] Create tests/integration/test_full_flow.py
+[ ] Update README.md with deployment instructions
+[ ] Update TASKS.md to mark task complete
+[0m
+[0m← [0mEdit requirements.txt
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/requirements.txt
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/requirements.txt
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/requirements.txt
+@@ -12,4 +12,5 @@
+ selenium>=4.15.0
+ pytest>=7.4.0
+ pytest-asyncio>=0.21.0
+ httpx>=0.25.0
++prometheus-client>=0.19.0
+
+[0m
+📝 Log saved: logs/iteration-258.md
