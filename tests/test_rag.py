@@ -10,12 +10,16 @@ This module tests:
 """
 
 import os
+import sys
 import unittest
 from unittest.mock import Mock, patch, MagicMock
 import tempfile
 from pathlib import Path
 import yaml
 import pytest
+
+# Add src to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from src.rag import (
     RAGConfig,
@@ -28,7 +32,7 @@ from src.rag import (
 from src.retriever import SearchResult
 
 
-class TestRAGConfig(unittest.TestCase):
+class TestRAGConfig:
     """Tests for RAG configuration."""
 
     def test_config_load_valid(self, tmp_path):
@@ -72,7 +76,11 @@ class TestRAGConfig(unittest.TestCase):
 
         config = RAGConfig(str(config_file))
         assert config.provider == "openai"
-        assert "system_prompt" in config.generation_config
+        # Default system_prompt should be provided by property getter
+        assert (
+            config.system_prompt
+            == "You are a helpful assistant that answers questions based on the provided context."
+        )
 
     def test_provider_selection(self, tmp_path):
         """Test provider selection from config."""
@@ -86,10 +94,11 @@ class TestRAGConfig(unittest.TestCase):
             assert config.provider == provider
 
 
-class TestOpenAIProvider(unittest.TestCase):
+class TestOpenAIProvider:
     """Tests for OpenAI LLM provider."""
 
     def test_provider_init_missing_api_key(self, tmp_path):
+        """Test initialization fails without API key."""
         config_data = {"provider": "openai", "openai": {"model": "gpt-4o"}}
         config_file = tmp_path / "rag_test.yaml"
         with open(config_file, "w") as f:
@@ -98,9 +107,8 @@ class TestOpenAIProvider(unittest.TestCase):
         config = RAGConfig(str(config_file))
 
         with patch.dict(os.environ, {}, clear=True):
-            with self.assertRaises(ValueError) as cm:
+            with pytest.raises(ValueError, match="API key not found"):
                 OpenAIProvider(config.openai_config)
-            self.assertIn("API key not found", str(cm.exception))
 
     def test_provider_init_with_env_key(self, tmp_path, monkeypatch):
         """Test initialization with environment API key."""
@@ -113,8 +121,8 @@ class TestOpenAIProvider(unittest.TestCase):
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test-key")
 
         provider = OpenAIProvider(config.openai_config)
-        self.assertEqual(provider.model, "gpt-4o")
-        self.assertEqual(provider.api_key, "sk-test-key")
+        assert provider.model == "gpt-4o"
+        assert provider.api_key == "sk-test-key"
 
     @patch("src.rag.OpenAIProvider.__init__", return_value=None)
     def test_generate_success(self, mock_init, tmp_path, monkeypatch):
@@ -156,21 +164,27 @@ class TestOpenAIProvider(unittest.TestCase):
             max_tokens=500,
         )
 
-        self.assertEqual(result, "Test answer")
-        self.assertEqual(confidence, 0.9)
+        assert result == "Test answer"
+        assert confidence == 0.9
         provider.client.chat.completions.create.assert_called_once()
 
     @patch("openai.OpenAI")
     def test_generate_rate_limit_retry(self, mock_openai_class, tmp_path, monkeypatch):
         """Test rate limit error with retry."""
-        from openai import RateLimitError
+        from openai import RateLimitError, APIStatusError
 
         # Mock rate limit then success
         mock_client = MagicMock()
         mock_response = MagicMock()
         mock_response.choices = [MagicMock(message=MagicMock(content="Retry success"))]
+        # Create proper RateLimitError with required response and body
+        rate_limit_error = RateLimitError(
+            message="Rate limited",
+            response=MagicMock(status_code=429),
+            body={"error": {"message": "Rate limit exceeded"}},
+        )
         mock_client.chat.completions.create.side_effect = [
-            RateLimitError("Rate limited"),
+            rate_limit_error,
             mock_response,
         ]
         mock_openai_class.return_value = mock_client
@@ -460,11 +474,10 @@ class TestRAGPipeline:
 
     def test_format_context_truncation(self, tmp_config, mock_retriever):
         """Test context truncation when exceeding max length."""
-        config = RAGConfig(tmp_config)
-        config.generation_config["max_context_length"] = 100
-
         with patch("src.rag.OpenAIProvider"):
             pipeline = RAGPipeline(mock_retriever, config_path=tmp_config)
+            # Override max_context_length directly on pipeline
+            pipeline.config.generation_config["max_context_length"] = 100
 
         # Create many chunks to trigger truncation
         docs = ["x" * 50 for _ in range(10)]
@@ -503,12 +516,97 @@ class TestRAGPipeline:
 class TestGenerateAnswer:
     """Tests for convenience function."""
 
-    def test_generate_answer_not_implemented(self):
-        """Test that convenience function raises NotImplementedError."""
+    @patch("src.rag.OpenAIProvider")
+    def test_generate_answer_success(self, mock_provider_class, tmp_path, monkeypatch):
+        """Test successful answer generation via convenience function."""
+        # Create a temporary config
+        config_data = {
+            "provider": "openai",
+            "openai": {
+                "model": "gpt-4o",
+                "api_key": "sk-test",
+                "temperature": 0.7,
+                "max_tokens": 1000,
+            },
+            "generation": {
+                "system_prompt": "You are a test assistant.",
+                "max_context_length": 4000,
+            },
+        }
+        config_file = tmp_path / "rag.yaml"
+        with open(config_file, "w") as f:
+            yaml.dump(config_data, f)
+
+        # Mock the LLM provider
+        mock_llm = Mock()
+        mock_llm.generate.return_value = ("Convenience answer", 0.91)
+        mock_provider_class.return_value = mock_llm
+
+        # Test context chunks
+        chunks = [
+            {
+                "document": "Test doc 1",
+                "metadata": {"source": "github", "title": "Doc1"},
+                "score": 0.95,
+            },
+            {
+                "document": "Test doc 2",
+                "metadata": {"source": "web", "title": "Doc2"},
+                "score": 0.87,
+            },
+        ]
+
+        result = generate_answer("test query", chunks, config_path=str(config_file))
+
+        assert result["answer"] == "Convenience answer"
+        assert result["confidence"] == 0.91
+        assert result["context_chunks"] == 2
+        assert len(result["sources"]) == 2
+
+    def test_generate_answer_empty_chunks(self):
+        """Test with empty context chunks."""
+        result = generate_answer("test query", [])
+
+        assert result["answer"] == "No context provided."
+        assert result["confidence"] == 0.0
+        assert result["sources"] == []
+        assert result["context_chunks"] == 0
+
+    @patch("src.rag.OpenAIProvider")
+    def test_generate_answer_with_llm_overrides(self, mock_provider_class, tmp_path):
+        """Test with LLM parameter overrides."""
+        config_data = {
+            "provider": "openai",
+            "openai": {
+                "model": "gpt-4o",
+                "api_key": "sk-test",
+                "temperature": 0.7,
+                "max_tokens": 1000,
+            },
+            "generation": {"max_context_length": 4000},
+        }
+        config_file = tmp_path / "rag.yaml"
+        with open(config_file, "w") as f:
+            yaml.dump(config_data, f)
+
+        mock_llm = Mock()
+        mock_llm.generate.return_value = ("Custom answer", 0.88)
+        mock_provider_class.return_value = mock_llm
+
         chunks = [{"document": "Test", "metadata": {}, "score": 1.0}]
 
-        with pytest.raises(NotImplementedError):
-            generate_answer("test query", chunks)
+        result = generate_answer(
+            "test",
+            chunks,
+            config_path=str(config_file),
+            temperature=0.3,
+            max_tokens=500,
+        )
+
+        # Check the LLM was called with overrides
+        call_args = mock_llm.generate.call_args
+        assert call_args[1]["temperature"] == 0.3
+        assert call_args[1]["max_tokens"] == 500
 
 
 class TestRAGIntegration:

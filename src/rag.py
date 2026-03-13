@@ -484,12 +484,18 @@ class RAGPipeline:
 
             if len(search_result) == 0:
                 logger.warning("No relevant documents found for query")
+                total_time = time.time() - start_time
                 return {
                     "answer": "I couldn't find any relevant information to answer your question.",
                     "confidence": 0.0,
                     "sources": [],
-                    "query_time": time.time() - start_time,
-                    "context_chunks": 0,
+                    "query_time": total_time,
+                    "stats": {
+                        "retrieval_time": retrieval_time,
+                        "generation_time": 0.0,
+                        "context_chunks": 0,
+                        "context_length": 0,
+                    },
                 }
 
             # Step 2: Format context
@@ -511,12 +517,19 @@ class RAGPipeline:
                 "max_tokens", self.config.openai_config.get("max_tokens", 1000)
             )
 
+            # Remove these from llm_overrides to avoid duplicate keyword arguments
+            llm_overrides_clean = {
+                k: v
+                for k, v in llm_overrides.items()
+                if k not in ["temperature", "max_tokens"]
+            }
+
             answer, confidence = self.llm.generate(
                 prompt=prompt,
                 system_prompt=system_prompt,
                 temperature=temperature,
                 max_tokens=max_tokens,
-                **llm_overrides,
+                **llm_overrides_clean,
             )
             generation_time = time.time() - generation_start
             logger.info(
@@ -689,6 +702,13 @@ def generate_answer(
             "max_tokens", config.openai_config.get("max_tokens", 1000)
         )
 
+        # Remove these from llm_overrides to avoid duplicate keyword arguments
+        llm_overrides_clean = {
+            k: v
+            for k, v in llm_overrides.items()
+            if k not in ["temperature", "max_tokens"]
+        }
+
         # Generate answer
         system_prompt = config.system_prompt
         answer, confidence = provider.generate(
@@ -696,7 +716,7 @@ def generate_answer(
             system_prompt=system_prompt,
             temperature=temperature,
             max_tokens=max_tokens,
-            **llm_overrides,
+            **llm_overrides_clean,
         )
 
         # Extract sources
