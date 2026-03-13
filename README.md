@@ -192,23 +192,78 @@ julien-rag/
 
 ## Using the SDK
 
-Once completed, you'll be able to use this RAG system in other projects:
+The SDK is now available as a Python package! Install it and use the RAG API in any project.
+
+### SDK Installation
+
+```bash
+# Install the SDK from the local package
+pip install -e .
+
+# Or install from a published package (once available)
+# pip install julien_rag
+```
+
+### SDK Usage
 
 ```python
 from julien_rag import RAGClient
+import os
 
-client = RAGClient(base_url="http://localhost:8000")
+# Initialize the client
+client = RAGClient(
+    base_url=os.getenv("RAG_API_URL", "http://localhost:8000"),
+    # Optional: add API key and admin token if needed
+    # api_key="your-api-key",
+    # admin_token="your-admin-token"
+)
 
-# Semantic search
-results = client.search("What projects use FastAPI?")
-for doc in results:
-    print(f"{doc['source']}: {doc['content'][:100]}...")
+# Check health
+health = client.health_check()
+print(f"API Status: {health.status}")
 
-# RAG query with LLM generation
-response = client.rag_query("Explain the key architectural decisions")
-print(f"Answer: {response['answer']}")
-print(f"Sources: {response['sources']}")
+# Get database statistics
+stats = client.get_stats()
+print(f"Total documents: {sum(c['document_count'] for c in stats.collections.values())}")
+
+# Perform semantic search
+results = client.search(
+    query="machine learning projects",
+    k=5,
+    filters={"source": "github_repos"}
+)
+print(f"Found {results.total_results} results")
+for i, (doc, meta, score) in enumerate(zip(results.documents, results.metadatas, results.scores), 1):
+    print(f"{i}. [{score:.3f}] {meta.get('title', 'Untitled')}")
+
+# Perform RAG query (search + LLM generation)
+rag_result = client.rag_query(
+    query="What are the main technologies used?",
+    k=5,
+    return_context=True,  # Include retrieved context in response
+    temperature=0.7
+)
+print(f"Answer: {rag_result.answer}")
+print(f"Confidence: {rag_result.confidence:.3f}")
+print(f"Sources: {len(rag_result.sources)}")
 ```
+
+### SDK Features
+
+- **Search**: Vector similarity search with optional metadata filters
+- **RAG Query**: Combined retrieval and LLM generation
+- **Health Check**: Monitor API status
+- **Statistics**: Get document counts and collection info
+- **Admin Operations**: Trigger data refresh (with admin token)
+- **Context Manager**: Use with `with` statement for auto-cleanup
+- **Typed Models**: All responses are Pydantic models with validation
+
+### SDK Documentation
+
+- Full API reference: See `julien_rag/models.py` for response types
+- Examples: `examples/usage_example.py`
+- Error handling: Catch `RAGAPIError`, `AuthenticationError`, `ValidationError`, etc.
+
 
 ## Decision Documentation
 

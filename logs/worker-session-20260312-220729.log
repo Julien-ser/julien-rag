@@ -865,3 +865,293 @@ I'll complete Task 4.3: Create SDK/client library for external use. Let me start
 [0m→ [0mRead src/retriever.py
 📝 Log saved: logs/iteration-254.md
 📊 Token Usage: 5000 / Session: 25500 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   7f18fde..6208cc2  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 14/17 completed, 3 remaining
+   Next task: Task 4.3: Create SDK/client library for external use...
+📍 Iteration 255 at Thu Mar 12 10:13:41 PM EDT 2026...
+✓ Progress: Git commit found
+📊 Task attempt 2: Progress detected, continuing...
+📚 Loading context from previous iteration attempts...
+   Found context in: iteration-254.md
+🤖 OpenCode processing: Task 4.3: Create SDK/client library for external use
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+[0m→ [0mRead src/rag.py
+[0m→ [0mRead src/retriever.py
+[0m→ [0mRead src/api.py
+I'll complete Task 4.3: Create SDK/client library for external use. Let me start by reading the existing API to understand the endpoints and structure.
+[0m→ [0mRead requirements.txt
+Now I'll check the project structure and requirements to ensure proper dependencies for the SDK:
+[0m✱ [0mGlob "**/config/*.yaml"[90m 3 matches[0m
+[0m
+[0m# [0mTodos
+[ ] Create julien_rag package directory and __init__.py
+[ ] Create client.py with RAGClient implementation
+[ ] Create models.py for request/response types
+[ ] Create exceptions.py for custom exceptions
+[ ] Create setup.py for package installation
+[ ] Create examples/usage_example.py
+[ ] Update README.md with SDK documentation
+[ ] Test SDK client with example script
+[ ] Mark Task 4.3 complete in TASKS.md
+[0m
+Now I'll create the SDK package structure with the client library:
+Now I'll create the SDK package files. First, the models:
+[0m← [0mWrite julien_rag/models.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+[0m# [0mTodos
+[x] Create julien_rag package directory and __init__.py
+[ ] Create client.py with RAGClient implementation
+[x] Create models.py for request/response types
+[ ] Create exceptions.py for custom exceptions
+[ ] Create setup.py for package installation
+[ ] Create examples/usage_example.py
+[ ] Update README.md with SDK documentation
+[ ] Test SDK client with example script
+[ ] Mark Task 4.3 complete in TASKS.md
+[0m
+Now create the client:
+[0m← [0mWrite julien_rag/client.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+Now I'll extract the exceptions to a separate file and update the client:
+[0m← [0mWrite julien_rag/exceptions.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+[0m← [0mEdit julien_rag/client.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag/client.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag/client.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/julien_rag/client.py
+@@ -4,12 +4,10 @@
+ This module provides the main RAGClient class for interacting with
+ the Julien RAG API.
+ """
+ 
+-import json
+ import logging
+-from typing import Dict, Any, List, Optional
+-from datetime import datetime
++from typing import Dict, Any, Optional
+ 
+ import httpx
+ 
+ from .models import (
+@@ -20,18 +18,19 @@
+     StatsResponse,
+     SourcesResponse,
+     HealthResponse,
+ )
++from .exceptions import (
++    RAGAPIError,
++    AuthenticationError,
++    NotFoundError,
++    ServerError,
++    ValidationError,
++)
+ 
+ logger = logging.getLogger(__name__)
+ 
+ 
+-class RAGAPIError(Exception):
+-    """Base exception for RAG API errors."""
+-
+-    pass
+-
+-
+ class AuthenticationError(RAGAPIError):
+     """Authentication failure."""
+ 
+     pass
+
+[0m
+[0m# [0mTodos
+[x] Create julien_rag package directory and __init__.py
+[x] Create client.py with RAGClient implementation
+[x] Create models.py for request/response types
+[x] Create exceptions.py for custom exceptions
+[ ] Create setup.py for package installation
+[ ] Create examples/usage_example.py
+[ ] Update README.md with SDK documentation
+[ ] Test SDK client with example script
+[ ] Mark Task 4.3 complete in TASKS.md
+[0m
+Now create the package __init__.py:
+[0m← [0mWrite julien_rag/__init__.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+Now create setup.py:
+[0m← [0mWrite setup.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+[0m# [0mTodos
+[x] Create julien_rag package directory and __init__.py
+[x] Create client.py with RAGClient implementation
+[x] Create models.py for request/response types
+[x] Create exceptions.py for custom exceptions
+[x] Create setup.py for package installation
+[ ] Create examples/usage_example.py
+[ ] Update README.md with SDK documentation
+[ ] Test SDK client with example script
+[ ] Mark Task 4.3 complete in TASKS.md
+[0m
+Now create the usage example:
+[0m← [0mWrite examples/usage_example.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py">
+ERROR [269:25] "__setitem__" method not defined on type "Metadata"
+</diagnostics>
+[0m
+[0m# [0mTodos
+[x] Create julien_rag package directory and __init__.py
+[x] Create client.py with RAGClient implementation
+[x] Create models.py for request/response types
+[x] Create exceptions.py for custom exceptions
+[x] Create setup.py for package installation
+[x] Create examples/usage_example.py
+[ ] Update README.md with SDK documentation
+[ ] Test SDK client with example script
+[ ] Mark Task 4.3 complete in TASKS.md
+[0m
+[0m→ [0mRead README.md
+Now let me read the current README to update it:
+[0m
+[0m← [0mEdit README.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
+@@ -191,26 +191,81 @@
+ ```
+ 
+ ## Using the SDK
+ 
+-Once completed, you'll be able to use this RAG system in other projects:
++The SDK is now available as a Python package! Install it and use the RAG API in any project.
+ 
++### SDK Installation
++
++```bash
++# Install the SDK from the local package
++pip install -e .
++
++# Or install from a published package (once available)
++# pip install julien_rag
++```
++
++### SDK Usage
++
+ ```python
+ from julien_rag import RAGClient
++import os
+ 
+-client = RAGClient(base_url="http://localhost:8000")
++# Initialize the client
++client = RAGClient(
++    base_url=os.getenv("RAG_API_URL", "http://localhost:8000"),
++    # Optional: add API key and admin token if needed
++    # api_key="your-api-key",
++    # admin_token="your-admin-token"
++)
+ 
+-# Semantic search
+-results = client.search("What projects use FastAPI?")
+-for doc in results:
+-    print(f"{doc['source']}: {doc['content'][:100]}...")
++# Check health
++health = client.health_check()
++print(f"API Status: {health.status}")
+ 
+-# RAG query with LLM generation
+-response = client.rag_query("Explain the key architectural decisions")
+-print(f"Answer: {response['answer']}")
+-print(f"Sources: {response['sources']}")
++# Get database statistics
++stats = client.get_stats()
++print(f"Total documents: {sum(c['document_count'] for c in stats.collections.values())}")
++
++# Perform semantic search
++results = client.search(
++    query="machine learning projects",
++    k=5,
++    filters={"source": "github_repos"}
++)
++print(f"Found {results.total_results} results")
++for i, (doc, meta, score) in enumerate(zip(results.documents, results.metadatas, results.scores), 1):
++    print(f"{i}. [{score:.3f}] {meta.get('title', 'Untitled')}")
++
++# Perform RAG query (search + LLM generation)
++rag_result = client.rag_query(
++    query="What are the main technologies used?",
++    k=5,
++    return_context=True,  # Include retrieved context in response
++    temperature=0.7
++)
++print(f"Answer: {rag_result.answer}")
++print(f"Confidence: {rag_result.confidence:.3f}")
++print(f"Sources: {len(rag_result.sources)}")
+ ```
+ 
++### SDK Features
++
++- **Search**: Vector similarity search with optional metadata filters
++- **RAG Query**: Combined retrieval and LLM generation
++- **Health Check**: Monitor API status
++- **Statistics**: Get document counts and collection info
++- **Admin Operations**: Trigger data refresh (with admin token)
++- **Context Manager**: Use with `with` statement for auto-cleanup
++- **Typed Models**: All responses are Pydantic models with validation
++
++### SDK Documentation
++
++- Full API reference: See `julien_rag/models.py` for response types
++- Examples: `examples/usage_example.py`
++- Error handling: Catch `RAGAPIError`, `AuthenticationError`, `ValidationError`, etc.
++
++
+ ## Decision Documentation
+ 
+ Key decisions are documented in `docs/`:
+ - [Vector Database Selection](docs/vector_db_selection.md) - Why ChromaDB was chosen
+
+[0m
+Now update the README with SDK documentation. I'll add the SDK section with installation and usage:
+Now let me test the SDK package imports and basic functionality:
+[0m$ [0mpython -c "from julien_rag import RAGClient, SearchRequest, RAGResponse; print('SDK imports successful'); client = RAGClient(); print('Client instantiation successful')"
+SDK imports successful
+Client instantiation successful
+[0m
+📝 Log saved: logs/iteration-255.md
+📊 Token Usage: 7250 / Session: 32750 / 64000
