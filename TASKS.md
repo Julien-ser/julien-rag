@@ -65,11 +65,12 @@
   - **Output:** Successfully stored vectors in database with metadata
   - **Status:** ✅ Implemented and tested. Batch embedding with progress tracking, retry logic, and usage tracking. VectorStore with collection auto-routing (github_docs, web_content, combined). All unit tests passing.
 
-- [ ] Task 3.3: Implement similarity search functionality
+- [x] Task 3.3: Implement similarity search functionality
   - **Deliverable:** Query interface with top-k retrieval and metadata filtering
   - **Tech:** Vector similarity search with optional filters (source, date range, document type)
   - **Output:** `src/retriever.py` with `search(query_text, k=10, filters=None)` returning documents and scores
   - **Output:** Unit tests in `tests/test_retriever.py` validating search accuracy
+  - **Status:** ✅ Implemented and tested. Retriever class with multi-collection search, metadata filtering, and score normalization. Comprehensive test suite with SearchResult, filter building, and integration tests (34/38 passing - 4 integration tests require sentence-transformers dependency).
 
 - [ ] Task 3.4: Perform database validation and optimization
   - **Deliverable:** Validation report and optimized parameters

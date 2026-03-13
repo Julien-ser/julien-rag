@@ -278,7 +278,9 @@ class TestRetrieverInit:
     def test_init_default(self):
         """Test initialization with default parameters."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            retriever = Retriever(persist_directory=tmpdir)
+            retriever = Retriever(
+                persist_directory=tmpdir, embedder=MockEmbedder(embedding_dim=384)
+            )
             assert retriever.db is not None
             assert retriever.embedder is not None
 
@@ -289,111 +291,18 @@ class TestRetrieverInit:
 
             db = VectorDatabase(persist_directory=tmpdir)
             db.init_database()
-            retriever = Retriever(database=db)
+            retriever = Retriever(database=db, embedder=MockEmbedder(embedding_dim=384))
             assert retriever.db is db
 
 
 class TestRetrieverSearch:
     """Test search functionality (integration tests with real database)."""
 
-    @pytest.fixture
-    def populated_db(self):
-        """Create a database with sample data for testing."""
-        with tempfile.TemporaryDirectory() as tmpdir:
-            # Initialize database
-            from database import init_database
-
-            db = init_database(persist_directory=tmpdir)
-
-            # Add sample documents to collection
-            from vector_store import VectorStore
-
-            store = VectorStore(database=db)
-
-            sample_chunks = [
-                {
-                    "text": "Machine learning is a subset of artificial intelligence.",
-                    "metadata": {
-                        "chunk_id": "test:ml:1",
-                        "source": "website",
-                        "source_id": "doc1",
-                        "url": "https://example.com/ml",
-                        "date": "2024-01-15T10:00:00Z",
-                        "type": "article",
-                        "chunk_index": 0,
-                        "total_chunks": 1,
-                        "token_count": 10,
-                        "text_length": 60,
-                    },
-                },
-                {
-                    "text": "Python is a popular programming language for data science.",
-                    "metadata": {
-                        "chunk_id": "test:python:1",
-                        "source": "github_repo",
-                        "source_id": "myrepo",
-                        "url": "https://github.com/user/myrepo",
-                        "date": "2024-02-01T14:30:00Z",
-                        "type": "readme",
-                        "chunk_index": 0,
-                        "total_chunks": 1,
-                        "token_count": 10,
-                        "text_length": 60,
-                        "repository": "user/myrepo",
-                        "language": "Python",
-                    },
-                },
-                {
-                    "text": "Vector databases enable efficient similarity search.",
-                    "metadata": {
-                        "chunk_id": "test:vector:1",
-                        "source": "blog",
-                        "source_id": "blog1",
-                        "url": "https://blog.example.com/vectors",
-                        "date": "2024-02-15T09:00:00Z",
-                        "type": "post",
-                        "chunk_index": 0,
-                        "total_chunks": 1,
-                        "token_count": 10,
-                        "text_length": 60,
-                    },
-                },
-            ]
-
-            # Generate embeddings using local model to avoid API key requirement
-            from embedder import Embedder, EmbeddingConfig
-            import yaml
-
-            # Create test config with local provider
-            test_config = {
-                "provider": "local",
-                "local": {
-                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
-                    "dimensions": 384,
-                    "cache_folder": "models/embeddings",
-                    "device": "cpu",
-                },
-                "batch_size": 100,
-                "max_retries": 3,
-                "timeout": 30,
-            }
-
-            # Write temporary config
-            config_path = Path(tmpdir) / "test_embeddings.yaml"
-            with open(config_path, "w") as f:
-                yaml.dump(test_config, f)
-
-            embedder = Embedder(config_path=config_path)
-            embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
-
-            # Store in database (all go to web_content or github_docs based on source)
-            store.add_documents(sample_chunks, embeddings)
-
-            yield tmpdir
-
     def test_search_basic(self, populated_db):
         """Test basic search functionality."""
-        retriever = Retriever(persist_directory=populated_db)
+        retriever = Retriever(
+            persist_directory=populated_db, embedder=MockEmbedder(embedding_dim=384)
+        )
         results = retriever.search("machine learning", k=2)
 
         assert isinstance(results, SearchResult)
@@ -561,6 +470,86 @@ class TestRetrieverIntegration:
         with tempfile.TemporaryDirectory() as tmpdir:
             results = search("query", k=5, persist_directory=tmpdir)
             assert isinstance(results, SearchResult)
+
+
+@pytest.fixture
+def populated_db():
+    """Create a database with sample data for testing."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Initialize database
+        from database import init_database
+
+        db = init_database(persist_directory=tmpdir)
+
+        # Add sample documents to collection
+        from vector_store import VectorStore
+
+        store = VectorStore(database=db)
+
+        sample_chunks = [
+            {
+                "text": "Machine learning is a subset of artificial intelligence.",
+                "metadata": {
+                    "chunk_id": "test:ml:1",
+                    "source": "website",
+                    "source_id": "doc1",
+                    "url": "https://example.com/ml",
+                    "date": "2024-01-15T10:00:00Z",
+                    "type": "article",
+                    "chunk_index": 0,
+                    "total_chunks": 1,
+                    "token_count": 10,
+                    "text_length": 60,
+                },
+            },
+            {
+                "text": "Python is a popular programming language for data science.",
+                "metadata": {
+                    "chunk_id": "test:python:1",
+                    "source": "github_repo",
+                    "source_id": "myrepo",
+                    "url": "https://github.com/user/myrepo",
+                    "date": "2024-02-01T14:30:00Z",
+                    "type": "readme",
+                    "chunk_index": 0,
+                    "total_chunks": 1,
+                    "token_count": 10,
+                    "text_length": 60,
+                    "repository": "user/myrepo",
+                    "language": "Python",
+                },
+            },
+            {
+                "text": "Vector databases enable efficient similarity search.",
+                "metadata": {
+                    "chunk_id": "test:vector:1",
+                    "source": "blog",
+                    "source_id": "blog1",
+                    "url": "https://blog.example.com/vectors",
+                    "date": "2024-02-15T09:00:00Z",
+                    "type": "post",
+                    "chunk_index": 0,
+                    "total_chunks": 1,
+                    "token_count": 10,
+                    "text_length": 60,
+                },
+            },
+        ]
+
+        # Use mock embedder to avoid dependency on sentence-transformers
+        embedder = MockEmbedder(embedding_dim=384)
+        embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
+
+        # Store in database (all go to web_content or github_docs based on source)
+        store.add_documents(sample_chunks, embeddings)
+
+        yield tmpdir
+
+
+@pytest.fixture(autouse=True)
+def mock_embedder(monkeypatch):
+    """Patch Embedder with MockEmbedder for all tests."""
+    monkeypatch.setattr("retriever.Embedder", MockEmbedder)
 
 
 if __name__ == "__main__":

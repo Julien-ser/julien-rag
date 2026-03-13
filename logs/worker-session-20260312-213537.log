@@ -1,0 +1,2504 @@
+🚀 Starting Wiggum Worker for: julien-rag
+📍 Project Path: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+⏰ Started at: Thu Mar 12 09:35:37 PM EDT 2026
+⚡ Token Budget: 64000
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━════
+
+📍 Iteration 173 at Thu Mar 12 09:35:37 PM EDT 2026...
+🤖 OpenCode processing: Task 3.3: Implement similarity search functionality
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll implement the similarity search functionality for Task 3.3. Let me start by understanding the existing codebase structure.
+[0m→ [0mRead src/database.py
+[0m→ [0mRead src/vector_store.py
+[0m→ [0mRead src/embedder.py
+Now I'll implement the similarity search functionality. Let me create the retriever module and tests.
+[0m✗ [0mwrite failed
+[91m[1mError: [0mYou must read file /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py before overwriting it. Use the Read tool first
+[0m→ [0mRead src/retriever.py
+Let me check if the retriever.py file already exists:
+Good! The retriever.py already exists. Now let me check if there are unit tests for it:
+[0m✱ [0mGlob "tests/test_retriever.py"[90m 1 match[0m
+[0m→ [0mRead tests/test_retriever.py
+Excellent! The retriever implementation and tests already exist. Let me run the tests to verify they pass:
+[0m
+[0m$ [0mpython -m pytest tests/test_retriever.py -v
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+plugins: langsmith-0.7.16, anyio-4.12.1, asyncio-1.3.0, cov-7.0.0, dash-4.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 38 items
+
+tests/test_retriever.py::TestRetrieverImports::test_import_retriever PASSED [  2%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_result PASSED [  5%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_function PASSED [  7%]
+tests/test_retriever.py::TestSearchResult::test_create_search_result PASSED [ 10%]
+tests/test_retriever.py::TestSearchResult::test_to_dict PASSED           [ 13%]
+tests/test_retriever.py::TestSearchResult::test_getitem PASSED           [ 15%]
+tests/test_retriever.py::TestSearchResult::test_empty_result PASSED      [ 18%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores PASSED [ 21%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_clamped PASSED [ 23%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_empty PASSED [ 26%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_filter PASSED [ 28%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_dict PASSED [ 31%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_single PASSED [ 34%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_multiple PASSED [ 36%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_single PASSED [ 39%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_multiple PASSED [ 42%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_full PASSED [ 44%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_start_only PASSED [ 47%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_end_only PASSED [ 50%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_filters PASSED [ 52%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_with_list_source PASSED [ 55%]
+tests/test_retriever.py::TestRetrieverInit::test_init_default FAILED     [ 57%]
+tests/test_retriever.py::TestRetrieverInit::test_init_custom_db FAILED   [ 60%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_basic ERROR    [ 63%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_empty_query ERROR [ 65%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_whitespace_query ERROR [ 68%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_source_filter ERROR [ 71%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_type_filter ERROR [ 73%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_date_range ERROR [ 76%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_multiple_filters ERROR [ 78%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_specific_collection ERROR [ 81%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_results_sorted_by_score ERROR [ 84%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_k_limit ERROR  [ 86%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_no_results ERROR [ 89%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_all_collections ERROR [ 92%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_specific_collection ERROR [ 94%]
+tests/test_retriever.py::TestRetrieverIntegration::test_full_workflow FAILED [ 97%]
+tests/test_retriever.py::TestRetrieverIntegration::test_convenience_search_function FAILED [100%]
+
+==================================== ERRORS ====================================
+___________ ERROR at setup of TestRetrieverSearch.test_search_basic ____________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd64e7110>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd9393a10>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+________ ERROR at setup of TestRetrieverSearch.test_search_empty_query _________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd64e7250>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd62374d0>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+______ ERROR at setup of TestRetrieverSearch.test_search_whitespace_query ______
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd64f7820>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd6237c50>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+_____ ERROR at setup of TestRetrieverSearch.test_search_with_source_filter _____
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd64f7950>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd5246fd0>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+______ ERROR at setup of TestRetrieverSearch.test_search_with_type_filter ______
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd91e4170>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd7783230>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+______ ERROR at setup of TestRetrieverSearch.test_search_with_date_range _______
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd8f16f10>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd91e6210>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+___ ERROR at setup of TestRetrieverSearch.test_search_with_multiple_filters ____
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd8f17130>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd62dc050>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+____ ERROR at setup of TestRetrieverSearch.test_search_specific_collection _____
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd903c750>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd62dc490>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+__ ERROR at setup of TestRetrieverSearch.test_search_results_sorted_by_score ___
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd903c950>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+                        "url": "https://blog.example.com/vectors",
+                        "date": "2024-02-15T09:00:00Z",
+                        "type": "post",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+            ]
+    
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
+    
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+    
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+    
+>           embedder = Embedder(config_path=config_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:386: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:354: in _init_provider
+    return LocalEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.LocalEmbedder object at 0x7fefd62d8350>
+config = EmbeddingConfig(provider='local', openai_model='text-embedding-ada-002', openai_dimensions=1536, local_model_name='sen...l_device='cpu', local_cache_folder='models/embeddings', batch_size=100, max_retries=3, timeout=30, openai_api_key=None)
+
+    def __init__(self, config: EmbeddingConfig):
+        """
+        Initialize local embedder.
+    
+        Args:
+            config: EmbeddingConfig with provider="local"
+        """
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+>           raise ImportError(
+                "sentence-transformers package not installed. "
+                "Run: pip install sentence-transformers"
+            )
+E           ImportError: sentence-transformers package not installed. Run: pip install sentence-transformers
+
+src/embedder.py:224: ImportError
+__________ ERROR at setup of TestRetrieverSearch.test_search_k_limit ___________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fefd91d8c80>
+
+    @pytest.fixture
+    def populated_db(self):
+        """Create a database with sample data for testing."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize database
+            from database import init_database
+    
+            db = init_database(persist_directory=tmpdir)
+    
+            # Add sample documents to collection
+            from vector_store import VectorStore
+    
+            store = VectorStore(database=db)
+    
+            sample_chunks = [
+                {
+                    "text": "Machine learning is a subset of artificial intelligence.",
+                    "metadata": {
+                        "chunk_id": "test:ml:1",
+                        "source": "website",
+                        "source_id": "doc1",
+                        "url": "https://example.com/ml",
+                        "date": "2024-01-15T10:00:00Z",
+                        "type": "article",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                    },
+                },
+                {
+                    "text": "Python is a popular programming language for data science.",
+                    "metadata": {
+                        "chunk_id": "test:python:1",
+                        "source": "github_repo",
+                        "source_id": "myrepo",
+                        "url": "https://github.com/user/myrepo",
+                        "date": "2024-02-01T14:30:00Z",
+                        "type": "readme",
+                        "chunk_index": 0,
+                        "total_chunks": 1,
+                        "token_count": 10,
+                        "text_length": 60,
+                        "repository": "user/myrepo",
+                        "language": "Python",
+                    },
+                },
+                {
+                    "text": "Vector databases enable efficient similarity search.",
+                    "metadata": {
+                        "chunk_id": "test:vector:1",
+                        "source": "blog",
+                        "source_id": "blog1",
+
+...19207 bytes truncated...
+
+The tool call succeeded but the output was truncated. Full output saved to: /home/julien/.local/share/opencode/tool-output/tool_ce4d69fdd001Z39Wu9wFMvzV7z
+Use the Task tool to have explore agent process this file with Grep and Read (with offset/limit). Do NOT read the full file yourself - delegate to save context.
+[0m
+The tests are failing because `sentence-transformers` is not installed. Let me check the requirements.txt and install the dependencies:
+[0m→ [0mRead requirements.txt
+The requirements.txt already includes sentence-transformers. Let me install all dependencies:
+[0m
+[0m$ [0mpip install -r requirements.txt
+Requirement already satisfied: chromadb>=0.4.22 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 1)) (1.5.5)
+Requirement already satisfied: openai>=1.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 2)) (2.26.0)
+Collecting sentence-transformers>=2.2.2 (from -r requirements.txt (line 3))
+  Using cached sentence_transformers-5.3.0-py3-none-any.whl.metadata (16 kB)
+Requirement already satisfied: PyGithub>=2.1.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 4)) (2.3.0)
+Requirement already satisfied: beautifulsoup4>=4.12.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 5)) (4.14.3)
+Requirement already satisfied: fastapi>=0.104.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 6)) (0.135.1)
+Requirement already satisfied: uvicorn>=0.24.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 7)) (0.41.0)
+Requirement already satisfied: python-dotenv>=1.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 8)) (1.0.0)
+Requirement already satisfied: pandas>=2.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 9)) (2.3.3)
+Requirement already satisfied: tiktoken>=0.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 10)) (0.12.0)
+Requirement already satisfied: requests>=2.31.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 11)) (2.32.5)
+Requirement already satisfied: selenium>=4.15.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 12)) (4.41.0)
+Requirement already satisfied: pytest>=7.4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 13)) (9.0.2)
+Requirement already satisfied: pytest-asyncio>=0.21.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 14)) (1.3.0)
+Requirement already satisfied: httpx>=0.25.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from -r requirements.txt (line 15)) (0.28.1)
+Requirement already satisfied: build>=1.0.3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.4.0)
+Requirement already satisfied: pydantic>=2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (2.12.5)
+Requirement already satisfied: pydantic-settings>=2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (2.13.1)
+Requirement already satisfied: pybase64>=1.4.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.4.3)
+Requirement already satisfied: numpy>=1.22.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (2.4.3)
+Requirement already satisfied: typing-extensions>=4.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (4.15.0)
+Collecting onnxruntime>=1.14.1 (from chromadb>=0.4.22->-r requirements.txt (line 1))
+  Using cached onnxruntime-1.24.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Requirement already satisfied: opentelemetry-api>=1.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.40.0)
+Requirement already satisfied: opentelemetry-exporter-otlp-proto-grpc>=1.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.40.0)
+Requirement already satisfied: opentelemetry-sdk>=1.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.40.0)
+Requirement already satisfied: tokenizers>=0.13.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (0.22.2)
+Requirement already satisfied: pypika>=0.48.9 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (0.51.1)
+Requirement already satisfied: tqdm>=4.65.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (4.67.3)
+Requirement already satisfied: overrides>=7.3.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (7.7.0)
+Requirement already satisfied: importlib-resources in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (6.5.2)
+Requirement already satisfied: grpcio>=1.58.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (1.78.0)
+Requirement already satisfied: bcrypt>=4.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (5.0.0)
+Requirement already satisfied: typer>=0.9.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (0.24.1)
+Requirement already satisfied: kubernetes>=28.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (35.0.0)
+Requirement already satisfied: tenacity>=8.2.3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (9.1.4)
+Requirement already satisfied: pyyaml>=6.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (6.0.3)
+Requirement already satisfied: mmh3>=4.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (5.2.1)
+Requirement already satisfied: orjson>=3.9.12 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (3.11.7)
+Requirement already satisfied: rich>=10.11.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (14.3.3)
+Requirement already satisfied: jsonschema>=4.19.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from chromadb>=0.4.22->-r requirements.txt (line 1)) (4.26.0)
+Requirement already satisfied: anyio<5,>=3.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from openai>=1.0.0->-r requirements.txt (line 2)) (4.12.1)
+Requirement already satisfied: distro<2,>=1.7.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from openai>=1.0.0->-r requirements.txt (line 2)) (1.9.0)
+Requirement already satisfied: jiter<1,>=0.10.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from openai>=1.0.0->-r requirements.txt (line 2)) (0.13.0)
+Requirement already satisfied: sniffio in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from openai>=1.0.0->-r requirements.txt (line 2)) (1.3.1)
+Requirement already satisfied: certifi in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from httpx>=0.25.0->-r requirements.txt (line 15)) (2026.2.25)
+Requirement already satisfied: httpcore==1.* in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from httpx>=0.25.0->-r requirements.txt (line 15)) (1.0.9)
+Requirement already satisfied: idna in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from httpx>=0.25.0->-r requirements.txt (line 15)) (3.11)
+Requirement already satisfied: h11>=0.16 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from httpcore==1.*->httpx>=0.25.0->-r requirements.txt (line 15)) (0.16.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pydantic>=2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pydantic>=2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pydantic>=2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.4.2)
+Collecting transformers<6.0.0,>=4.41.0 (from sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached transformers-5.3.0-py3-none-any.whl.metadata (32 kB)
+Requirement already satisfied: huggingface-hub>=0.20.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (1.6.0)
+Collecting torch>=1.11.0 (from sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached torch-2.10.0-3-cp314-cp314-manylinux_2_28_x86_64.whl.metadata (31 kB)
+Requirement already satisfied: scikit-learn in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (1.8.0)
+Requirement already satisfied: scipy in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (1.17.1)
+Requirement already satisfied: packaging>=20.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from transformers<6.0.0,>=4.41.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (26.0)
+Collecting regex!=2019.12.17 (from transformers<6.0.0,>=4.41.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached regex-2026.2.28-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+Collecting safetensors>=0.4.3 (from transformers<6.0.0,>=4.41.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached safetensors-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Requirement already satisfied: filelock>=3.10.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from huggingface-hub>=0.20.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (3.25.2)
+Requirement already satisfied: fsspec>=2023.5.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from huggingface-hub>=0.20.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (2026.2.0)
+Requirement already satisfied: hf-xet<2.0.0,>=1.3.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from huggingface-hub>=0.20.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (1.4.0)
+Requirement already satisfied: pynacl>=1.4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from PyGithub>=2.1.1->-r requirements.txt (line 4)) (1.6.2)
+Requirement already satisfied: pyjwt>=2.4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pyjwt[crypto]>=2.4.0->PyGithub>=2.1.1->-r requirements.txt (line 4)) (2.12.0)
+Requirement already satisfied: urllib3>=1.26.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from PyGithub>=2.1.1->-r requirements.txt (line 4)) (2.6.3)
+Requirement already satisfied: Deprecated in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from PyGithub>=2.1.1->-r requirements.txt (line 4)) (1.3.1)
+Requirement already satisfied: soupsieve>=1.6.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from beautifulsoup4>=4.12.2->-r requirements.txt (line 5)) (2.8.3)
+Requirement already satisfied: starlette>=0.46.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from fastapi>=0.104.0->-r requirements.txt (line 6)) (0.52.1)
+Requirement already satisfied: annotated-doc>=0.0.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from fastapi>=0.104.0->-r requirements.txt (line 6)) (0.0.4)
+Requirement already satisfied: click>=7.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from uvicorn>=0.24.0->-r requirements.txt (line 7)) (8.3.1)
+Requirement already satisfied: python-dateutil>=2.8.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas>=2.1.0->-r requirements.txt (line 9)) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas>=2.1.0->-r requirements.txt (line 9)) (2026.1.post1)
+Requirement already satisfied: tzdata>=2022.7 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pandas>=2.1.0->-r requirements.txt (line 9)) (2025.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests>=2.31.0->-r requirements.txt (line 11)) (3.4.5)
+Requirement already satisfied: trio<1.0,>=0.31.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from selenium>=4.15.0->-r requirements.txt (line 12)) (0.33.0)
+Requirement already satisfied: trio-websocket<1.0,>=0.12.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from selenium>=4.15.0->-r requirements.txt (line 12)) (0.12.2)
+Requirement already satisfied: websocket-client<2.0,>=1.8.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from selenium>=4.15.0->-r requirements.txt (line 12)) (1.9.0)
+Requirement already satisfied: attrs>=23.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from trio<1.0,>=0.31.0->selenium>=4.15.0->-r requirements.txt (line 12)) (25.4.0)
+Requirement already satisfied: sortedcontainers in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from trio<1.0,>=0.31.0->selenium>=4.15.0->-r requirements.txt (line 12)) (2.4.0)
+Requirement already satisfied: outcome in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from trio<1.0,>=0.31.0->selenium>=4.15.0->-r requirements.txt (line 12)) (1.3.0.post0)
+Requirement already satisfied: wsproto>=0.14 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from trio-websocket<1.0,>=0.12.2->selenium>=4.15.0->-r requirements.txt (line 12)) (1.3.2)
+Requirement already satisfied: pysocks!=1.5.7,<2.0,>=1.5.6 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from urllib3[socks]<3.0,>=2.6.3->selenium>=4.15.0->-r requirements.txt (line 12)) (1.7.1)
+Requirement already satisfied: iniconfig>=1.0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pytest>=7.4.0->-r requirements.txt (line 13)) (2.3.0)
+Requirement already satisfied: pluggy<2,>=1.5 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pytest>=7.4.0->-r requirements.txt (line 13)) (1.6.0)
+Requirement already satisfied: pygments>=2.7.2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pytest>=7.4.0->-r requirements.txt (line 13)) (2.19.2)
+Requirement already satisfied: pyproject_hooks in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from build>=1.0.3->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.2.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=4.19.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=4.19.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jsonschema>=4.19.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.30.0)
+Requirement already satisfied: six>=1.9.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from kubernetes>=28.1.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.17.0)
+Requirement already satisfied: requests-oauthlib in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from kubernetes>=28.1.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.3.1)
+Requirement already satisfied: durationpy>=0.7 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from kubernetes>=28.1.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.10)
+Collecting flatbuffers (from onnxruntime>=1.14.1->chromadb>=0.4.22->-r requirements.txt (line 1))
+  Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Requirement already satisfied: protobuf in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from onnxruntime>=1.14.1->chromadb>=0.4.22->-r requirements.txt (line 1)) (6.33.5)
+Requirement already satisfied: sympy in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from onnxruntime>=1.14.1->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.14.0)
+Requirement already satisfied: importlib-metadata<8.8.0,>=6.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from opentelemetry-api>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (8.7.1)
+Requirement already satisfied: zipp>=3.20 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from importlib-metadata<8.8.0,>=6.0->opentelemetry-api>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (3.23.0)
+Requirement already satisfied: googleapis-common-protos~=1.57 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from opentelemetry-exporter-otlp-proto-grpc>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.73.0)
+Requirement already satisfied: opentelemetry-exporter-otlp-proto-common==1.40.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from opentelemetry-exporter-otlp-proto-grpc>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.40.0)
+Requirement already satisfied: opentelemetry-proto==1.40.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from opentelemetry-exporter-otlp-proto-grpc>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.40.0)
+Requirement already satisfied: opentelemetry-semantic-conventions==0.61b0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from opentelemetry-sdk>=1.2.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.61b0)
+Requirement already satisfied: cryptography>=3.4.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from pyjwt[crypto]>=2.4.0->PyGithub>=2.1.1->-r requirements.txt (line 4)) (46.0.5)
+Requirement already satisfied: cffi>=2.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cryptography>=3.4.0->pyjwt[crypto]>=2.4.0->PyGithub>=2.1.1->-r requirements.txt (line 4)) (2.0.0)
+Requirement already satisfied: pycparser in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from cffi>=2.0.0->cryptography>=3.4.0->pyjwt[crypto]>=2.4.0->PyGithub>=2.1.1->-r requirements.txt (line 4)) (3.0)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from rich>=10.11.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (4.0.0)
+Requirement already satisfied: mdurl~=0.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from markdown-it-py>=2.2.0->rich>=10.11.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.1.2)
+Requirement already satisfied: setuptools in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (82.0.1)
+Requirement already satisfied: networkx>=2.5.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (3.6.1)
+Requirement already satisfied: jinja2 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (3.1.6)
+Collecting cuda-bindings==12.9.4 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached cuda_bindings-12.9.4-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (2.6 kB)
+Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cublas-cu12==12.8.4.1 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufft-cu12==11.3.3.83 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-curand-cu12==10.3.9.90 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparselt-cu12==0.7.1 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (7.0 kB)
+Collecting nvidia-nccl-cu12==2.27.5 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.0 kB)
+Collecting nvidia-nvshmem-cu12==3.4.5 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_nvshmem_cu12-3.4.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.1 kB)
+Collecting nvidia-nvtx-cu12==12.8.90 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-nvjitlink-cu12==12.8.93 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufile-cu12==1.13.1.3 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting triton==3.6.0 (from torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached triton-3.6.0-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+Collecting cuda-pathfinder~=1.1 (from cuda-bindings==12.9.4->torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3))
+  Using cached cuda_pathfinder-1.4.2-py3-none-any.whl.metadata (1.9 kB)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from sympy->onnxruntime>=1.14.1->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.3.0)
+Requirement already satisfied: shellingham>=1.3.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from typer>=0.9.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.5.4)
+Requirement already satisfied: httptools>=0.6.3 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from uvicorn[standard]>=0.18.3->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.7.1)
+Requirement already satisfied: uvloop>=0.15.1 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from uvicorn[standard]>=0.18.3->chromadb>=0.4.22->-r requirements.txt (line 1)) (0.22.1)
+Requirement already satisfied: watchfiles>=0.20 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from uvicorn[standard]>=0.18.3->chromadb>=0.4.22->-r requirements.txt (line 1)) (1.1.1)
+Requirement already satisfied: websockets>=10.4 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from uvicorn[standard]>=0.18.3->chromadb>=0.4.22->-r requirements.txt (line 1)) (16.0)
+Requirement already satisfied: wrapt<3,>=1.10 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from Deprecated->PyGithub>=2.1.1->-r requirements.txt (line 4)) (2.1.2)
+Requirement already satisfied: MarkupSafe>=2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from jinja2->torch>=1.11.0->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (3.0.3)
+Requirement already satisfied: oauthlib>=3.0.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from requests-oauthlib->kubernetes>=28.1.0->chromadb>=0.4.22->-r requirements.txt (line 1)) (3.3.1)
+Requirement already satisfied: joblib>=1.3.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from scikit-learn->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (1.5.3)
+Requirement already satisfied: threadpoolctl>=3.2.0 in /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages (from scikit-learn->sentence-transformers>=2.2.2->-r requirements.txt (line 3)) (3.6.0)
+Using cached sentence_transformers-5.3.0-py3-none-any.whl (512 kB)
+Using cached transformers-5.3.0-py3-none-any.whl (10.7 MB)
+Using cached onnxruntime-1.24.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (17.2 MB)
+Using cached regex-2026.2.28-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+Using cached safetensors-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (507 kB)
+Using cached torch-2.10.0-3-cp314-cp314-manylinux_2_28_x86_64.whl (915.6 MB)
+Using cached cuda_bindings-12.9.4-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.9 MB)
+Using cached nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+Using cached nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+Using cached nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+Using cached nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+Using cached nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+ERROR: Could not install packages due to an OSError: [Errno 122] Disk quota exceeded
+[0m
+The installation failed due to disk quota. However, the test file already has a `MockEmbedder` class that doesn't require sentence-transformers. Let me modify the test fixture to use the mock instead of loading the actual embedder, which makes sense for testing the logic without heavy dependencies:
+[0m← [0mEdit tests/test_retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+@@ -359,32 +359,10 @@
+         },
+     },
+ ]
+ 
+-# Generate embeddings using local model to avoid API key requirement
+-from embedder import Embedder, EmbeddingConfig
+-import yaml
+-
+-# Create test config with local provider
+-test_config = {
+-    "provider": "local",
+-    "local": {
+-        "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+-        "dimensions": 384,
+-        "cache_folder": "models/embeddings",
+-        "device": "cpu",
+-    },
+-    "batch_size": 100,
+-    "max_retries": 3,
+-    "timeout": 30,
+-}
+-
+-# Write temporary config
+-config_path = Path(tmpdir) / "test_embeddings.yaml"
+-with open(config_path, "w") as f:
+-    yaml.dump(test_config, f)
+-
+-embedder = Embedder(config_path=config_path)
++# Use mock embedder to avoid dependency on sentence-transformers
++embedder = MockEmbedder(embedding_dim=384)
+ embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
+ 
+ # Store in database (all go to web_content or github_docs based on source)
+ store.add_documents(sample_chunks, embeddings)
+
+[0m
+Now let's run the tests again:
+[0m$ [0mpython -m pytest tests/test_retriever.py -v
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+plugins: langsmith-0.7.16, anyio-4.12.1, asyncio-1.3.0, cov-7.0.0, dash-4.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 38 items
+
+tests/test_retriever.py::TestRetrieverImports::test_import_retriever PASSED [  2%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_result PASSED [  5%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_function PASSED [  7%]
+tests/test_retriever.py::TestSearchResult::test_create_search_result PASSED [ 10%]
+tests/test_retriever.py::TestSearchResult::test_to_dict PASSED           [ 13%]
+tests/test_retriever.py::TestSearchResult::test_getitem PASSED           [ 15%]
+tests/test_retriever.py::TestSearchResult::test_empty_result PASSED      [ 18%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores PASSED [ 21%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_clamped PASSED [ 23%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_empty PASSED [ 26%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_filter PASSED [ 28%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_dict PASSED [ 31%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_single PASSED [ 34%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_multiple PASSED [ 36%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_single PASSED [ 39%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_multiple PASSED [ 42%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_full PASSED [ 44%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_start_only PASSED [ 47%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_end_only PASSED [ 50%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_filters PASSED [ 52%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_with_list_source PASSED [ 55%]
+tests/test_retriever.py::TestRetrieverInit::test_init_default FAILED     [ 57%]
+tests/test_retriever.py::TestRetrieverInit::test_init_custom_db FAILED   [ 60%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_basic FAILED   [ 63%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_empty_query FAILED [ 65%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_whitespace_query FAILED [ 68%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_source_filter FAILED [ 71%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_type_filter FAILED [ 73%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_date_range FAILED [ 76%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_multiple_filters FAILED [ 78%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_specific_collection FAILED [ 81%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_results_sorted_by_score FAILED [ 84%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_k_limit FAILED [ 86%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_no_results FAILED [ 89%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_all_collections ERROR [ 92%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_specific_collection ERROR [ 94%]
+tests/test_retriever.py::TestRetrieverIntegration::test_full_workflow FAILED [ 97%]
+tests/test_retriever.py::TestRetrieverIntegration::test_convenience_search_function FAILED [100%]
+
+==================================== ERRORS ====================================
+_____ ERROR at setup of TestRetrieverStats.test_get_stats_all_collections ______
+file /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py, line 498
+      def test_get_stats_all_collections(self, populated_db):
+E       fixture 'populated_db' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, dash_br, dash_duo, dash_duo_mp, dash_multi_process_server, dash_process_server, dash_thread_server, dashjl, dashjl_server, dashr, dashr_server, diskcache_manager, doctest_namespace, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py:498
+___ ERROR at setup of TestRetrieverStats.test_get_stats_specific_collection ____
+file /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py, line 510
+      def test_get_stats_specific_collection(self, populated_db):
+E       fixture 'populated_db' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_scoped_runner, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, dash_br, dash_duo, dash_duo_mp, dash_multi_process_server, dash_process_server, dash_thread_server, dashjl, dashjl_server, dashr, dashr_server, diskcache_manager, doctest_namespace, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, no_cover, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py:510
+=================================== FAILURES ===================================
+_____________________ TestRetrieverInit.test_init_default ______________________
+
+self = <tests.test_retriever.TestRetrieverInit object at 0x7fc6adccad50>
+
+    def test_init_default(self):
+        """Test initialization with default parameters."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+>           retriever = Retriever(persist_directory=tmpdir)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:281: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada170e0>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+____________________ TestRetrieverInit.test_init_custom_db _____________________
+
+self = <tests.test_retriever.TestRetrieverInit object at 0x7fc6adccae90>
+
+    def test_init_custom_db(self):
+        """Test initialization with custom database."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            from database import VectorDatabase
+    
+            db = VectorDatabase(persist_directory=tmpdir)
+            db.init_database()
+>           retriever = Retriever(database=db)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:292: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada95590>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+____________________ TestRetrieverSearch.test_search_basic _____________________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adccafd0>
+populated_db = '/tmp/tmpvbmw7fhv'
+
+    def test_search_basic(self, populated_db):
+        """Test basic search functionality."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:374: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada97610>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_________________ TestRetrieverSearch.test_search_empty_query __________________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adccb110>
+populated_db = '/tmp/tmpvz03rvuu'
+
+    def test_search_empty_query(self, populated_db):
+        """Test that empty query raises ValueError."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:387: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada3e650>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_______________ TestRetrieverSearch.test_search_whitespace_query _______________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adc93e10>
+populated_db = '/tmp/tmp61dlmvi5'
+
+    def test_search_whitespace_query(self, populated_db):
+        """Test that whitespace-only query raises ValueError."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:393: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada3eb10>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+______________ TestRetrieverSearch.test_search_with_source_filter ______________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6ada3c050>
+populated_db = '/tmp/tmp6oahy5_j'
+
+    def test_search_with_source_filter(self, populated_db):
+        """Test search with source filter."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada670b0>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_______________ TestRetrieverSearch.test_search_with_type_filter _______________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adcafd10>
+populated_db = '/tmp/tmpfmyq5y7g'
+
+    def test_search_with_type_filter(self, populated_db):
+        """Test search with type filter."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:410: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6adbdef10>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_______________ TestRetrieverSearch.test_search_with_date_range ________________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adb86cf0>
+populated_db = '/tmp/tmpp67west3'
+
+    def test_search_with_date_range(self, populated_db):
+        """Test search with date range filter."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:419: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6adbdfbd0>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+____________ TestRetrieverSearch.test_search_with_multiple_filters _____________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6adb86f10>
+populated_db = '/tmp/tmpyu1mnmva'
+
+    def test_search_with_multiple_filters(self, populated_db):
+        """Test search with multiple metadata filters."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:435: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6acb75050>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_____________ TestRetrieverSearch.test_search_specific_collection ______________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6ada0c450>
+populated_db = '/tmp/tmp4a1tsl1m'
+
+    def test_search_specific_collection(self, populated_db):
+        """Test searching within a specific collection."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:452: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6acb75e50>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+___________ TestRetrieverSearch.test_search_results_sorted_by_score ____________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6ada0c650>
+populated_db = '/tmp/tmpys437urm'
+
+    def test_search_results_sorted_by_score(self, populated_db):
+        """Test that results are sorted by descending score."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:469: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6acbddc70>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+___________________ TestRetrieverSearch.test_search_k_limit ____________________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6ada34c80>
+populated_db = '/tmp/tmp7hgubobv'
+
+    def test_search_k_limit(self, populated_db):
+        """Test that k limits number of results."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:479: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6acbdf4d0>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+__________________ TestRetrieverSearch.test_search_no_results __________________
+
+self = <tests.test_retriever.TestRetrieverSearch object at 0x7fc6ada34e60>
+populated_db = '/tmp/tmppvuhv2qg'
+
+    def test_search_no_results(self, populated_db):
+        """Test search that returns no results."""
+>       retriever = Retriever(persist_directory=populated_db)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:485: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada9e430>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+_________________ TestRetrieverIntegration.test_full_workflow __________________
+
+self = <tests.test_retriever.TestRetrieverIntegration object at 0x7fc6adccb610>
+
+    def test_full_workflow(self):
+        """Test complete search workflow with sample data."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Initialize retriever
+>           retriever = Retriever(persist_directory=tmpdir)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:526: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6ada9f4d0>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+__________ TestRetrieverIntegration.test_convenience_search_function ___________
+
+self = <tests.test_retriever.TestRetrieverIntegration object at 0x7fc6adccb750>
+
+    def test_convenience_search_function(self):
+        """Test the convenience search function."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+>           results = search("query", k=5, persist_directory=tmpdir)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_retriever.py:540: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/retriever.py:408: in search
+    retriever = Retriever(persist_directory=persist_directory)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/retriever.py:183: in __init__
+    self.embedder = Embedder(embedding_config_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:311: in __init__
+    self.provider = self._init_provider()
+                    ^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:352: in _init_provider
+    return OpenAIEmbedder(self.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/embedder.py:123: in __init__
+    self.api_key = config.openai_api_key or self._load_api_key()
+                                            ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <embedder.OpenAIEmbedder object at 0x7fc6acbf0870>
+
+    def _load_api_key(self) -> str:
+        """Load OpenAI API key from environment."""
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+>           raise ValueError(
+                "OPENAI_API_KEY not found in environment. Set it in .env file."
+            )
+E           ValueError: OPENAI_API_KEY not found in environment. Set it in .env file.
+
+src/embedder.py:138: ValueError
+=============================== warnings summary ===============================
+../../venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    if asyncio.iscoroutinefunction(f):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_retriever.py::TestRetrieverInit::test_init_default - ValueE...
+FAILED tests/test_retriever.py::TestRetrieverInit::test_init_custom_db - Valu...
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_basic - Valu...
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_empty_query
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_whitespace_query
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_with_source_filter
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_with_type_filter
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_with_date_range
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_with_multiple_filters
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_specific_collection
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_results_sorted_by_score
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_k_limit - Va...
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_no_results
+FAILED tests/test_retriever.py::TestRetrieverIntegration::test_full_workflow
+FAILED tests/test_retriever.py::TestRetrieverIntegration::test_convenience_search_function
+ERROR tests/test_retriever.py::TestRetrieverStats::test_get_stats_all_collections
+ERROR tests/test_retriever.py::TestRetrieverStats::test_get_stats_specific_collection
+============= 15 failed, 21 passed, 1 warning, 2 errors in 11.11s ==============
+[0m
+[0m→ [0mRead tests/test_retriever.py[90m [limit=100, offset=290][0m
+The test failures are because:
+1. The `populated_db` fixture is not recognized (indentation issue after my edit)
+2. The `Retriever` class tries to load `Embedder` which defaults to OpenAI but no API key exists
+
+Let me read the test file to see the structure:
+I see the issue. The `Retriever` class always initializes its own `Embedder`, which requires either OpenAI API key or sentence-transformers. We need to make it testable by allowing injection of an embedder. Let me modify the `Retriever` class:
+[0m
+[0m← [0mEdit src/retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/retriever.py
+@@ -169,20 +169,26 @@
+     self,
+     persist_directory: Union[str, Path] = "data/vector_db",
+     database: Optional[VectorDatabase] = None,
+     embedding_config_path: Union[str, Path] = "config/embeddings.yaml",
++    embedder: Optional[Embedder] = None,
+ ):
+     """
+     Initialize retriever.
+ 
+     Args:
+         persist_directory: Directory for vector database
+         database: Optional existing VectorDatabase instance
+         embedding_config_path: Path to embedding configuration
++        embedder: Optional pre-initialized Embedder instance (for testing)
+     """
+     self.db = database if database else init_database(persist_directory)
+-    self.embedder = Embedder(embedding_config_path)
+ 
++    if embedder is not None:
++        self.embedder = embedder
++    else:
++        self.embedder = Embedder(embedding_config_path)
++
+     logger.info(f"Retriever initialized with persist_dir: {persist_directory}")
+ 
+ def search(
+     self,
+
+[0m
+The Retriever class now accepts an optional embedder parameter. Now I need to update the tests to use MockEmbedder. Let me update the tests in batches. First, the `TestRetrieverInit` tests:
+[0m← [0mEdit tests/test_retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+@@ -277,9 +277,11 @@
+ 
+     def test_init_default(self):
+         """Test initialization with default parameters."""
+         with tempfile.TemporaryDirectory() as tmpdir:
+-            retriever = Retriever(persist_directory=tmpdir)
++            retriever = Retriever(
++                persist_directory=tmpdir, embedder=MockEmbedder(embedding_dim=384)
++            )
+             assert retriever.db is not None
+             assert retriever.embedder is not None
+ 
+     def test_init_custom_db(self):
+@@ -288,9 +290,9 @@
+             from database import VectorDatabase
+ 
+             db = VectorDatabase(persist_directory=tmpdir)
+             db.init_database()
+-            retriever = Retriever(database=db)
++            retriever = Retriever(database=db, embedder=MockEmbedder(embedding_dim=384))
+             assert retriever.db is db
+ 
+ 
+ class TestRetrieverSearch:
+
+[0m
+Good. Now let's update the `TestRetrieverSearch` tests. I'll replace the retriever creation in each test:
+[0m← [0mEdit tests/test_retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+@@ -372,9 +372,11 @@
+         yield tmpdir
+ 
+ def test_search_basic(self, populated_db):
+     """Test basic search functionality."""
+-    retriever = Retriever(persist_directory=populated_db)
++    retriever = Retriever(
++        persist_directory=populated_db, embedder=MockEmbedder(embedding_dim=384)
++    )
+     results = retriever.search("machine learning", k=2)
+ 
+     assert isinstance(results, SearchResult)
+     assert len(results) <= 2
+
+[0m
+[0m→ [0mRead tests/test_retriever.py[90m [limit=20, offset=540][0m
+Now I'll add the autouse fixture to patch Embedder globally, and move the populated_db fixture to module-level. Let me first add the autouse patch at the end of the file before the `if __name__` block. I'll read the end of the file to find the exact insertion point:
+Now I'll implement the fixes to make the tests pass without external dependencies:
+
+1. Remove the class-level `populated_db` fixture from `TestRetrieverSearch` (we'll move it to module-level)
+2. Add module-level `populated_db` fixture before `class TestRetrieverImports`
+3. Add autouse patch fixture to replace `Embedder` with `MockEmbedder` before `if __name__`
+4. Add necessary import for `MockEmbedder` in the patch (it's already in same module)
+
+Let's apply these changes:
+[0m
+[0m← [0mEdit tests/test_retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+@@ -297,81 +297,8 @@
+ 
+ class TestRetrieverSearch:
+     """Test search functionality (integration tests with real database)."""
+ 
+-    @pytest.fixture
+-    def populated_db(self):
+-        """Create a database with sample data for testing."""
+-        with tempfile.TemporaryDirectory() as tmpdir:
+-            # Initialize database
+-            from database import init_database
+-
+-            db = init_database(persist_directory=tmpdir)
+-
+-            # Add sample documents to collection
+-            from vector_store import VectorStore
+-
+-            store = VectorStore(database=db)
+-
+-            sample_chunks = [
+-                {
+-                    "text": "Machine learning is a subset of artificial intelligence.",
+-                    "metadata": {
+-                        "chunk_id": "test:ml:1",
+-                        "source": "website",
+-                        "source_id": "doc1",
+-                        "url": "https://example.com/ml",
+-                        "date": "2024-01-15T10:00:00Z",
+-                        "type": "article",
+-                        "chunk_index": 0,
+-                        "total_chunks": 1,
+-                        "token_count": 10,
+-                        "text_length": 60,
+-                    },
+-                },
+-                {
+-                    "text": "Python is a popular programming language for data science.",
+-                    "metadata": {
+-                        "chunk_id": "test:python:1",
+-                        "source": "github_repo",
+-                        "source_id": "myrepo",
+-                        "url": "https://github.com/user/myrepo",
+-                        "date": "2024-02-01T14:30:00Z",
+-                        "type": "readme",
+-                        "chunk_index": 0,
+-                        "total_chunks": 1,
+-                        "token_count": 10,
+-                        "text_length": 60,
+-                        "repository": "user/myrepo",
+-                        "language": "Python",
+-                    },
+-                },
+-                {
+-                    "text": "Vector databases enable efficient similarity search.",
+-                    "metadata": {
+-                        "chunk_id": "test:vector:1",
+-                        "source": "blog",
+-                        "source_id": "blog1",
+-                        "url": "https://blog.example.com/vectors",
+-                        "date": "2024-02-15T09:00:00Z",
+-                        "type": "post",
+-                        "chunk_index": 0,
+-                        "total_chunks": 1,
+-                        "token_count": 10,
+-                        "text_length": 60,
+-                    },
+-                },
+-            ]
+-
+-            # Use mock embedder to avoid dependency on sentence-transformers
+-            embedder = MockEmbedder(embedding_dim=384)
+-            embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
+-
+-            # Store in database (all go to web_content or github_docs based on source)
+-            store.add_documents(sample_chunks, embeddings)
+-
+-            yield tmpdir
+-
+     def test_search_basic(self, populated_db):
+         """Test basic search functionality."""
+         retriever = Retriever(
+             persist_directory=populated_db, embedder=MockEmbedder(embedding_dim=384)
+
+[0m
+Now I'll add the module-level fixture and autouse patch at the end of the file before `if __name__`:
+[0m← [0mEdit tests/test_retriever.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_retriever.py
+@@ -471,6 +471,86 @@
+             results = search("query", k=5, persist_directory=tmpdir)
+             assert isinstance(results, SearchResult)
+ 
+ 
++@pytest.fixture
++def populated_db():
++    """Create a database with sample data for testing."""
++    with tempfile.TemporaryDirectory() as tmpdir:
++        # Initialize database
++        from database import init_database
++
++        db = init_database(persist_directory=tmpdir)
++
++        # Add sample documents to collection
++        from vector_store import VectorStore
++
++        store = VectorStore(database=db)
++
++        sample_chunks = [
++            {
++                "text": "Machine learning is a subset of artificial intelligence.",
++                "metadata": {
++                    "chunk_id": "test:ml:1",
++                    "source": "website",
++                    "source_id": "doc1",
++                    "url": "https://example.com/ml",
++                    "date": "2024-01-15T10:00:00Z",
++                    "type": "article",
++                    "chunk_index": 0,
++                    "total_chunks": 1,
++                    "token_count": 10,
++                    "text_length": 60,
++                },
++            },
++            {
++                "text": "Python is a popular programming language for data science.",
++                "metadata": {
++                    "chunk_id": "test:python:1",
++                    "source": "github_repo",
++                    "source_id": "myrepo",
++                    "url": "https://github.com/user/myrepo",
++                    "date": "2024-02-01T14:30:00Z",
++                    "type": "readme",
++                    "chunk_index": 0,
++                    "total_chunks": 1,
++                    "token_count": 10,
++                    "text_length": 60,
++                    "repository": "user/myrepo",
++                    "language": "Python",
++                },
++            },
++            {
++                "text": "Vector databases enable efficient similarity search.",
++                "metadata": {
++                    "chunk_id": "test:vector:1",
++                    "source": "blog",
++                    "source_id": "blog1",
++                    "url": "https://blog.example.com/vectors",
++                    "date": "2024-02-15T09:00:00Z",
++                    "type": "post",
++                    "chunk_index": 0,
++                    "total_chunks": 1,
++                    "token_count": 10,
++                    "text_length": 60,
++                },
++            },
++        ]
++
++        # Use mock embedder to avoid dependency on sentence-transformers
++        embedder = MockEmbedder(embedding_dim=384)
++        embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
++
++        # Store in database (all go to web_content or github_docs based on source)
++        store.add_documents(sample_chunks, embeddings)
++
++        yield tmpdir
++
++
++@pytest.fixture(autouse=True)
++def mock_embedder(monkeypatch):
++    """Patch Embedder with MockEmbedder for all tests."""
++    monkeypatch.setattr("retriever.Embedder", MockEmbedder)
++
++
+ if __name__ == "__main__":
+     pytest.main([__file__, "-v"])
+
+[0m
+Excellent! Now let's run the tests to confirm they pass:
+[0m$ [0mpython -m pytest tests/test_retriever.py -v --tb=short
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+plugins: langsmith-0.7.16, anyio-4.12.1, asyncio-1.3.0, cov-7.0.0, dash-4.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 38 items
+
+tests/test_retriever.py::TestRetrieverImports::test_import_retriever PASSED [  2%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_result PASSED [  5%]
+tests/test_retriever.py::TestRetrieverImports::test_import_search_function PASSED [  7%]
+tests/test_retriever.py::TestSearchResult::test_create_search_result PASSED [ 10%]
+tests/test_retriever.py::TestSearchResult::test_to_dict PASSED           [ 13%]
+tests/test_retriever.py::TestSearchResult::test_getitem PASSED           [ 15%]
+tests/test_retriever.py::TestSearchResult::test_empty_result PASSED      [ 18%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores PASSED [ 21%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_clamped PASSED [ 23%]
+tests/test_retriever.py::TestScoreNormalization::test_normalize_scores_empty PASSED [ 26%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_filter PASSED [ 28%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_empty_dict PASSED [ 31%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_single PASSED [ 34%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_source_filter_multiple PASSED [ 36%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_single PASSED [ 39%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_type_filter_multiple PASSED [ 42%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_full PASSED [ 44%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_start_only PASSED [ 47%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_date_range_end_only PASSED [ 50%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_filters PASSED [ 52%]
+tests/test_retriever.py::TestWhereFilterBuilding::test_build_combined_with_list_source PASSED [ 55%]
+tests/test_retriever.py::TestRetrieverInit::test_init_default PASSED     [ 57%]
+tests/test_retriever.py::TestRetrieverInit::test_init_custom_db PASSED   [ 60%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_basic PASSED   [ 63%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_empty_query PASSED [ 65%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_whitespace_query PASSED [ 68%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_source_filter PASSED [ 71%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_type_filter PASSED [ 73%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_date_range PASSED [ 76%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_with_multiple_filters PASSED [ 78%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_specific_collection PASSED [ 81%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_results_sorted_by_score PASSED [ 84%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_k_limit PASSED [ 86%]
+tests/test_retriever.py::TestRetrieverSearch::test_search_no_results FAILED [ 89%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_all_collections PASSED [ 92%]
+tests/test_retriever.py::TestRetrieverStats::test_get_stats_specific_collection PASSED [ 94%]
+tests/test_retriever.py::TestRetrieverIntegration::test_full_workflow PASSED [ 97%]
+tests/test_retriever.py::TestRetrieverIntegration::test_convenience_search_function PASSED [100%]
+
+=================================== FAILURES ===================================
+__________________ TestRetrieverSearch.test_search_no_results __________________
+tests/test_retriever.py:421: in test_search_no_results
+    assert len(results) == 0
+E   assert 2 == 0
+E    +  where 2 = len(<retriever.SearchResult object at 0x7f6096e7f150>)
+=============================== warnings summary ===============================
+../../venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    if asyncio.iscoroutinefunction(f):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_retriever.py::TestRetrieverSearch::test_search_no_results
+=================== 1 failed, 37 passed, 1 warning in 5.99s ====================
+[0m
+📝 Log saved: logs/iteration-173.md
+📊 Token Usage: 37500 / Session: 37500 / 64000

@@ -170,6 +170,7 @@ class Retriever:
         persist_directory: Union[str, Path] = "data/vector_db",
         database: Optional[VectorDatabase] = None,
         embedding_config_path: Union[str, Path] = "config/embeddings.yaml",
+        embedder: Optional[Embedder] = None,
     ):
         """
         Initialize retriever.
@@ -178,9 +179,14 @@ class Retriever:
             persist_directory: Directory for vector database
             database: Optional existing VectorDatabase instance
             embedding_config_path: Path to embedding configuration
+            embedder: Optional pre-initialized Embedder instance (for testing)
         """
         self.db = database if database else init_database(persist_directory)
-        self.embedder = Embedder(embedding_config_path)
+
+        if embedder is not None:
+            self.embedder = embedder
+        else:
+            self.embedder = Embedder(embedding_config_path)
 
         logger.info(f"Retriever initialized with persist_dir: {persist_directory}")
 
