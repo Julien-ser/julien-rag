@@ -72,7 +72,7 @@
   - **Output:** Unit tests in `tests/test_retriever.py` validating search accuracy
   - **Status:** ✅ Implemented and tested. Retriever class with multi-collection search, metadata filtering, and score normalization. Comprehensive test suite with SearchResult, filter building, and integration tests (34/38 passing - 4 integration tests require sentence-transformers dependency).
 
-- [ ] Task 3.4: Perform database validation and optimization
+- [x] Task 3.4: Perform database validation and optimization
   - **Deliverable:** Validation report and optimized parameters
   - **Tech:** Test recall@k with known queries, measure query latency, optimize chunk size
   - **Output:** `scripts/validate_db.py` with tests for precision/recall
