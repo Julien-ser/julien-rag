@@ -1,0 +1,2 @@
+[console_scripts]
+julien-rag = julien_rag.client:main
