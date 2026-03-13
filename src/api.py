@@ -31,6 +31,7 @@ from retriever import Retriever, SearchResult
 from database import init_database
 from pipeline import run_pipeline
 from rag import RAGPipeline, RAGConfig
+from monitoring import MetricsMiddleware, metrics_endpoint
 
 # Configure logging
 logging.basicConfig(
@@ -247,6 +248,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add metrics middleware for automatic request tracking
+app.add_middleware(MetricsMiddleware)
 
 # Global retriever instance
 retriever: Optional[Retriever] = None
@@ -555,6 +559,17 @@ async def health_check():
 
     # Could add more checks: database connection, embedding service, etc.
     return HealthResponse(status="healthy", timestamp=datetime.utcnow())
+
+
+@app.get("/metrics", tags=["Monitoring"])
+async def metrics_endpoint_handler():
+    """
+    Prometheus metrics endpoint.
+
+    Returns:
+        Response with metrics in Prometheus text format
+    """
+    return await metrics_endpoint()
 
 
 # Additional metadata endpoints

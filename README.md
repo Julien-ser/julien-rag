@@ -48,7 +48,40 @@ This project builds a Retrieval-Augmented Generation (RAG) system that:
   - `docs/database_performance.md` with performance metrics and recommendations
   - Tests: data integrity, latency benchmarks, metadata filtering, recall@k support
 
-See [TASKS.md](TASKS.md) for complete task list.
+**Phase 4: RAG API & External Integration** ✅ Complete
+- [x] **Task 4.1**: Build FastAPI REST endpoints ✅
+  - Complete API with interactive docs at `/docs`
+  - All endpoints: `/query`, `/sources`, `/stats`, `/refresh`, `/health`, `/metrics`, `/collections`
+  - Async support, CORS enabled, admin authentication, comprehensive error handling
+  - 22/22 API unit tests passing
+
+- [x] **Task 4.2**: Implement RAG generation pipeline ✅
+  - `src/rag.py` with `RAGPipeline` class supporting OpenAI and local providers
+  - API endpoint `/rag-query` returns `{answer, confidence, sources, stats}`
+  - Configuration in `config/rag.yaml` with LLM settings and prompts
+  - 22/23 tests passing (1 requires optional dependency)
+
+- [x] **Task 4.3**: Create SDK/client library for external use ✅
+  - Complete Python package `julien_rag` with `RAGClient` class
+  - Supports all API endpoints with typed Pydantic models
+  - Full test suite (15/15 passing)
+  - Usage examples in `examples/usage_example.py`
+  - Documentation in README and package
+
+- [x] **Task 4.4**: Add monitoring, logging, and deployment configuration ✅
+  - `src/monitoring.py` with Prometheus metrics (Counter, Histogram, Gauge) and `/metrics` endpoint
+  - Metrics middleware for automatic request tracking (latency, status codes, endpoints)
+  - Database query metrics (operation duration, document counts)
+  - Embedding generation metrics (token count, duration, provider)
+  - RAG pipeline metrics (query count, confidence scores)
+  - Optional system metrics (CPU, memory) when psutil available
+  - Production-ready `docker/Dockerfile` with multi-stage build, health checks, non-root user
+  - `docker/docker-compose.yml` with API service and optional monitoring stack (Prometheus, Grafana)
+  - Comprehensive integration test suite in `tests/integration/test_full_flow.py`
+  - Deployment guide in `docs/deployment.md`
+
+**MISSION ACCOMPLISHED** ✅
+Vector DB with full RAG implementation ready for external use.
 
 ## Getting Started
 
@@ -56,10 +89,11 @@ See [TASKS.md](TASKS.md) for complete task list.
 
 - Python 3.9+
 - Git
-- (Optional) GitHub API token for data collection
-- (Optional) OpenAI API key for embeddings
+- (Optional) GitHub API token for data collection: `GITHUB_TOKEN`
+- (Optional) OpenAI API key for embeddings: `OPENAI_API_KEY`
+- (Optional) For Docker deployment: Docker and Docker Compose
 
-### Installation
+### Option 1: Local Python Installation
 
 ```bash
 # Clone and navigate
@@ -69,18 +103,54 @@ cd projects/julien-rag
 pip install -r requirements.txt
 
 # Set up environment variables
-cp .env.example .env
-# Edit .env with your API keys
-```
+cp .env.example .env  # if .env.example exists
+# Edit .env with your API keys:
+# - GITHUB_TOKEN (optional, for GitHub data collection)
+# - OPENAI_API_KEY (optional, for embeddings and RAG with OpenAI)
+# - ADMIN_TOKEN (optional, for protected refresh endpoint)
 
-### Running the API
+# Run data ingestion (collect and process data)
+./scripts/ingest_all.sh
+# Or: python -m src.pipeline
 
-```bash
-# Start the FastAPI server (will be created in Task 4.1)
+# Start the FastAPI server
 uvicorn src.api:app --reload --port 8000
 
 # Visit http://localhost:8000/docs for interactive API documentation
 ```
+
+### Option 2: Docker Deployment (Recommended for Production)
+
+```bash
+# Build and run using Docker Compose
+docker-compose up -d
+
+# Or build manually:
+docker build -t julien-rag -f docker/Dockerfile .
+docker run -p 8000:8000 \
+  -v $(pwd)/data:/home/app/data \
+  -v $(pwd)/logs:/home/app/logs \
+  -v $(pwd)/config:/home/app/config:ro \
+  -e OPENAI_API_KEY=${OPENAI_API_KEY} \
+  -e ADMIN_TOKEN=${ADMIN_TOKEN} \
+  julien-rag
+
+# Access API at http://localhost:8000/docs
+```
+
+**Optional Monitoring Stack:**
+
+```bash
+# Deploy with Prometheus and Grafana for metrics
+docker-compose --profile monitoring up -d
+
+# Access services:
+# - API: http://localhost:8000
+# - Prometheus: http://localhost:9090
+# - Grafana: http://localhost:3000 (admin/admin)
+```
+
+For detailed deployment options, see [docs/deployment.md](docs/deployment.md).
 
 ### Running the Ingestion Pipeline
 
@@ -206,71 +276,13 @@ pip install -e .
 
 ### SDK Usage
 
-```python
-from julien_rag import RAGClient
-import os
+See [docs/deployment.md](docs/deployment.md) for detailed deployment options including:
+- Docker deployment with docker-compose
+- Production configuration
+- Monitoring with Prometheus/Grafana
+- Security best practices
+- Troubleshooting
 
-# Initialize the client
-client = RAGClient(
-    base_url=os.getenv("RAG_API_URL", "http://localhost:8000"),
-    # Optional: add API key and admin token if needed
-    # api_key="your-api-key",
-    # admin_token="your-admin-token"
-)
+---
 
-# Check health
-health = client.health_check()
-print(f"API Status: {health.status}")
-
-# Get database statistics
-stats = client.get_stats()
-print(f"Total documents: {sum(c['document_count'] for c in stats.collections.values())}")
-
-# Perform semantic search
-results = client.search(
-    query="machine learning projects",
-    k=5,
-    filters={"source": "github_repos"}
-)
-print(f"Found {results.total_results} results")
-for i, (doc, meta, score) in enumerate(zip(results.documents, results.metadatas, results.scores), 1):
-    print(f"{i}. [{score:.3f}] {meta.get('title', 'Untitled')}")
-
-# Perform RAG query (search + LLM generation)
-rag_result = client.rag_query(
-    query="What are the main technologies used?",
-    k=5,
-    return_context=True,  # Include retrieved context in response
-    temperature=0.7
-)
-print(f"Answer: {rag_result.answer}")
-print(f"Confidence: {rag_result.confidence:.3f}")
-print(f"Sources: {len(rag_result.sources)}")
-```
-
-### SDK Features
-
-- **Search**: Vector similarity search with optional metadata filters
-- **RAG Query**: Combined retrieval and LLM generation
-- **Health Check**: Monitor API status
-- **Statistics**: Get document counts and collection info
-- **Admin Operations**: Trigger data refresh (with admin token)
-- **Context Manager**: Use with `with` statement for auto-cleanup
-- **Typed Models**: All responses are Pydantic models with validation
-
-### SDK Documentation
-
-- Full API reference: See `julien_rag/models.py` for response types
-- Examples: `examples/usage_example.py`
-- Error handling: Catch `RAGAPIError`, `AuthenticationError`, `ValidationError`, etc.
-
-
-## Decision Documentation
-
-Key decisions are documented in `docs/`:
-- [Vector Database Selection](docs/vector_db_selection.md) - Why ChromaDB was chosen
-- [Schema Design](docs/schema_design.md) - Document metadata, chunking strategy, and embedding configuration (completed)
-
-## License
-
-MIT (to be determined)
+## Project Structure
