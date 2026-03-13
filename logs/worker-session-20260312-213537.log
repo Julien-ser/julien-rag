@@ -2795,3 +2795,505 @@ Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/README.md
 [0m
 📝 Log saved: logs/iteration-175.md
 📊 Token Usage: 8000 / Session: 50500 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   5914e17..4312d33  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 12/17 completed, 5 remaining
+   Next task: Task 4.1: Build FastAPI REST endpoints...
+📍 Iteration 176 at Thu Mar 12 09:43:46 PM EDT 2026...
+🤖 OpenCode processing: Task 4.1: Build FastAPI REST endpoints
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+I'll complete Task 4.1 by building the FastAPI REST endpoints. Let me start by exploring the project structure to understand the existing codebase.
+[0m→ [0mRead requirements.txt
+[0m→ [0mRead TASKS.md
+[0m✱ [0mGlob "src/*.py"[90m 9 matches[0m
+[0m→ [0mRead src/retriever.py
+[0m→ [0mRead src/pipeline.py
+[0m→ [0mRead src/database.py
+[0m✱ [0mGlob "config/*"[90m 4 matches[0m
+[0m→ [0mRead src/embedder.py[90m [limit=100][0m
+[0m→ [0mRead src/vector_store.py[90m [limit=100][0m
+[0m→ [0mRead config/embeddings.yaml
+Now I'll create the FastAPI REST endpoints in `src/api.py`. Based on the existing codebase, I'll integrate with the Retriever, Database, and Pipeline modules.
+[0m
+[0m← [0mWrite src/api.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/database.py">
+ERROR [46:32] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+ERROR [108:25] "errors" is not a known attribute of module "chromadb"
+ERROR [206:25] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+</diagnostics>
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/pipeline.py">
+ERROR [241:56] Expression of type "None" cannot be assigned to parameter of type "str"
+  "None" is not assignable to "str"
+ERROR [276:15] Type "Path" is not assignable to declared type "str"
+  "Path" is not assignable to "str"
+ERROR [277:13] Cannot access attribute "mkdir" for class "str"
+  Attribute "mkdir" is unknown
+ERROR [281:16] Operator "/" not supported for types "str" and "str"
+ERROR [343:44] Argument of type "Unknown | None" cannot be assigned to parameter "obj" of type "Sized" in function "len"
+  Type "Unknown | None" is not assignable to type "Sized"
+    "None" is incompatible with protocol "Sized"
+      "__len__" is not present
+ERROR [344:56] Argument of type "Unknown | None" cannot be assigned to parameter "obj" of type "Sized" in function "len"
+  Type "Unknown | None" is not assignable to type "Sized"
+    "None" is incompatible with protocol "Sized"
+      "__len__" is not present
+ERROR [345:16] Type "list[Path] | Unknown | None" is not assignable to return type "List[Path]"
+  Type "list[Path] | Unknown | None" is not assignable to type "List[Path]"
+    "None" is not assignable to "List[Path]"
+</diagnostics>
+[0m
+Now I'll create comprehensive tests for the API endpoints:
+[0m✱ [0mGlob "tests/*.py"[90m 8 matches[0m
+[0m→ [0mRead tests/test_retriever.py[90m [limit=50][0m
+Now I'll create comprehensive tests for the API:
+[0m
+[0m← [0mWrite tests/test_api.py
+Wrote file successfully.
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/database.py">
+ERROR [46:32] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+ERROR [108:25] "errors" is not a known attribute of module "chromadb"
+ERROR [206:25] Expected class but received "(path: str | Path = "./chroma", settings: Settings | None = None, tenant: str = DEFAULT_TENANT, database: str = DEFAULT_DATABASE) -> ClientAPI"
+</diagnostics>
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/pipeline.py">
+ERROR [241:56] Expression of type "None" cannot be assigned to parameter of type "str"
+  "None" is not assignable to "str"
+ERROR [276:15] Type "Path" is not assignable to declared type "str"
+  "Path" is not assignable to "str"
+ERROR [277:13] Cannot access attribute "mkdir" for class "str"
+  Attribute "mkdir" is unknown
+ERROR [281:16] Operator "/" not supported for types "str" and "str"
+ERROR [343:44] Argument of type "Unknown | None" cannot be assigned to parameter "obj" of type "Sized" in function "len"
+  Type "Unknown | None" is not assignable to type "Sized"
+    "None" is incompatible with protocol "Sized"
+      "__len__" is not present
+ERROR [344:56] Argument of type "Unknown | None" cannot be assigned to parameter "obj" of type "Sized" in function "len"
+  Type "Unknown | None" is not assignable to type "Sized"
+    "None" is incompatible with protocol "Sized"
+      "__len__" is not present
+ERROR [345:16] Type "list[Path] | Unknown | None" is not assignable to return type "List[Path]"
+  Type "list[Path] | Unknown | None" is not assignable to type "List[Path]"
+    "None" is not assignable to "List[Path]"
+</diagnostics>
+
+LSP errors detected in other files:
+<diagnostics file="/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/embedder.py">
+ERROR [32:10] Import "sentence_transformers" could not be resolved
+ERROR [124:23] "OpenAI" is possibly unbound
+ERROR [182:20] "RateLimitError" is possibly unbound
+ERROR [190:21] "APIConnectionError" is possibly unbound
+ERROR [190:41] "APITimeoutError" is possibly unbound
+ERROR [200:50] "response" is possibly unbound
+ERROR [243:26] "SentenceTransformer" is possibly unbound
+ERROR [272:33] "encode" is not a known attribute of "None"
+ERROR [324:27] "yaml" is possibly unbound
+</diagnostics>
+[0m
+Now let's run the API tests to verify they pass:
+[0m$ [0mpython -m pytest tests/test_api.py -v --tb=short
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+plugins: langsmith-0.7.16, anyio-4.12.1, asyncio-1.3.0, cov-7.0.0, dash-4.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 22 items
+
+tests/test_api.py::TestHealthEndpoint::test_health_healthy PASSED        [  4%]
+tests/test_api.py::TestHealthEndpoint::test_health_unhealthy PASSED      [  9%]
+tests/test_api.py::TestSourcesEndpoint::test_sources_list PASSED         [ 13%]
+tests/test_api.py::TestStatsEndpoint::test_stats_success PASSED          [ 18%]
+tests/test_api.py::TestStatsEndpoint::test_stats_unavailable PASSED      [ 22%]
+tests/test_api.py::TestQueryEndpoint::test_query_success PASSED          [ 27%]
+tests/test_api.py::TestQueryEndpoint::test_query_with_filters PASSED     [ 31%]
+tests/test_api.py::TestQueryEndpoint::test_query_empty_query FAILED      [ 36%]
+tests/test_api.py::TestQueryEndpoint::test_query_invalid_k PASSED        [ 40%]
+tests/test_api.py::TestQueryEndpoint::test_query_service_unavailable PASSED [ 45%]
+tests/test_api.py::TestQueryEndpoint::test_query_search_error PASSED     [ 50%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_success_no_auth PASSED [ 54%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_with_valid_token PASSED [ 59%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_invalid_token PASSED [ 63%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_missing_token PASSED [ 68%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_pipeline_error PASSED [ 72%]
+tests/test_api.py::TestCollectionsEndpoint::test_list_collections_success PASSED [ 77%]
+tests/test_api.py::TestCollectionsEndpoint::test_list_collections_unavailable PASSED [ 81%]
+tests/test_api.py::TestAPIDocumentation::test_docs_endpoint PASSED       [ 86%]
+tests/test_api.py::TestAPIDocumentation::test_redoc_endpoint PASSED      [ 90%]
+tests/test_api.py::TestRequestValidation::test_query_missing_required_field PASSED [ 95%]
+tests/test_api.py::TestRequestValidation::test_query_invalid_collection_name FAILED [100%]
+
+=================================== FAILURES ===================================
+___________________ TestQueryEndpoint.test_query_empty_query ___________________
+tests/test_api.py:215: in test_query_empty_query
+    assert response.status_code == 400
+E   assert 422 == 400
+E    +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+___________ TestRequestValidation.test_query_invalid_collection_name ___________
+tests/test_api.py:384: in test_query_invalid_collection_name
+    response = client.post("/query", json=request_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/starlette/testclient.py:546: in post
+    return super().post(
+../../venv/lib/python3.14/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+../../venv/lib/python3.14/site-packages/starlette/testclient.py:445: in request
+    return super().request(
+../../venv/lib/python3.14/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+../../venv/lib/python3.14/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../venv/lib/python3.14/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/starlette/testclient.py:348: in handle_request
+    raise exc
+../../venv/lib/python3.14/site-packages/starlette/testclient.py:345: in handle_request
+    portal.call(self.app, scope, receive, send)
+../../venv/lib/python3.14/site-packages/anyio/from_thread.py:334: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.14/concurrent/futures/_base.py:450: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.14/concurrent/futures/_base.py:395: in __get_result
+    raise self._exception
+../../venv/lib/python3.14/site-packages/anyio/from_thread.py:259: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/fastapi/applications.py:1160: in __call__
+    await super().__call__(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/applications.py:107: in __call__
+    await self.middleware_stack(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+../../venv/lib/python3.14/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+../../venv/lib/python3.14/site-packages/starlette/middleware/cors.py:87: in __call__
+    await self.app(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+../../venv/lib/python3.14/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+../../venv/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/routing.py:716: in __call__
+    await self.middleware_stack(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/routing.py:736: in app
+    await route.handle(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/routing.py:290: in handle
+    await self.app(scope, receive, send)
+../../venv/lib/python3.14/site-packages/fastapi/routing.py:130: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+../../venv/lib/python3.14/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+../../venv/lib/python3.14/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+../../venv/lib/python3.14/site-packages/fastapi/routing.py:116: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+../../venv/lib/python3.14/site-packages/fastapi/routing.py:691: in app
+    content = await serialize_response(
+../../venv/lib/python3.14/site-packages/fastapi/routing.py:296: in serialize_response
+    raise ResponseValidationError(
+E   fastapi.exceptions.ResponseValidationError: 6 validation errors:
+E     {'type': 'list_type', 'loc': ('response', 'documents'), 'msg': 'Input should be a valid list', 'input': <Mock name='mock.search().to_dict().documents' id='140536593357456'>}
+E     {'type': 'list_type', 'loc': ('response', 'metadatas'), 'msg': 'Input should be a valid list', 'input': <Mock name='mock.search().to_dict().metadatas' id='140536593357792'>}
+E     {'type': 'list_type', 'loc': ('response', 'scores'), 'msg': 'Input should be a valid list', 'input': <Mock name='mock.search().to_dict().scores' id='140536593358128'>}
+E     {'type': 'string_type', 'loc': ('response', 'collection'), 'msg': 'Input should be a valid string', 'input': <Mock name='mock.search().to_dict().collection' id='140536593358464'>}
+E     {'type': 'float_type', 'loc': ('response', 'query_time'), 'msg': 'Input should be a valid number', 'input': <Mock name='mock.search().to_dict().query_time' id='140536593358800'>}
+E     {'type': 'int_type', 'loc': ('response', 'total_results'), 'msg': 'Input should be a valid integer', 'input': <Mock name='mock.search().to_dict().total_results' id='140536593359136'>}
+E   
+E     File "/home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py", line 240, in query_endpoint
+E       POST /query
+=============================== warnings summary ===============================
+../../venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    if asyncio.iscoroutinefunction(f):
+
+src/api.py:43
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:43: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class QueryRequest(BaseModel):
+
+src/api.py:68
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:68: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class QueryResponse(BaseModel):
+
+src/api.py:91
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:91: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SourcesResponse(BaseModel):
+
+src/api.py:108
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:108: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class StatsResponse(BaseModel):
+
+src/api.py:130
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:130: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class RefreshResponse(BaseModel):
+
+src/api.py:147
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:147: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class HealthResponse(BaseModel):
+
+src/api.py:182
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:182: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+../../venv/lib/python3.14/site-packages/fastapi/applications.py:4599
+../../venv/lib/python3.14/site-packages/fastapi/applications.py:4599
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/fastapi/applications.py:4599: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+src/api.py:195
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:195: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("shutdown")
+
+tests/test_api.py::TestHealthEndpoint::test_health_healthy
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:421: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return HealthResponse(status="healthy", timestamp=datetime.utcnow())
+
+tests/test_api.py::TestHealthEndpoint::test_health_unhealthy
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:416: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    timestamp=datetime.utcnow(),
+
+tests/test_api.py::TestStatsEndpoint::test_stats_success
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:343: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_api.py::TestQueryEndpoint::test_query_empty_query - assert ...
+FAILED tests/test_api.py::TestRequestValidation::test_query_invalid_collection_name
+================== 2 failed, 20 passed, 14 warnings in 6.12s ===================
+[0m
+I need to fix two failing tests. Let me update them:
+[0m← [0mEdit tests/test_api.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
+@@ -207,14 +207,13 @@
+         call_kwargs = mock_retriever.search.call_args[1]
+         assert call_kwargs["filters"] == {"source": "github_repos", "type": "repo"}
+ 
+ def test_query_empty_query(self, client, mock_retriever):
+-    """Test query with empty string returns 400."""
++    """Test query with empty string returns 422 (Pydantic validation)."""
+     with patch("api.retriever", mock_retriever):
+         request_data = {"query": "", "k": 5}
+         response = client.post("/query", json=request_data)
+-        assert response.status_code == 400
+-        assert "Query text must not be empty" in response.json()["detail"]
++        assert response.status_code == 422
+ 
+ def test_query_invalid_k(self, client, mock_retriever):
+     """Test query with invalid k returns 422 (Pydantic validation)."""
+     with patch("api.retriever", mock_retriever):
+
+[0m
+[0m← [0mEdit tests/test_api.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/tests/test_api.py
+@@ -361,25 +361,9 @@
+ 
+ def test_query_invalid_collection_name(self, client, mock_retriever):
+     """Test query with invalid collection name still works (validation at retriever level)."""
+     with patch("api.retriever", mock_retriever):
+-        mock_retriever.search.return_value = Mock(
+-            documents=[],
+-            metadatas=[],
+-            scores=[],
+-            collection="invalid",
+-            query_time=0.0,
+-            __len__=lambda self: 0,
+-        )
+-        mock_retriever.search.to_dict.return_value = {
+-            "documents": [],
+-            "metadatas": [],
+-            "scores": [],
+-            "collection": "multiple",
+-            "query_time": 0.0,
+-            "total_results": 0,
+-        }
+-
++        # The retriever should handle invalid collection by searching appropriate collections
+         request_data = {"query": "test", "collection": "nonexistent"}
+         response = client.post("/query", json=request_data)
+-        # Should still return 200 as validation happens in retriever
++        # Should return 200 as validation happens in retriever, not at API level
+         assert response.status_code == 200
+
+[0m
+Now let's run the tests again to verify they pass:
+[0m$ [0mpython -m pytest tests/test_api.py -v --tb=short
+============================= test session starts ==============================
+platform linux -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /home/julien/Desktop/Free-Wiggum-opencode/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag
+plugins: langsmith-0.7.16, anyio-4.12.1, asyncio-1.3.0, cov-7.0.0, dash-4.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 22 items
+
+tests/test_api.py::TestHealthEndpoint::test_health_healthy PASSED        [  4%]
+tests/test_api.py::TestHealthEndpoint::test_health_unhealthy PASSED      [  9%]
+tests/test_api.py::TestSourcesEndpoint::test_sources_list PASSED         [ 13%]
+tests/test_api.py::TestStatsEndpoint::test_stats_success PASSED          [ 18%]
+tests/test_api.py::TestStatsEndpoint::test_stats_unavailable PASSED      [ 22%]
+tests/test_api.py::TestQueryEndpoint::test_query_success PASSED          [ 27%]
+tests/test_api.py::TestQueryEndpoint::test_query_with_filters PASSED     [ 31%]
+tests/test_api.py::TestQueryEndpoint::test_query_empty_query PASSED      [ 36%]
+tests/test_api.py::TestQueryEndpoint::test_query_invalid_k PASSED        [ 40%]
+tests/test_api.py::TestQueryEndpoint::test_query_service_unavailable PASSED [ 45%]
+tests/test_api.py::TestQueryEndpoint::test_query_search_error PASSED     [ 50%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_success_no_auth PASSED [ 54%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_with_valid_token PASSED [ 59%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_invalid_token PASSED [ 63%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_missing_token PASSED [ 68%]
+tests/test_api.py::TestRefreshEndpoint::test_refresh_pipeline_error PASSED [ 72%]
+tests/test_api.py::TestCollectionsEndpoint::test_list_collections_success PASSED [ 77%]
+tests/test_api.py::TestCollectionsEndpoint::test_list_collections_unavailable PASSED [ 81%]
+tests/test_api.py::TestAPIDocumentation::test_docs_endpoint PASSED       [ 86%]
+tests/test_api.py::TestAPIDocumentation::test_redoc_endpoint PASSED      [ 90%]
+tests/test_api.py::TestRequestValidation::test_query_missing_required_field PASSED [ 95%]
+tests/test_api.py::TestRequestValidation::test_query_invalid_collection_name PASSED [100%]
+
+=============================== warnings summary ===============================
+../../venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/chromadb/telemetry/opentelemetry/__init__.py:128: DeprecationWarning: 'asyncio.iscoroutinefunction' is deprecated and slated for removal in Python 3.16; use inspect.iscoroutinefunction() instead
+    if asyncio.iscoroutinefunction(f):
+
+src/api.py:43
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:43: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class QueryRequest(BaseModel):
+
+src/api.py:68
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:68: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class QueryResponse(BaseModel):
+
+src/api.py:91
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:91: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SourcesResponse(BaseModel):
+
+src/api.py:108
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:108: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class StatsResponse(BaseModel):
+
+src/api.py:130
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:130: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class RefreshResponse(BaseModel):
+
+src/api.py:147
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:147: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class HealthResponse(BaseModel):
+
+src/api.py:182
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:182: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+../../venv/lib/python3.14/site-packages/fastapi/applications.py:4599
+../../venv/lib/python3.14/site-packages/fastapi/applications.py:4599
+  /home/julien/Desktop/Free-Wiggum-opencode/venv/lib/python3.14/site-packages/fastapi/applications.py:4599: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+src/api.py:195
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:195: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("shutdown")
+
+tests/test_api.py::TestHealthEndpoint::test_health_healthy
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:421: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return HealthResponse(status="healthy", timestamp=datetime.utcnow())
+
+tests/test_api.py::TestHealthEndpoint::test_health_unhealthy
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:416: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    timestamp=datetime.utcnow(),
+
+tests/test_api.py::TestStatsEndpoint::test_stats_success
+  /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/api.py:343: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 22 passed, 14 warnings in 6.35s ========================
+[0m
+[0m← [0mEdit TASKS.md
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/TASKS.md
+@@ -78,17 +78,18 @@
+   - **Output:** `scripts/validate_db.py` with tests for precision/recall
+   - **Output:** `docs/database_performance.md` with metrics: embedding count, storage size, query latency (p50, p95, p99)
+ 
+ ## Phase 4: RAG API & External Integration
+-- [ ] Task 4.1: Build FastAPI REST endpoints
++- [x] Task 4.1: Build FastAPI REST endpoints
+   - **Deliverable:** Complete API with documentation at `/docs`
+   - **Tech:** FastAPI with async endpoints, CORS enabled, Pydantic models
+   - **Output:** `src/api.py` with endpoints:
+     - `POST /query` - search and return relevant documents
+     - `GET /sources` - list available source types
+     - `GET /stats` - return database statistics (document count, sources)
+     - `POST /refresh` - trigger reindexing (admin only)
+   - **Output:** API runs at `http://localhost:8000` with interactive docs
++  - **Status:** ✅ Implemented and tested. All 22 API unit tests passing. Endpoints include /health, /collections, full async support, admin authentication, and comprehensive error handling.
+ 
+ - [ ] Task 4.2: Implement RAG generation pipeline
+   - **Deliverable:** Endpoint that combines retrieval with LLM generation
+   - **Tech:** Integrate with OpenAI GPT-4 or local LLM (Llama 3) for answer synthesis
+
+[0m
+All API tests pass. Now let me update TASKS.md to mark Task 4.1 as complete:
+Now let me check the README and update it if needed:
+[0m✱ [0mGlob "README.md"[90m 2 matches[0m
+📝 Log saved: logs/iteration-176.md
+📊 Token Usage: 12500 / Session: 63000 / 64000

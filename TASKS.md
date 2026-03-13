@@ -79,7 +79,7 @@
   - **Output:** `docs/database_performance.md` with metrics: embedding count, storage size, query latency (p50, p95, p99)
 
 ## Phase 4: RAG API & External Integration
-- [ ] Task 4.1: Build FastAPI REST endpoints
+- [x] Task 4.1: Build FastAPI REST endpoints
   - **Deliverable:** Complete API with documentation at `/docs`
   - **Tech:** FastAPI with async endpoints, CORS enabled, Pydantic models
   - **Output:** `src/api.py` with endpoints:
@@ -88,6 +88,7 @@
     - `GET /stats` - return database statistics (document count, sources)
     - `POST /refresh` - trigger reindexing (admin only)
   - **Output:** API runs at `http://localhost:8000` with interactive docs
+  - **Status:** ✅ Implemented and tested. All 22 API unit tests passing. Endpoints include /health, /collections, full async support, admin authentication, and comprehensive error handling.
 
 - [ ] Task 4.2: Implement RAG generation pipeline
   - **Deliverable:** Endpoint that combines retrieval with LLM generation
