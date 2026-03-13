@@ -70,6 +70,90 @@ class SearchResult:
         }
 
 
+def _build_where_filter(
+    filters: Optional[Dict[str, Any]] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    Build ChromaDB where filter from user-provided filters.
+
+    Args:
+        filters: Dictionary of filter conditions:
+            - source: str or list of source identifiers
+            - date_range: dict with 'start' and 'end' datetime strings
+            - type: str or list of document types
+            - tags: list of tags (matches if document has all tags)
+
+    Returns:
+        ChromaDB where filter dictionary or None
+    """
+    if not filters:
+        return None
+
+    where_clauses = []
+
+    # Source filter
+    if "source" in filters:
+        source_val = filters["source"]
+        if isinstance(source_val, list):
+            # Multiple sources - use $in operator
+            where_clauses.append({"source": {"$in": source_val}})
+        else:
+            where_clauses.append({"source": source_val})
+
+    # Type filter
+    if "type" in filters:
+        type_val = filters["type"]
+        if isinstance(type_val, list):
+            where_clauses.append({"type": {"$in": type_val}})
+        else:
+            where_clauses.append({"type": type_val})
+
+    # Date range filter
+    if "date_range" in filters:
+        date_range = filters["date_range"]
+        start = date_range.get("start")
+        end = date_range.get("end")
+
+        date_clauses = []
+        if start:
+            date_clauses.append({"date": {"$gte": start}})
+        if end:
+            date_clauses.append({"date": {"$lte": end}})
+
+        if date_clauses:
+            if len(date_clauses) == 1:
+                where_clauses.append(date_clauses[0])
+            else:
+                where_clauses.append({"$and": date_clauses})
+
+    # Build final filter
+    if len(where_clauses) == 0:
+        return None
+    elif len(where_clauses) == 1:
+        return where_clauses[0]
+    else:
+        return {"$and": where_clauses}
+
+
+def _normalize_scores(distances: List[float]) -> List[float]:
+    """
+    Convert ChromaDB distances to similarity scores (0-1).
+
+    For cosine distance: similarity = 1 - distance
+    Since ChromaDB cosine distance is 1 - cosine_similarity,
+    we need to invert.
+
+    Args:
+        distances: List of distances from ChromaDB query
+
+    Returns:
+        List of similarity scores (0-1, higher is better)
+    """
+    # Cosine distance = 1 - cosine_similarity
+    # So similarity = 1 - distance
+    return [max(0.0, min(1.0, 1.0 - d)) for d in distances]
+
+
 class Retriever:
     """
     Vector similarity search with metadata filtering.
@@ -99,89 +183,6 @@ class Retriever:
         self.embedder = Embedder(embedding_config_path)
 
         logger.info(f"Retriever initialized with persist_dir: {persist_directory}")
-
-    def _build_where_filter(
-        self,
-        filters: Optional[Dict[str, Any]] = None,
-    ) -> Optional[Dict[str, Any]]:
-        """
-        Build ChromaDB where filter from user-provided filters.
-
-        Args:
-            filters: Dictionary of filter conditions:
-                - source: str or list of source identifiers
-                - date_range: dict with 'start' and 'end' datetime strings
-                - type: str or list of document types
-                - tags: list of tags (matches if document has all tags)
-
-        Returns:
-            ChromaDB where filter dictionary or None
-        """
-        if not filters:
-            return None
-
-        where_clauses = []
-
-        # Source filter
-        if "source" in filters:
-            source_val = filters["source"]
-            if isinstance(source_val, list):
-                # Multiple sources - use $in operator
-                where_clauses.append({"source": {"$in": source_val}})
-            else:
-                where_clauses.append({"source": source_val})
-
-        # Type filter
-        if "type" in filters:
-            type_val = filters["type"]
-            if isinstance(type_val, list):
-                where_clauses.append({"type": {"$in": type_val}})
-            else:
-                where_clauses.append({"type": type_val})
-
-        # Date range filter
-        if "date_range" in filters:
-            date_range = filters["date_range"]
-            start = date_range.get("start")
-            end = date_range.get("end")
-
-            date_clauses = []
-            if start:
-                date_clauses.append({"date": {"$gte": start}})
-            if end:
-                date_clauses.append({"date": {"$lte": end}})
-
-            if date_clauses:
-                if len(date_clauses) == 1:
-                    where_clauses.append(date_clauses[0])
-                else:
-                    where_clauses.append({"$and": date_clauses})
-
-        # Build final filter
-        if len(where_clauses) == 0:
-            return None
-        elif len(where_clauses) == 1:
-            return where_clauses[0]
-        else:
-            return {"$and": where_clauses}
-
-    def _normalize_scores(self, distances: List[float]) -> List[float]:
-        """
-        Convert ChromaDB distances to similarity scores (0-1).
-
-        For cosine distance: similarity = 1 - distance
-        Since ChromaDB cosine distance is 1 - cosine_similarity,
-        we need to invert.
-
-        Args:
-            distances: List of distances from ChromaDB query
-
-        Returns:
-            List of similarity scores (0-1, higher is better)
-        """
-        # Cosine distance = 1 - cosine_similarity
-        # So similarity = 1 - distance
-        return [max(0.0, min(1.0, 1.0 - d)) for d in distances]
 
     def search(
         self,
@@ -234,7 +235,7 @@ class Retriever:
             all_scores = []
             all_collections = []
 
-            where_filter = self._build_where_filter(filters)
+            where_filter = _build_where_filter(filters)
             logger.debug(f"Using where filter: {where_filter}")
 
             for coll_name in collections_to_search:
@@ -255,7 +256,7 @@ class Retriever:
                     distances = results["distances"][0] if results["distances"] else []
 
                     # Convert distances to scores
-                    scores = self._normalize_scores(distances)
+                    scores = _normalize_scores(distances)
 
                     # Add collection name to metadata
                     for meta in metas:
