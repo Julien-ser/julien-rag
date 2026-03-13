@@ -30,24 +30,6 @@ from .exceptions import (
 logger = logging.getLogger(__name__)
 
 
-class NotFoundError(RAGAPIError):
-    """Resource not found."""
-
-    pass
-
-
-class ServerError(RAGAPIError):
-    """Server error (5xx)."""
-
-    pass
-
-
-class ValidationError(RAGAPIError):
-    """Request validation error."""
-
-    pass
-
-
 class RAGClient:
     """
     Client for the Julien RAG API.

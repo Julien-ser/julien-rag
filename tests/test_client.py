@@ -75,7 +75,14 @@ def test_handle_response_success(client):
     """Test successful response handling."""
     mock_response = Mock()
     mock_response.status_code = 200
-    mock_response.json.return_value = {"total_results": 1, "documents": ["doc1"]}
+    mock_response.json.return_value = {
+        "documents": ["doc1 text"],
+        "metadatas": [{"source": "github"}],
+        "scores": [0.95],
+        "collection": "github_docs",
+        "query_time": 0.123,
+        "total_results": 1,
+    }
     result = client._handle_response(mock_response, SearchResponse)
     assert isinstance(result, SearchResponse)
     assert result.total_results == 1
@@ -91,22 +98,30 @@ def test_handle_response_errors(client):
         client._handle_response(mock_response, SearchResponse)
 
     # 403 Forbidden
+    mock_response = Mock()
     mock_response.status_code = 403
+    mock_response.text = "Forbidden"
     with pytest.raises(RAGAPIError):
         client._handle_response(mock_response, SearchResponse)
 
     # 404 Not Found
+    mock_response = Mock()
     mock_response.status_code = 404
+    mock_response.text = "Not Found"
     with pytest.raises(NotFoundError):
         client._handle_response(mock_response, SearchResponse)
 
     # 400 Bad Request
+    mock_response = Mock()
     mock_response.status_code = 400
+    mock_response.text = "Bad Request"
     with pytest.raises(ValidationError):
         client._handle_response(mock_response, SearchResponse)
 
     # 500 Server Error
+    mock_response = Mock()
     mock_response.status_code = 500
+    mock_response.text = "Server Error"
     with pytest.raises(ServerError):
         client._handle_response(mock_response, SearchResponse)
 
@@ -201,7 +216,7 @@ def test_get_sources_success(client):
         assert result.count == 2
         assert "github_repos" in result.sources
         mock_http.get.assert_called_once_with(
-            "http://test.example.com/sources", headers={}
+            "http://test.example.com/sources", headers={"Accept": "application/json"}
         )
         client.close()
 
