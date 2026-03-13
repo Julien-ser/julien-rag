@@ -578,42 +578,156 @@ def generate_answer(
     """
     Convenience function for generating answers from query and context chunks.
 
+    This function allows answer generation without a full retriever setup,
+    useful when you already have retrieved or curated context chunks.
+
     Args:
         query: User query
         context_chunks: List of chunks with 'document', 'metadata', 'score' keys
         config_path: Path to RAG configuration
-        **llm_overrides: Override LLM parameters
+        **llm_overrides: Override LLM parameters (temperature, max_tokens, etc.)
 
     Returns:
-        Dictionary with answer, confidence, and sources
+        Dictionary with:
+            - answer: Generated answer text
+            - confidence: Confidence score (0-1)
+            - sources: List of source metadata
+            - query_time: Total time taken (0 for this simple function)
+            - context_chunks: Number of context chunks used
+            - context_length: Length of formatted context in characters
     """
-    # Create a SearchResult-like object from chunks
-    from retriever import SearchResult
+    import time
 
     if not context_chunks:
         return {
             "answer": "No context provided.",
             "confidence": 0.0,
             "sources": [],
+            "query_time": 0.0,
+            "context_chunks": 0,
+            "context_length": 0,
         }
 
-    docs = [chunk["document"] for chunk in context_chunks]
-    metas = [chunk["metadata"] for chunk in context_chunks]
-    scores = [chunk.get("score", 1.0) for chunk in context_chunks]
+    try:
+        # Load configuration
+        config = RAGConfig(config_path)
 
-    search_result = SearchResult(
-        documents=docs,
-        metadatas=metas,
-        scores=scores,
-        collection="custom",
-        query_time=0.0,
-    )
+        # Initialize LLM provider
+        provider = None
+        if config.provider == "openai":
+            provider = OpenAIProvider(config.openai_config)
+        elif config.provider == "local":
+            provider = LocalProvider(config.local_config)
+        else:
+            raise ValueError(f"Unsupported LLM provider: {config.provider}")
 
-    # Need a retriever - create minimal one just for the configuration
-    # In practice, use RAGPipeline with full retriever
-    raise NotImplementedError(
-        "Use RAGPipeline class directly with initialized retriever"
-    )
+        # Create SearchResult-like object from chunks
+        docs = [chunk["document"] for chunk in context_chunks]
+        metas = [chunk["metadata"] for chunk in context_chunks]
+        scores = [chunk.get("score", 1.0) for chunk in context_chunks]
+
+        # Create a minimal SearchResult for formatting
+        class MinimalSearchResult:
+            def __init__(self, documents, metadatas, scores):
+                self.documents = documents
+                self.metadatas = metadatas
+                self.scores = scores
+
+        search_result = MinimalSearchResult(docs, metas, scores)
+
+        # Format context (similar to RAGPipeline._format_context)
+        context = ""
+        total_length = 0
+        max_length = config.max_context_length
+
+        for i, (doc, meta, score) in enumerate(
+            zip(search_result.documents, search_result.metadatas, search_result.scores)
+        ):
+            source = meta.get("source", "unknown")
+            doc_type = meta.get("type", "document")
+            title = meta.get("title", "Untitled")
+            url = meta.get("url", "")
+
+            entry = f"[{i + 1}] Source: {source} ({doc_type})\n"
+            if title and title != "Untitled":
+                entry += f"Title: {title}\n"
+            if url:
+                entry += f"URL: {url}\n"
+            entry += f"Relevance: {score:.3f}\n"
+            entry += f"Content:\n{doc}\n\n"
+
+            if total_length + len(entry) > max_length and i > 0:
+                logger.warning(
+                    f"Context truncated at {total_length} chars (max: {max_length})"
+                )
+                break
+
+            context += entry
+            total_length += len(entry)
+
+        if not context.strip():
+            return {
+                "answer": "No valid context could be formatted from the provided chunks.",
+                "confidence": 0.0,
+                "sources": [],
+                "query_time": 0.0,
+                "context_chunks": 0,
+                "context_length": 0,
+            }
+
+        # Build prompt
+        template = config.generation_config.get(
+            "context_template", "Context:\n{context}\n\nQuestion: {question}\n\nAnswer:"
+        )
+        prompt = template.format(context=context, question=query)
+
+        # Get LLM parameters with overrides
+        temperature = llm_overrides.get(
+            "temperature", config.openai_config.get("temperature", 0.7)
+        )
+        max_tokens = llm_overrides.get(
+            "max_tokens", config.openai_config.get("max_tokens", 1000)
+        )
+
+        # Generate answer
+        system_prompt = config.system_prompt
+        answer, confidence = provider.generate(
+            prompt=prompt,
+            system_prompt=system_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **llm_overrides,
+        )
+
+        # Extract sources
+        sources = []
+        seen_urls = set()
+        for meta in metas:
+            source_info = {
+                "source": meta.get("source", "unknown"),
+                "type": meta.get("type", "document"),
+                "title": meta.get("title", "Untitled"),
+                "url": meta.get("url", ""),
+            }
+            dedup_key = (
+                source_info["url"] if source_info["url"] else source_info["title"]
+            )
+            if dedup_key and dedup_key not in seen_urls:
+                sources.append(source_info)
+                seen_urls.add(dedup_key)
+
+        return {
+            "answer": answer,
+            "confidence": confidence,
+            "sources": sources,
+            "query_time": 0.0,  # Not tracking in this simple function
+            "context_chunks": len(docs),
+            "context_length": total_length,
+        }
+
+    except Exception as e:
+        logger.error(f"generate_answer failed: {e}", exc_info=True)
+        raise
 
 
 if __name__ == "__main__":

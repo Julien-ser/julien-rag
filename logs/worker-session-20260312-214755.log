@@ -470,3 +470,237 @@ rag
 </tool_call>
 📝 Log saved: logs/iteration-179.md
 📊 Token Usage: 5250 / Session: 13750 / 64000
+✅ Changes committed
+To github.com:Julien-ser/julien-rag.git
+   a508af4..8d6fd97  main -> main
+✅ Pushed to GitHub
+📊 Updated Tasks: 13/17 completed, 4 remaining
+   Next task: Task 4.2: Implement RAG generation pipeline...
+📍 Iteration 180 at Thu Mar 12 09:51:23 PM EDT 2026...
+✓ Progress: Git commit found
+📊 Task attempt 3: Progress detected, continuing...
+📚 Loading context from previous iteration attempts...
+   Found context in: iteration-179.md
+🤖 OpenCode processing: Task 4.2: Implement RAG generation pipeline
+[0m
+> build · stepfun/step-3.5-flash:free
+[0m
+[0m# [0mTodos
+[ ] Review existing rag.py and config/rag.yaml to understand current implementation
+[ ] Implement generate_answer function with LLM integration
+[ ] Add POST /rag-query endpoint to api.py
+[ ] Update config/rag.yaml with proper LLM settings
+[ ] Write tests for RAG generation pipeline
+[ ] Run tests and linting to verify
+[ ] Update README.md with RAG endpoint documentation
+[0m
+[0m→ [0mRead src/rag.py
+[0m→ [0mRead requirements.txt
+[0m→ [0mRead config/rag.yaml
+[0m→ [0mRead src/api.py
+[0m✱ [0mGlob "tests/test_*.py"[90m 9 matches[0m
+Great! I can see that the RAG implementation is already largely complete. The `rag.py` file has a fully functional `RAGPipeline` class, and the `/rag-query` endpoint is already implemented in `api.py`. However, I need to check if there are tests for this functionality and ensure everything is properly connected.
+
+Let me check the existing tests:
+[0m→ [0mRead tests/test_rag.py
+[0m
+[0m# [0mTodos
+[x] Review existing rag.py and config/rag.yaml to understand current implementation
+[ ] Implement generate_answer function with LLM integration
+[x] Add POST /rag-query endpoint to api.py
+[x] Update config/rag.yaml with proper LLM settings
+[x] Write tests for RAG generation pipeline
+[ ] Run tests and linting to verify
+[ ] Update README.md with RAG endpoint documentation
+[0m
+Now I need to implement the `generate_answer` convenience function properly. Currently it raises `NotImplementedError`. I'll implement it to actually work with pre-retrieved context chunks without requiring a full retriever.
+[0m← [0mEdit src/rag.py
+Index: /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/rag.py
+===================================================================
+--- /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/rag.py
++++ /home/julien/Desktop/Free-Wiggum-opencode/projects/julien-rag/src/rag.py
+@@ -577,46 +577,160 @@
+ ) -> Dict[str, Any]:
+     """
+     Convenience function for generating answers from query and context chunks.
+ 
++    This function allows answer generation without a full retriever setup,
++    useful when you already have retrieved or curated context chunks.
++
+     Args:
+         query: User query
+         context_chunks: List of chunks with 'document', 'metadata', 'score' keys
+         config_path: Path to RAG configuration
+-        **llm_overrides: Override LLM parameters
++        **llm_overrides: Override LLM parameters (temperature, max_tokens, etc.)
+ 
+     Returns:
+-        Dictionary with answer, confidence, and sources
++        Dictionary with:
++            - answer: Generated answer text
++            - confidence: Confidence score (0-1)
++            - sources: List of source metadata
++            - query_time: Total time taken (0 for this simple function)
++            - context_chunks: Number of context chunks used
++            - context_length: Length of formatted context in characters
+     """
+-    # Create a SearchResult-like object from chunks
+-    from retriever import SearchResult
++    import time
+ 
+     if not context_chunks:
+         return {
+             "answer": "No context provided.",
+             "confidence": 0.0,
+             "sources": [],
++            "query_time": 0.0,
++            "context_chunks": 0,
++            "context_length": 0,
+         }
+ 
+-    docs = [chunk["document"] for chunk in context_chunks]
+-    metas = [chunk["metadata"] for chunk in context_chunks]
+-    scores = [chunk.get("score", 1.0) for chunk in context_chunks]
++    try:
++        # Load configuration
++        config = RAGConfig(config_path)
+ 
+-    search_result = SearchResult(
+-        documents=docs,
+-        metadatas=metas,
+-        scores=scores,
+-        collection="custom",
+-        query_time=0.0,
+-    )
++        # Initialize LLM provider
++        provider = None
++        if config.provider == "openai":
++            provider = OpenAIProvider(config.openai_config)
++        elif config.provider == "local":
++            provider = LocalProvider(config.local_config)
++        else:
++            raise ValueError(f"Unsupported LLM provider: {config.provider}")
+ 
+-    # Need a retriever - create minimal one just for the configuration
+-    # In practice, use RAGPipeline with full retriever
+-    raise NotImplementedError(
+-        "Use RAGPipeline class directly with initialized retriever"
+-    )
++        # Create SearchResult-like object from chunks
++        docs = [chunk["document"] for chunk in context_chunks]
++        metas = [chunk["metadata"] for chunk in context_chunks]
++        scores = [chunk.get("score", 1.0) for chunk in context_chunks]
+ 
++        # Create a minimal SearchResult for formatting
++        class MinimalSearchResult:
++            def __init__(self, documents, metadatas, scores):
++                self.documents = documents
++                self.metadatas = metadatas
++                self.scores = scores
+ 
++        search_result = MinimalSearchResult(docs, metas, scores)
++
++        # Format context (similar to RAGPipeline._format_context)
++        context = ""
++        total_length = 0
++        max_length = config.max_context_length
++
++        for i, (doc, meta, score) in enumerate(
++            zip(search_result.documents, search_result.metadatas, search_result.scores)
++        ):
++            source = meta.get("source", "unknown")
++            doc_type = meta.get("type", "document")
++            title = meta.get("title", "Untitled")
++            url = meta.get("url", "")
++
++            entry = f"[{i + 1}] Source: {source} ({doc_type})\n"
++            if title and title != "Untitled":
++                entry += f"Title: {title}\n"
++            if url:
++                entry += f"URL: {url}\n"
++            entry += f"Relevance: {score:.3f}\n"
++            entry += f"Content:\n{doc}\n\n"
++
++            if total_length + len(entry) > max_length and i > 0:
++                logger.warning(
++                    f"Context truncated at {total_length} chars (max: {max_length})"
++                )
++                break
++
++            context += entry
++            total_length += len(entry)
++
++        if not context.strip():
++            return {
++                "answer": "No valid context could be formatted from the provided chunks.",
++                "confidence": 0.0,
++                "sources": [],
++                "query_time": 0.0,
++                "context_chunks": 0,
++                "context_length": 0,
++            }
++
++        # Build prompt
++        template = config.generation_config.get(
++            "context_template", "Context:\n{context}\n\nQuestion: {question}\n\nAnswer:"
++        )
++        prompt = template.format(context=context, question=query)
++
++        # Get LLM parameters with overrides
++        temperature = llm_overrides.get(
++            "temperature", config.openai_config.get("temperature", 0.7)
++        )
++        max_tokens = llm_overrides.get(
++            "max_tokens", config.openai_config.get("max_tokens", 1000)
++        )
++
++        # Generate answer
++        system_prompt = config.system_prompt
++        answer, confidence = provider.generate(
++            prompt=prompt,
++            system_prompt=system_prompt,
++            temperature=temperature,
++            max_tokens=max_tokens,
++            **llm_overrides,
++        )
++
++        # Extract sources
++        sources = []
++        seen_urls = set()
++        for meta in metas:
++            source_info = {
++                "source": meta.get("source", "unknown"),
++                "type": meta.get("type", "document"),
++                "title": meta.get("title", "Untitled"),
++                "url": meta.get("url", ""),
++            }
++            dedup_key = (
++                source_info["url"] if source_info["url"] else source_info["title"]
++            )
++            if dedup_key and dedup_key not in seen_urls:
++                sources.append(source_info)
++                seen_urls.add(dedup_key)
++
++        return {
++            "answer": answer,
++            "confidence": confidence,
++            "sources": sources,
++            "query_time": 0.0,  # Not tracking in this simple function
++            "context_chunks": len(docs),
++            "context_length": total_length,
++        }
++
++    except Exception as e:
++        logger.error(f"generate_answer failed: {e}", exc_info=True)
++        raise
++
++
+ if __name__ == "__main__":
+     # Quick test if retriever is available
+     import sys
+     from pathlib import Path
+
+[0m
+[91m[1mError: [0mUser not found.
+📝 Log saved: logs/iteration-180.md
+📊 Token Usage: 7000 / Session: 20750 / 64000
