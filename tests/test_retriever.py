@@ -6,8 +6,10 @@ import os
 import sys
 import tempfile
 import shutil
+import random
 from pathlib import Path
 from datetime import datetime, timedelta
+from typing import List
 
 import pytest
 
@@ -21,6 +23,36 @@ from retriever import (
     _build_where_filter,
     _normalize_scores,
 )
+
+
+class MockEmbedder:
+    """Mock embedder for testing that returns deterministic embeddings."""
+
+    def __init__(self, config_path=None, embedding_dim=384):
+        self.embedding_dim = embedding_dim
+        self._counter = 0
+
+    def embed(self, texts: List[str]) -> List[List[float]]:
+        """Generate deterministic embeddings based on text hash."""
+        embeddings = []
+        for text in texts:
+            # Create deterministic but unique embedding for each text
+            # Use hash of text to seed random generator
+            seed = hash(text) % (2**32)
+            rng = random.Random(seed)
+            embedding = [rng.uniform(-1, 1) for _ in range(self.embedding_dim)]
+            # Normalize to unit vector (approximate)
+            norm = (sum(x**2 for x in embedding)) ** 0.5
+            embedding = [x / norm for x in embedding]
+            embeddings.append(embedding)
+        return embeddings
+
+    def embed_batch(self, texts: List[str], batch_size=None) -> List[List[float]]:
+        """Batch embed (same as embed for simplicity)."""
+        return self.embed(texts)
+
+    def get_usage_report(self):
+        return {"total_documents": 0, "total_input_tokens": 0}
 
 
 class TestRetrieverImports:
@@ -328,10 +360,30 @@ class TestRetrieverSearch:
                 },
             ]
 
-            # Generate embeddings
-            from embedder import Embedder
+            # Generate embeddings using local model to avoid API key requirement
+            from embedder import Embedder, EmbeddingConfig
+            import yaml
 
-            embedder = Embedder()
+            # Create test config with local provider
+            test_config = {
+                "provider": "local",
+                "local": {
+                    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+                    "dimensions": 384,
+                    "cache_folder": "models/embeddings",
+                    "device": "cpu",
+                },
+                "batch_size": 100,
+                "max_retries": 3,
+                "timeout": 30,
+            }
+
+            # Write temporary config
+            config_path = Path(tmpdir) / "test_embeddings.yaml"
+            with open(config_path, "w") as f:
+                yaml.dump(test_config, f)
+
+            embedder = Embedder(config_path=config_path)
             embeddings = embedder.embed_batch([c["text"] for c in sample_chunks])
 
             # Store in database (all go to web_content or github_docs based on source)
