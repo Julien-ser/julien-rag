@@ -30,6 +30,7 @@ import uvicorn
 from retriever import Retriever, SearchResult
 from database import init_database
 from pipeline import run_pipeline
+from rag import RAGPipeline, RAGConfig
 
 # Configure logging
 logging.basicConfig(
@@ -154,6 +155,78 @@ class HealthResponse(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {"status": "healthy", "timestamp": "2024-01-15T10:30:00"}
+        }
+
+
+class RAGRequest(BaseModel):
+    """Request model for RAG query."""
+
+    query: str = Field(
+        ..., min_length=1, max_length=2000, description="Question or query"
+    )
+    k: int = Field(10, ge=1, le=100, description="Number of context chunks to retrieve")
+    collection: Optional[str] = Field(None, description="Optional collection to search")
+    filters: Optional[Dict[str, Any]] = Field(
+        None, description="Optional metadata filters"
+    )
+    return_context: bool = Field(
+        False, description="Include retrieved context in response"
+    )
+    temperature: Optional[float] = Field(
+        None, ge=0.0, le=2.0, description="Override LLM temperature"
+    )
+    max_tokens: Optional[int] = Field(
+        None, ge=1, le=4000, description="Override max tokens to generate"
+    )
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "query": "Explain the key architectural decisions in this project",
+                "k": 5,
+                "collection": "github_docs",
+                "filters": {"source": "github_repos"},
+                "return_context": False,
+                "temperature": 0.7,
+                "max_tokens": 1000,
+            }
+        }
+
+
+class RAGResponse(BaseModel):
+    """Response model for RAG query."""
+
+    answer: str = Field(..., description="Generated answer")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence score")
+    sources: List[Dict[str, Any]] = Field(..., description="List of source documents")
+    query_time: float = Field(..., description="Total query time in seconds")
+    context_chunks: int = Field(..., description="Number of context chunks used")
+    context_length: Optional[int] = Field(
+        None, description="Length of context in characters"
+    )
+    context: Optional[str] = Field(
+        None, description="Retrieved context if return_context=True"
+    )
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "answer": "The project uses ChromaDB as the vector database...",
+                "confidence": 0.92,
+                "sources": [
+                    {
+                        "source": "github_repos",
+                        "type": "repo",
+                        "title": "julien-rag",
+                        "url": "https://github.com/user/julien-rag",
+                        "collection": "github_docs",
+                    }
+                ],
+                "query_time": 1.234,
+                "context_chunks": 5,
+                "context_length": 1500,
+                "context": None,
+            }
         }
 
 
@@ -399,6 +472,69 @@ async def refresh_endpoint(admin_token: bool = Depends(verify_admin_token)):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Refresh operation failed: {str(e)}",
+        )
+
+
+@app.post("/rag-query", response_model=RAGResponse, tags=["RAG"])
+async def rag_query_endpoint(request: RAGRequest):
+    """
+    Generate answer using RAG (Retrieval-Augmented Generation).
+
+    This endpoint retrieves relevant documents from the vector database
+    and uses an LLM to generate an answer based on the retrieved context.
+
+    Args:
+        request: RAG query request with query, k, optional filters, and LLM overrides
+
+    Returns:
+        RAGResponse with generated answer, confidence score, and sources
+
+    Raises:
+        HTTPException: If service is unavailable or generation fails
+    """
+    global retriever
+    if retriever is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Service not initialized",
+        )
+
+    try:
+        logger.info(
+            f"Processing RAG query: '{request.query[:100]}...' "
+            f"k={request.k}, return_context={request.return_context}"
+        )
+
+        # Initialize RAG pipeline with retriever
+        rag_config_path = os.getenv("RAG_CONFIG", "config/rag.yaml")
+        pipeline = RAGPipeline(retriever, config_path=rag_config_path)
+
+        # Generate answer
+        result = pipeline.generate(
+            query=request.query,
+            k=request.k,
+            collection_name=request.collection,
+            filters=request.filters,
+            return_context=request.return_context,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens,
+        )
+
+        logger.info(
+            f"RAG query completed: confidence={result['confidence']:.3f}, "
+            f"time={result['query_time']:.3f}s, sources={len(result['sources'])}"
+        )
+
+        return result
+
+    except ValueError as e:
+        logger.warning(f"Invalid RAG query request: {e}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        logger.error(f"RAG query failed: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="RAG generation failed",
         )
 
 
