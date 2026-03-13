@@ -30,12 +30,6 @@ from .exceptions import (
 logger = logging.getLogger(__name__)
 
 
-class AuthenticationError(RAGAPIError):
-    """Authentication failure."""
-
-    pass
-
-
 class NotFoundError(RAGAPIError):
     """Resource not found."""
 
